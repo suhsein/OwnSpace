@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http:www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>게시판</title>
@@ -10,13 +10,13 @@
 <!-- 헤더  -->
 <div class="navbar navbar-brand navbar-expand-lg" style="background: turquoise; border-bottom: 1px solid lightgray">
   <div class="container-fluid">
-    <a href="index.html" class="navbar-brand ms-2 me-5" style="color: #f8fff8">메인</a>
+    <a href="index.html" th:href="@{/}" class="navbar-brand ms-2 me-5" style="color: #f8fff8">메인</a>
     <ul class="navbar-nav me-auto menu SMN_effect-3">
       <li class="nav-item">
-        <a href="login.html">로그인</a>
+        <a href="login.html" th:href="@{/login}">로그인</a>
       </li>
       <li class="nav-item">
-        <a href="signin.html">회원가입</a>
+        <a href="signin.html" th:href="@{/signin}">회원가입</a>
       </li>
      <li class="nav-item ms-5">
         <a href="">사진</a>
@@ -31,7 +31,7 @@
             <a href="">지도</a>
         </li>
         <li class="nav-item ms-2">
-            <a href="calendar.html">캘린더</a>
+            <a href="calendar.html" th:href="@{/calendar}">캘린더</a>
         </li>
     </ul>
     <select class="nav-item form-select form-select-sm me-2" style="max-width: 7rem">
