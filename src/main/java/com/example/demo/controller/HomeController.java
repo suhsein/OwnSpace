@@ -77,4 +77,9 @@ public class HomeController {
 
         return "redirect:/login";
     }
+
+    @GetMapping("/map")
+    public String map(){
+        return "/map";
+    }
 }

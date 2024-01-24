@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>캘린더</title>
-  <link rel="stylesheet" href="./bootstrap.min.css">
-  <link rel="stylesheet" href="./custom.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" href="/css/custom.css" th:href="@{/css/custom.css}">
 </head>
 <body>
-<!-- 헤더  -->
 <div class="navbar navbar-brand navbar-expand-lg" style="background: turquoise; border-bottom: 1px solid lightgray">
   <div class="container-fluid">
-    <a href="index.html" class="navbar-brand ms-2 me-5" style="color: #f8fff8">메인</a>
+    <a th:href="@{/bbsMain}" class="navbar-brand ms-2 me-5" style="color: #f8fff8">메인</a>
     <ul class="navbar-nav me-auto menu SMN_effect-3">
       <li class="nav-item">
-        <a href="login.html">로그인</a>
+        <a th:href="@{/login}">로그인</a>
       </li>
       <li class="nav-item">
-        <a href="signin.html">회원가입</a>
+        <a th:href="@{/signin}">회원가입</a>
       </li>
       <li class="nav-item ms-5">
         <a href="">사진</a>
@@ -28,10 +27,10 @@
         <a href="">가계부</a>
       </li>
       <li class="nav-item ms-2">
-        <a href="">지도</a>
+        <a th:href="@{/map}">지도</a>
       </li>
       <li class="nav-item ms-2 cur-menu">
-        <a href="calendar.html">캘린더</a>
+        <a th:href="@{/calendar}">캘린더</a>
       </li>
     </ul>
     <select class="nav-item form-select form-select-sm me-2" style="max-width: 7rem">
@@ -71,8 +70,12 @@
     </tr>
     </thead>
     <tbody>
-      <tr th:each="week: ${weeks}">
-        <td th:each="day: ${week.getWeek()}" th:text="${day}"></td>
+      <tr th:each="curWeek: ${weeks}" style="height: 20%">
+        <td th:each="day: ${curWeek.week}">
+          <span th:text="${day}" class="mb-0"></span>
+          <button class="btn btn-primary" th:if="${day} != null" th:text="|${day}일입니다.|"
+                  style="height: 1rem; padding: 0; font-size: 0.6rem"></button>
+        </td>
       </tr>
     </tbody>
   </table>

@@ -3,11 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>캘린더</title>
-  <link rel="stylesheet" href="./bootstrap.min.css">
-  <link rel="stylesheet" href="./custom.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/custom.css">
 </head>
 <body>
-<!-- 헤더  -->
+<!-- modal -->
+<div class="modal fade" id="toDoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">일정을 입력하세요</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="">
+          <label for="toDoTitle">제목</label>
+          <input type="text" class="form-control" id="toDoTitle">
+          <!--   수정 요함. 장소 정보 지도 api로 받아오기 / 시간 정보 select로 선택하기 -->
+          <label for="toDoPlace">장소</label>
+          <input type="text" class="form-control" id="toDoPlace">
+          <label for="toDoTime">시간</label>
+          <input type="text" class="form-control" id="toDoTime">
+          <label for="toDoInfo">상세 정보</label>
+          <textarea class="form-control" id="toDoInfo" name="" cols="30" rows="10"></textarea>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /modal -->
+
 <div class="navbar navbar-brand navbar-expand-lg" style="background: turquoise; border-bottom: 1px solid lightgray">
   <div class="container-fluid">
     <a href="index.html" class="navbar-brand ms-2 me-5" style="color: #f8fff8">메인</a>
@@ -45,7 +74,7 @@
       <input type="text" class="form-control me-2" placeholder="검색" aria-label="검색">
       <button class="btn text-white btn-seablue">검색</button>
     </form>
-  </div>
+  </div> <!-- Navigation Bar -->
 </div>
 <div class="container mt-4" style="max-width: 80%">
   <h5 class="mt-3 fw-bold">캘린더</h5>
@@ -54,7 +83,7 @@
     <a href="" class="text-dark" style="text-decoration: none; font-size: 1.5rem;">2024년 1월</a>
     <button class="btn btn-seablue btn-sm mb-2" style="border-radius: 1rem">>></button>
   </div>
-  <table class="table td-hover table-bordered mt-4" style="height: 33rem">
+  <table class="table td-hover table-bordered mt-4" style="height: 33rem; table-layout: fixed;">
     <thead class="text-center">
     <tr class="table-seablue">
       <th scope="col" style="color: #dc3545;">일</th>
@@ -67,7 +96,17 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
+    <tr style="height: 6rem;">
+      <td data-bs-toggle="modal" data-bs-target="#toDoModal">1
+      </td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr style="height: 6rem;">
       <td>1</td>
       <td>1</td>
       <td>1</td>
@@ -76,7 +115,7 @@
       <td>1</td>
       <td>1</td>
     </tr>
-    <tr>
+    <tr style="height: 6rem;">
       <td>1</td>
       <td>1</td>
       <td>1</td>
@@ -85,7 +124,7 @@
       <td>1</td>
       <td>1</td>
     </tr>
-    <tr>
+    <tr style="height: 6rem;">
       <td>1</td>
       <td>1</td>
       <td>1</td>
@@ -94,16 +133,7 @@
       <td>1</td>
       <td>1</td>
     </tr>
-    <tr>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-    <tr>
+    <tr style="height: 6rem;">
       <td>1</td>
       <td>1</td>
       <td>1</td>

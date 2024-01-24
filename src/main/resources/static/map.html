@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=bdadea5ec71bd06d29ca67b2f4fbd92c"></script>
+</head>
+<body>
+<script>
+  let container = document.getElementById('map');
+  let options = {
+    center: new kakao.maps.LatLng(33.450701, 126.570667),
+    level: 3
+  };
+
+  let map = new kakao.maps.Map(container, options);
+</script>
+</body>
+</html>
