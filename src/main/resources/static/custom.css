@@ -8,6 +8,13 @@
     --bs-btn-active-bg:#4cc4b7;--bs-btn-active-border-color:#52c4b7;--bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125);
     --bs-btn-disabled-color:#fff;--bs-btn-disabled-bg:#4cc4b7;--bs-btn-disabled-border-color:#52c4b7}
 
+.td-hover td:hover{
+    background: #dff5f2;
+}
+
+.table-seablue{--bs-table-color:#000;--bs-table-bg: #9bece3;--bs-table-border-color: #ffffff;--bs-table-striped-bg:#41cba2;
+    --bs-table-striped-color:#000;--bs-table-active-bg:#9bece3;--bs-table-active-color:#000;--bs-table-hover-bg:#9bece3;
+    --bs-table-hover-color:#000;color:var(--bs-table-color);border-color:var(--bs-table-border-color)}
 
 *, *:after, *:before {
     -webkit-box-sizing: border-box;
@@ -31,7 +38,7 @@ a:hover, a:focus {
     text-transform: uppercase;
 }
 
-.SMN_effect-3 a:after {
+.SMN_effect-3 :not(.cur-menu) a:after{
     position: absolute;
     background-color: rgba(255, 255, 255, 0.8);
     top: 100%;
@@ -48,10 +55,14 @@ a:hover, a:focus {
     transform: translateY(-10px);
 }
 
-.SMN_effect-3 a:hover:after, .SMN_effect-3 a:focus:after {
+.SMN_effect-3 :not(.cur-menu) a:hover:after, .SMN_effect-3 a:focus:after {
     height: 0.1rem;
     opacity: 1;
     -webkit-transform: translateY(0px);
     -moz-transform: translateY(0px);
     transform: translateY(0px);
+}
+
+.cur-menu a {
+    color: darkslategray;
 }
