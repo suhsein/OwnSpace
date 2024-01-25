@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/custom.css">
 </head>
 <body>
-<!-- modal -->
+<!-- toDo modal -->
 <div class="modal fade" id="toDoModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
@@ -19,11 +19,14 @@
         <form action="">
           <label for="toDoTitle">제목</label>
           <input type="text" class="form-control" id="toDoTitle">
-          <!--   수정 요함. 장소 정보 지도 api로 받아오기 / 시간 정보 select로 선택하기 -->
+          <!--   수정 요함. 장소 정보 지도 api로 받아오기 -->
           <label for="toDoPlace">장소</label>
           <input type="text" class="form-control" id="toDoPlace">
+          <div class="map_wrap">
+            <div class="mt-3" id="map" style="width: 80rem; height: 33rem; position:relative; overflow:hidden"></div>
+          </div>
           <label for="toDoTime">시간</label>
-          <input type="text" class="form-control" id="toDoTime">
+          <input type="time" class="form-control" id="toDoTime">
           <label for="toDoInfo">상세 정보</label>
           <textarea class="form-control" id="toDoInfo" name="" cols="30" rows="10"></textarea>
         </form>
