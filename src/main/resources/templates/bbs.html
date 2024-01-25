@@ -10,7 +10,9 @@
 <!-- 헤더  -->
 <div class="navbar navbar-brand navbar-expand-lg" style="background: turquoise; border-bottom: 1px solid lightgray">
   <div class="container-fluid">
-    <a href="index.html" th:href="@{/}" class="navbar-brand ms-2 me-5" style="color: #f8fff8">메인</a>
+    <a th:href="@{/bbsMain}" class="navbar-brand ms-3 me-5 pt-0" style="color: #f8fff8">
+      <img src="favicon.ico" alt="메인" style="width:1.5rem; height: 1.5rem">
+    </a>
     <ul class="navbar-nav me-auto menu SMN_effect-3">
       <li class="nav-item">
         <a href="login.html" th:href="@{/login}">로그인</a>
@@ -28,7 +30,7 @@
             <a href="">가계부</a>
         </li>
         <li class="nav-item ms-2">
-            <a href="">지도</a>
+            <a href="map.html" th:href="@{/map}">지도</a>
         </li>
         <li class="nav-item ms-2">
             <a href="calendar.html" th:href="@{/calendar}">캘린더</a>

@@ -48,12 +48,12 @@ public class BbsController {
             DateDto prvDate = CalendarService.getPrvMonth(date);
             date.setYear(prvDate.getYear());
             date.setMonth(prvDate.getMonth());
-            log.info("year={}, month={}", date.getYear(), date.getMonth());
+//            log.info("year={}, month={}", date.getYear(), date.getMonth());
         } else if (action.equals("nxt")) {
             DateDto nxtDate = CalendarService.getNxtMonth(date);
             date.setYear(nxtDate.getYear());
             date.setMonth(nxtDate.getMonth());
-            log.info("year={}, month={}", date.getYear(), date.getMonth());
+//            log.info("year={}, month={}", date.getYear(), date.getMonth());
         }
         redirectAttributes.addFlashAttribute("date", date);
 

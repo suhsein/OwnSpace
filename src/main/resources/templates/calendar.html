@@ -9,7 +9,9 @@
 <body>
 <div class="navbar navbar-brand navbar-expand-lg" style="background: turquoise; border-bottom: 1px solid lightgray">
   <div class="container-fluid">
-    <a th:href="@{/bbsMain}" class="navbar-brand ms-2 me-5" style="color: #f8fff8">메인</a>
+    <a th:href="@{/bbsMain}" class="navbar-brand ms-3 me-5 pt-0" style="color: #f8fff8">
+      <img src="favicon.ico" alt="메인" style="width:1.5rem; height: 1.5rem">
+    </a>
     <ul class="navbar-nav me-auto menu SMN_effect-3">
       <li class="nav-item">
         <a th:href="@{/login}">로그인</a>
@@ -46,7 +48,7 @@
     </form>
   </div> <!-- Navigation Bar -->
 </div>
-<div class="container mt-4" style="max-width: 80%">
+<div class="container" style="max-width: 80%">
   <h5 class="mt-3 fw-bold">캘린더</h5>
   <form class="date text-center" th:object="${date}" th:action method="post">
     <button class="btn btn-seablue btn-sm mb-2" style="border-radius: 1rem"
