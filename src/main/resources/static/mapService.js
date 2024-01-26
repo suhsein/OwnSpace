@@ -1,36 +1,32 @@
-/**
- * @type {HTMLElement}
- */
 const $map = document.getElementById('map');
 const $mapSearchInput = document.getElementById("mapSearchInput");
+const $mapSearch = document.getElementById('mapSearch');
 
 let options = {
     center: new kakao.maps.LatLng(35.87492239563356, 127.13717269067321),
     level: 3
 };
 
-/**
- * @type {kakao.maps.Map}
- */
-const map = new kakao.maps.Map($map, options);
+let map;
+let markers = [];
 const ps = new kakao.maps.services.Places();
 const infowindow = new kakao.maps.InfoWindow({zIndex: 1});
 
+generateMap();
 
-/**
- * @type {*[]}
- */
-let markers = [];
-
-
-/**
- * eventListener
- */
-$mapSearchInput.addEventListener("keyup", (e) => {
-    if (e.key == 'Enter') {
-        searchPlaces(e);
-    }
-})
+function generateMap(){
+    setTimeout(()=> {
+        map = new kakao.maps.Map($map, options);
+        $mapSearchInput.addEventListener("keyup", (e) => {
+            if (e.key == 'Enter') {
+                searchPlaces(e);
+            }
+        });
+        $mapSearch.addEventListener("click", () => {
+            searchPlaces();
+        });
+    }, 100);
+}
 
 
 /**
@@ -207,22 +203,6 @@ function removeAllChildNodes(el) {
     while (el.hasChildNodes()) {
         el.removeChild(el.lastChild);
     }
-}
-
-// element 내용 복사
-function copy(id, msg) {
-    window.navigator.clipboard.writeText(id.textContent).then(() => {
-        alert(msg + checkKorean(msg) + " 복사되었습니다.");
-    });
-}
-
-function checkKorean(str) {
-    const lastChar = str.charCodeAt(str.length - 1)
-    const isThereLastChar = (lastChar - 0xac00) % 28
-    if (isThereLastChar) {
-        return '이'
-    }
-    return '가'
 }
 
 // menu visibility

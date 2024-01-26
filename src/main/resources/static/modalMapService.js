@@ -1,39 +1,9 @@
-/**
- * @type {HTMLElement}
- */
-const $map = document.getElementById('todo_map');
-const $toDoPlace = document.getElementById('toDoPlace');
-
-let options = {
-    center: new kakao.maps.LatLng(35.87492239563356, 127.13717269067321),
-    level: 3
-};
-
-// const $mapSearchInput = document.getElementById("mapSearchInput");
 
 /**
  * @type {kakao.maps.Map}
  */
-const ps = new kakao.maps.services.Places();
-
 const geocoder = new kakao.maps.services.Geocoder(), // 주소-좌표 변환 객체
-    marker = new kakao.maps.Marker(), // 마커
-    infowindow = new kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우
-
-/**
- * eventListener
- */
-
-/**
- * function
- */
-function generateMap(){
-    setTimeout(()=> {
-        const map = new kakao.maps.Map($map, options);
-        showAddressInfo(map);
-    }, 100);
-}
-
+    marker = new kakao.maps.Marker(); // 마커
 
 function showAddressInfo(map){
     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
@@ -57,15 +27,17 @@ function showAddressInfo(map){
 
                 // $toDoPlace의 input 값을 변경
                 $toDoPlace.value = result[0].address.address_name;
+
+
+                // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+                kakao.maps.event.addListener(map, 'idle', function() {
+                    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+                });
+
             }
         });
     });
 }
-
-// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
-kakao.maps.event.addListener(map, 'idle', function() {
-    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-});
 
 // 좌표로 행정동 주소 정보를 요청
 function searchAddrFromCoords(coords, callback) {
@@ -76,18 +48,5 @@ function searchAddrFromCoords(coords, callback) {
 function searchDetailAddrFromCoords(coords, callback) {
     geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 }
-
-
-// 키워드 검색을 요청하는 함수
-function searchPlaces(e) {
-    let keyword = $mapSearchInput.value;
-    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert("키워드를 입력해주세요");
-        return false;
-    }
-    ps.keywordSearch(keyword, placeSearchCB);
-}
-
-
 
 
