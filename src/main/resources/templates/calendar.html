@@ -5,11 +5,13 @@
   <title>캘린더</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
   <link rel="stylesheet" href="/css/custom.css" th:href="@{/css/custom.css}">
+  <link rel="stylesheet" href="/css/modal-map.css" th:href="@{/css/modal-map.css}">
+
 </head>
 <body>
 
 <!-- modal -->
-<div class="modal fade" id="toDoModal" tabindex="-1" aria-hidden="true">
+<div class="modal modal-lg fade" id="toDoModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -38,10 +40,12 @@
                 </div>
                 <div class="col col-sm-3 ps-2">
                   <button type="button" id="mapSearch" class="btn btn-outline-info" style="display: inline">검색</button>
+                  <button type="button" id="menuControl" class="btn btn-outline-secondary"
+                          onclick="menuVisibility(this)">목록 열기</button>
                 </div>
               </div>
               <div class="mt-3" id="map" style="width:100%; height: 20rem; position:relative; overflow:hidden">
-                <div id="menu_wrap">
+                <div id="menu_wrap" style="visibility: hidden">
                   <ul id="placesList"></ul>
                   <div id="pagination"></div>
                 </div>
@@ -149,10 +153,9 @@
 <!-- 카카오 지도 api . 자바스크립트 코드 -->
 <script type="text/javascript" th:src="@{|//dapi.kakao.com/v2/maps/sdk.js?appkey=#{kakaoJsKey}&libraries=services|}"></script>
 <script type="text/javascript" th:src="@{|//dapi.kakao.com/v2/maps/sdk.js?appkey=#{kakaoJsKey}|}"></script>
-<script type="text/javascript" th:src="@{/mapService.js}"></script>
-<script type="text/javascript" th:src="@{/modalMapService.js}"></script>
-<script type="text/javascript" th:src="@{/calendarMapService.js}"></script>
+<script type="text/javascript" th:src="@{/js/mapService.js}"></script>
+<script type="text/javascript" th:src="@{/js/calendarMapService.js}"></script>
 
-<script src="./bootstrap.bundle.js"></script>
+<script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
