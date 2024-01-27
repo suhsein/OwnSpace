@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="navbar navbar-brand navbar-expand-lg"
+     style="background: turquoise; border-bottom: 1px solid lightgray"
+        th:fragment="navigation (curMenu)">
+    <div class="container-fluid">
+        <a th:href="@{/}" class="navbar-brand ms-3 me-5 pt-0" style="color: #f8fff8">
+            <img src="favicon.ico" alt="메인" style="width:1.5rem; height: 1.5rem">
+        </a>
+        <ul class="navbar-nav me-auto menu SMN_effect-3">
+            <li class="nav-item" th:if="${session == null or session.loginMember == null}">
+                <a th:href="@{/login}">로그인</a>
+            </li>
+            <li class="nav-item" th:if="${session == null or session.loginMember == null}">
+                <a th:href="@{/signin}">회원가입</a>
+            </li>
+            <form method="post" th:action="@{/logout}" th:if="${session != null and session.loginMember != null}">
+                <button type="submit" class="btn btn-outline-dark btn-sm">로그아웃</button>
+            </form>
+            <li class="nav-item ms-5">
+                <a href="">사진</a>
+            </li>
+            <li class="nav-item ms-2">
+                <a href="">일상</a>
+            </li>
+            <li class="nav-item ms-2">
+                <a href="">가계부</a>
+            </li>
+            <li class="nav-item ms-2" th:classappend="${curMenu == 'map'} ? ' cur-menu'">
+                <a th:href="@{/map}">지도</a>
+            </li>
+            <li class="nav-item ms-2" th:classappend="${curMenu == 'calendar'} ? ' cur-menu'">
+                <a th:href="@{/calendar}">캘린더</a>
+            </li>
+        </ul>
+        <select class="nav-item form-select form-select-sm me-2" style="max-width: 7rem">
+            <option selected value="">제목+내용</option>
+            <option value="">제목</option>
+            <option value="">내용</option>
+            <hr>
+            <option value="">글쓴이</option>
+        </select>
+        <form class="d-flex nav-item">
+            <input type="text" class="form-control me-2" placeholder="검색" aria-label="검색">
+            <button class="btn text-white btn-seablue">검색</button>
+        </form>
+    </div> <!-- Navigation Bar -->
+</div>
+
+</body>
+</html>

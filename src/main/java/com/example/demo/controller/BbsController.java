@@ -18,6 +18,11 @@ import java.util.List;
 @Slf4j
 @Controller
 public class BbsController {
+    @GetMapping("/map")
+    public String map(){
+        return "/map";
+    }
+
     @GetMapping("/calendar")
     public String calendar(@ModelAttribute("date") DateDto date, Model model) {
         // 네비게이션의 년, 월을 받아오는 것으로 수정하기 -> 없으면 현재 년, 월로 Setting
@@ -48,12 +53,10 @@ public class BbsController {
             DateDto prvDate = CalendarService.getPrvMonth(date);
             date.setYear(prvDate.getYear());
             date.setMonth(prvDate.getMonth());
-//            log.info("year={}, month={}", date.getYear(), date.getMonth());
         } else if (action.equals("nxt")) {
             DateDto nxtDate = CalendarService.getNxtMonth(date);
             date.setYear(nxtDate.getYear());
             date.setMonth(nxtDate.getMonth());
-//            log.info("year={}, month={}", date.getYear(), date.getMonth());
         }
         redirectAttributes.addFlashAttribute("date", date);
 

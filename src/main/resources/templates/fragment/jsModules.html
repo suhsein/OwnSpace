@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="useMap">
+  <!-- 카카오 지도 api . 자바스크립트 코드 -->
+  <script type="text/javascript" th:src="@{|//dapi.kakao.com/v2/maps/sdk.js?appkey=#{kakaoJsKey}&libraries=services|}"></script>
+  <script type="text/javascript" th:src="@{|//dapi.kakao.com/v2/maps/sdk.js?appkey=#{kakaoJsKey}|}"></script>
+  <script type="text/javascript" th:src="@{/js/mapService.js}"></script>
+  <script type="text/javascript" th:src="@{/js/calendarMapService.js}"></script>
+</div>
+</body>
+</html>
