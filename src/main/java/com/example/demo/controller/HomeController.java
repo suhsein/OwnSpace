@@ -1,12 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.member.Member;
-import com.example.demo.domain.member.MemberRepository;
-import com.example.demo.domain.member.MemberSaveDto;
+import com.example.demo.domain.member.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class HomeController {
     private final MemberRepository memberRepository;
+    private final LoginService loginService;
+
     @GetMapping("")
     public String home() {
         return "/index";
@@ -28,20 +27,28 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String loginForm(Model model) {
-        Object signinSuccess = model.getAttribute("signinSuccess");
-        log.info("singinSuccess={}", signinSuccess);
+    public String loginForm(@ModelAttribute("member") MemberDto member) {
         return "/login";
     }
 
     @PostMapping("/login")
-    public String login() {
-        return "redirect:/bbs";
+    public String login(@Validated @ModelAttribute("member") MemberDto member, BindingResult bindingResult) {
+        log.info("bindingResult={}", bindingResult.getAllErrors());
+        if(bindingResult.hasErrors()){
+            return "/login";
+        }
+        Member loginMember = loginService.login(member.getUserId(), member.getPassword());
+        log.info("loginMember={}", loginMember);
+        if (loginMember == null) {
+            bindingResult.reject("loginFail");
+            return "/login";
+        }
+        return "redirect:/bbsMain";
     }
 
     @GetMapping("/signin")
-    public String signinForm(Model model) {
-        model.addAttribute("memberSave", new MemberSaveDto());
+    public String signinForm(@ModelAttribute("memberSave") MemberSaveDto memberSave) {
+        // Form에서 객체 전송을 위해서 빈 객체를 모델에 넣어줌
         return "/signin";
     }
 

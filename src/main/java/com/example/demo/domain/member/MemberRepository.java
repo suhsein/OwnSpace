@@ -2,10 +2,7 @@ package com.example.demo.domain.member;
 
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class MemberRepository {
@@ -19,6 +16,12 @@ public class MemberRepository {
 
     public Member findById(Long id){
         return store.get(id);
+    }
+
+    public Optional<Member> findByUserId(String userId){
+        return findAll().stream()
+                .filter(m -> m.getUserId().equals(userId))
+                .findFirst();
     }
 
     public List<Member> findAll(){
