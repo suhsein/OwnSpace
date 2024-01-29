@@ -11,7 +11,7 @@
         th:fragment="navigation (curMenu)">
     <div class="container-fluid">
         <a th:href="@{/}" class="navbar-brand ms-3 me-5 pt-0" style="color: #f8fff8">
-            <img src="favicon.ico" alt="메인" style="width:1.5rem; height: 1.5rem">
+            <img src="../favicon.ico" th:src="@{/favicon.ico}" alt="메인" style="width:1.5rem; height: 1.5rem">
         </a>
         <ul class="navbar-nav me-auto menu SMN_effect-3">
             <li class="nav-item" th:if="${session == null or session.loginMember == null}">

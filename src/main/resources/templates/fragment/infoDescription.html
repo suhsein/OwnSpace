@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- calendar info description-->
+<div th:fragment="calInfoDesc">
+  <ul class="lh-large">
+    <p class="h5">캘린더</p>
+    <ul>
+      <li>캘린더의 왼쪽 버튼을 누르면 이전달로, 오른쪽 버튼을 누르면 다음달로 이동합니다.</li>
+      <li>캘린더의 각 날짜에는 해당일의 일정 갯수만큼 뱃지에 숫자가 표시됩니다.</li>
+      <li>날짜를 클릭하면 아래 기능들을 사용할 수 있습니다.</li>
+      <ul>
+        <li>일정 등록</li>
+        <li>일정 목록 보기</li>
+      </ul>
+    </ul>
+    <hr>
+    <p class="h5">일정 등록하기</p>
+    <ul>
+      <li>제목</li>
+      <ul><li>일정을 구분할 수 있도록 제목을 입력할 수 있습니다.</li></ul>
+      <li>장소</li>
+      <ul>
+        <li>장소를 직접 입력할 수 있습니다.</li>
+        <li>지도를 열어서 장소를 검색할 수 있습니다.</li>
+        <li>검색된 장소로부터 마커를 클릭하거나 장소 목록에서 장소를 클릭하면, 해당 장소명이 장소 입력칸에 입력됩니다.</li>
+      </ul>
+      <li>시간</li>
+      <ul><li>오전/오후의 시간을 스크롤하여 선택할 수 있습니다.</li></ul>
+      <li>상세 정보</li>
+      <ul><li>상세한 일정 정보를 설명 창에 입력할 수 있습니다.</li></ul>
+    </ul>
+  </ul>
+</div>
+
+<!-- map info description-->
+<div th:fragment="mapInfoDesc">
+  <ul class="lh-large">
+    <li>지도에 키워드를 입력합니다</li>
+    <ul> <li>예시) 전주 미용실, 전주 맛집</li></ul>
+    <li>해당하는 장소들이 왼쪽 목록에 표시됩니다.</li>
+    <li>목록의 장소명, 주소, 전화번호 클릭 시, 클립보드에 복사됩니다.</li>
+    <li>목록의 장소 혹은 지도에 마킹된 장소 위에 커서를 두면 장소명을 볼 수 있습니다.</li>
+  </ul>
+</div>
+</body>
+</html>

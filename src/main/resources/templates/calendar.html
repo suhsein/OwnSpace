@@ -1,58 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>캘린더</title>
-  <link rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
-  <link rel="stylesheet" href="/css/custom.css" th:href="@{/css/custom.css}">
-  <link rel="stylesheet" href="/css/modal-map.css" th:href="@{/css/modal-map.css}">
-
+    <meta charset="UTF-8">
+    <title>캘린더</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="/css/custom.css" th:href="@{/css/custom.css}">
+    <link rel="stylesheet" href="/css/calendar-map.css" th:href="@{/css/calendar-map.css}">
+    <script src="https://kit.fontawesome.com/3efb5e8bfa.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<div th:replace="~{fragment/modals :: toDoModal}"></div>
+<div th:replace="~{fragment/modals :: infoModal('캘린더 사용법', ~{fragment/infoDescription::calInfoDesc})}"></div>
 <div th:replace="~{fragment/navigation :: navigation ('calendar')}"></div>
 
 <div class="container" style="max-width: 80%">
-  <h5 class="mt-3 fw-bold">캘린더</h5>
-  <form class="date text-center" th:object="${date}" th:action method="post">
-    <button class="btn btn-seablue btn-sm mb-2" style="border-radius: 1rem"
-            name="action" value="prv" type="submit"><<</button>
-    <input type="hidden" th:field="*{year}">
-    <input type="hidden" th:field="*{month}">
-    <span th:text="|*{year}년 *{month}월|" class="text-black" style="font-size: 1.5rem"></span>
-    <button class="btn btn-seablue btn-sm mb-2" style="border-radius: 1rem"
-            name="action" value="nxt" type="submit">>></button>
+    <div class="row">
+        <div class="col col-lg-11">
+            <h5 class="mt-3 fw-bold me-5">캘린더</h5>
+        </div>
+        <div class="col col-sm-1">
+            <button class="btn btn-seablue ms-5 mt-3" style="border-radius: 50%; width: 2.8rem; height: 2.8rem"
+                    data-bs-toggle="modal" data-bs-target="#infoModal">
+                <i class="fa-regular fa-circle-question" style="font-size: 2rem; margin: 0 -0.38rem"></i>
+            </button>
+        </div>
+    </div>
+    <form class="date text-center" th:object="${date}" th:action method="post">
+        <button class="btn btn-seablue btn-sm mb-2" style="border-radius: 1rem"
+                name="action" value="prv" type="submit"><<
+        </button>
+        <input type="hidden" th:field="*{year}">
+        <input type="hidden" th:field="*{month}">
+        <span th:text="|*{year}년 *{month}월|" class="text-black" style="font-size: 1.5rem"></span>
+        <button class="btn btn-seablue btn-sm mb-2" style="border-radius: 1rem"
+                name="action" value="nxt" type="submit">>>
+        </button>
+    </form>
     <table class="table td-hover table-bordered mt-4 text-start" style="height: 33rem">
-      <thead class="text-center">
-      <tr class="table-seablue">
-        <th scope="col" style="color: #dc3545;">일</th>
-        <th scope="col">월</th>
-        <th scope="col">화</th>
-        <th scope="col">수</th>
-        <th scope="col">목</th>
-        <th scope="col">금</th>
-        <th scope="col" style="color: #355cdc">토</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="curWeek: ${weeks}" style="height: 20%">
-        <td th:each="day: ${curWeek.week}"
-            th:attrappend="data-bs-toggle=${day != null}?'modal', data-bs-target=${day != null}?'#toDoModal',
-                           data-month=${day!=null}?*{month}, data-day=${day!=null}?${day}">
-          <span th:text="${day}" class="mb-0"></span>
-          <button class="btn btn-primary" th:if="${day} != null" th:text="|${day}일입니다.|"
-                  style="height: 1rem; padding: 0; font-size: 0.6rem"></button>
-        </td>
-      </tr>
-      </tbody>
+        <thead class="text-center">
+        <tr class="table-seablue">
+            <th scope="col" style="color: #dc3545;">일</th>
+            <th scope="col">월</th>
+            <th scope="col">화</th>
+            <th scope="col">수</th>
+            <th scope="col">목</th>
+            <th scope="col">금</th>
+            <th scope="col" style="color: #355cdc">토</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="curWeek: ${weeks}" style="height: 20%">
+            <td th:each="day: ${curWeek.week}"
+                th:onclick="|location.href='@{/toDo/{year}/{month}/{day}(year=${date.year}, month=${date.month}, day=${day})}'|">
+                <span th:text="${day}" class="mb-0"></span>
+                <button class="btn btn-primary" th:if="${day} != null" th:text="|${day}일입니다.|"
+                        style="height: 1rem; padding: 0; font-size: 0.6rem"></button>
+            </td>
+        </tr>
+        </tbody>
     </table>
-  </form>
 </div> <!-- /container -->
-
-<!-- 카카오 지도 api . 자바스크립트 코드 -->
-<div th:replace="~{fragment/jsModules :: useMap}"></div>
-
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

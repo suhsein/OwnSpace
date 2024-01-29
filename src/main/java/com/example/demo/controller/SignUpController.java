@@ -16,12 +16,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-public class SigninController {
+public class SignUpController {
     private final MemberRepository memberRepository;
     @GetMapping("/signin")
     public String signinForm(@ModelAttribute("memberSave") MemberSaveDto memberSave) {
         // Form에서 객체 전송을 위해서 빈 객체를 모델에 넣어줌
-        return "/signin";
+        return "signUp";
     }
 
     @PostMapping("/signin")
@@ -40,7 +40,7 @@ public class SigninController {
         // Validation Error
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
-            return "/signin";
+            return "signUp";
         }
 
         // Success: Convert Validation Bean to Member
