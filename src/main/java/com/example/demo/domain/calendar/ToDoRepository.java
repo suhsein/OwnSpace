@@ -22,7 +22,10 @@ public class ToDoRepository {
     }
     public List<ToDoDto> findByDate(Integer year, Integer month, Integer day){
         return findAll().stream()
-                .filter(t -> t.getYear().equals(year) && t.getMonth().equals(month) && t.getDay().equals(day))
+                .filter(t -> t.getYear().equals(year) &&
+                        t.getMonth().equals(month) &&
+                        t.getDay().equals(day) &&
+                        !t.getStatus().equals("deleted"))
                 .collect(Collectors.toList());
     }
     public List<ToDoDto> findAll(){

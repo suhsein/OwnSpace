@@ -53,7 +53,7 @@
             <td th:each="weekDay: ${curWeek.week}"
                 th:onclick="|${weekDay.day > 0}?location.href='@{/toDo/{year}/{month}/{day}(year=${date.year}, month=${date.month}, day=${weekDay.day})}':_|">
                 <span th:text="${weekDay.day != 0} ? ${weekDay.day}" class="mb-0"></span>
-                <button class="btn btn-primary" th:if="${weekDay.toDoSize != 0}" th:text="|${weekDay.toDoSize}개|"
+                <button class="btn btn-danger" th:if="${weekDay.toDoSize != 0}" th:text="|${weekDay.toDoSize}개|"
                         style="height: 1rem; padding: 0; font-size: 0.6rem"></button>
             </td>
         </tr>

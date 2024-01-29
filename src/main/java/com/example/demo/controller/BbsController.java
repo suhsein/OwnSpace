@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -15,7 +17,6 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class BbsController {
-    private final ToDoRepository toDoRepository;
     private final CalendarService calendarService;
 
     @GetMapping("/map")
@@ -62,39 +63,6 @@ public class BbsController {
         redirectAttributes.addFlashAttribute("date", date);
 
         return "redirect:/calendar";
-    }
-
-    @GetMapping("/toDo/{year}/{month}/{day}")
-    public String toDo(@PathVariable("year") Integer year,
-                       @PathVariable("month") Integer month,
-                       @PathVariable("day") Integer day,
-                       @ModelAttribute("toDo") ToDoDto toDo,
-                       Model model){
-        return "/toDo";
-    }
-
-    @PostMapping("/toDo/{year}/{month}/{day}")
-    public String toDoAdd(@PathVariable("year") Integer year,
-                          @PathVariable("month") Integer month,
-                          @PathVariable("day") Integer day,
-                          @ModelAttribute("toDo") ToDoDto toDo) {
-
-        toDoRepository.save(toDo);
-        return "redirect:/toDo/{year}/{month}/{day}/list";
-    }
-
-    @GetMapping("/toDo/{year}/{month}/{day}/list")
-    public String toDoList(@PathVariable("year") Integer year,
-                       @PathVariable("month") Integer month,
-                       @PathVariable("day") Integer day,
-                       @ModelAttribute("toDo") ToDoDto toDo,
-                           Model model){
-
-        log.info("year={}, month={}, day={}", year, month, day);
-        List<ToDoDto> toDoList = toDoRepository.findByDate(year, month, day);
-
-        model.addAttribute("toDoList", toDoList);
-        return "/toDoList";
     }
 
 }

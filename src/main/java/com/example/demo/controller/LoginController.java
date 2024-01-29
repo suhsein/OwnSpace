@@ -26,7 +26,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@Validated @ModelAttribute("member") MemberDto member, BindingResult bindingResult,
+    public String login(@Validated @ModelAttribute("member") MemberDto member,
+                        BindingResult bindingResult,
                         HttpServletRequest request) {
         log.info("bindingResult={}", bindingResult.getAllErrors());
         if(bindingResult.hasErrors()){

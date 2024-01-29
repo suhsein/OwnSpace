@@ -20,16 +20,25 @@
                 <th scope="col" class="col-2">제목</th>
                 <th scope="col" class="col-2">장소</th>
                 <th scope="col" class="col-1">시간</th>
-                <th scope="col" class="col-6">상세설명</th>
+                <th scope="col" class="col-4">상세설명</th>
+                <th scope="col" class="col-1">일정완료</th>
+                <th scope="col" class="col-1">일정삭제</th>
             </tr>
           </thead>
           <tbody>
-            <tr th:each="schedule, i : ${toDoList}">
+            <tr th:each="schedule, i : ${toDoList}" th:class="${schedule.status == 'completed'} ? 'table-secondary'">
                 <td th:text="${i.count}"></td>
                 <td th:text="${schedule.toDoTitle}"></td>
                 <td th:text="${schedule.toDoPlace}"></td>
-                <td th:text="${schedule.toDoTime}"></td>
-                <td th:text="${schedule.toDoDesc}"></td>
+                <td th:text="${schedule.toDoTime}" ></td>
+                <td th:text="${schedule.toDoDesc}" ></td>
+                <td>
+                    <button th:if="${schedule.status == 'completed'}" class="btn btn-secondary"
+                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/active/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">활성화</button>
+                    <button th:if="${schedule.status == 'active'}" class="btn btn-success"
+                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/complete/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">완료</button></td>
+                <td><button class="btn btn-danger"
+                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/delete/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">삭제</button></td>
             </tr>
           </tbody>
       </table>
