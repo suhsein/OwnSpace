@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.domain.calendar.WeekDayDto;
 import com.example.demo.domain.calendar.WeekDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -27,15 +28,15 @@ public class DateTest {
 
         int cnt = 0;
         List<WeekDto> weeks = new ArrayList<>();
-        List<Integer> weekDate = new ArrayList<>();
+        List<WeekDayDto> weekDate = new ArrayList<>();
 
         for (int i = 0 ; i < day; i++, cnt++) {
             weekDate.add(null);
         }
-        for(int i = 1; i <= lengthOfMonth; i++, cnt++){
-            weekDate.add(i);
-            if(weekDate.size() == 7) {
-                List<Integer> copy = new ArrayList<>();
+        for (int i = 1; i <= lengthOfMonth; i++, cnt++) {
+            weekDate.add(new WeekDayDto(i, i));
+            if (weekDate.size() == 7) {
+                List<WeekDayDto> copy = new ArrayList<>();
                 copy.addAll(weekDate);
                 WeekDto week = new WeekDto();
                 week.setWeek(copy);
@@ -50,7 +51,7 @@ public class DateTest {
         for (int i = 0; i < lastDays; i++) {
             weekDate.add(null);
             if(weekDate.size() == 7) {
-                List<Integer> copy = new ArrayList<>();
+                List<WeekDayDto> copy = new ArrayList<>();
                 copy.addAll(weekDate);
                 WeekDto week = new WeekDto();
                 week.setWeek(copy);
@@ -58,10 +59,11 @@ public class DateTest {
                 weekDate.clear();
             }
         }
-
         for (WeekDto week : weeks) {
-            for (Integer integer : week.getWeek()) {
-                log.info("Date={}",integer);
+            for (WeekDayDto weekDay : week.getWeek()) {
+                if(weekDay != null) {
+                    log.info("weekDay={}, {}", weekDay.getDay(), weekDay.getToDoSize());
+                }
             }
         }
     }

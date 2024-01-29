@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
-    private final MemberRepository memberRepository;
     private final LoginService loginService;
 
     @GetMapping("/login")

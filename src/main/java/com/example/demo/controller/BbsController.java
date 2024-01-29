@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.calendar.CalendarService;
-import com.example.demo.domain.calendar.DateDto;
-import com.example.demo.domain.calendar.WeekDto;
-import com.example.demo.domain.calendar.toDoDto;
+import com.example.demo.domain.calendar.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,15 +13,18 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class BbsController {
+    private final ToDoRepository toDoRepository;
+    private final CalendarService calendarService;
+
     @GetMapping("/map")
     public String map(){
         return "/map";
     }
 
     @GetMapping("/calendar")
-    public String calendar(@ModelAttribute("date") DateDto date,
-                           @ModelAttribute("toDoDto") toDoDto toDo,
+    public String calendar(@ModelAttribute("date") YearMonthDto date,
                            Model model) {
         // 네비게이션의 년, 월을 받아오는 것으로 수정하기 -> 없으면 현재 년, 월로 Setting
         Calendar cal = Calendar.getInstance();
@@ -38,23 +39,23 @@ public class BbsController {
         }
 
         // 달력 날짜 받아오기
-        List<WeekDto> weeks = CalendarService.makeCalendar(year, month);
+        List<WeekDto> weeks = calendarService.makeCalendar(year, month);
         model.addAttribute("weeks", weeks);
 
         return "/calendar";
     }
 
     @PostMapping("/calendar")
-    public String prvNxtCalendar(@ModelAttribute("date") DateDto date,
+    public String prvNxtCalendar(@ModelAttribute("date") YearMonthDto date,
                                  @RequestParam("action") String action,
                                  RedirectAttributes redirectAttributes) {
 
         if (action.equals("prv")) {
-            DateDto prvDate = CalendarService.getPrvMonth(date);
+            YearMonthDto prvDate = CalendarService.getPrvMonth(date);
             date.setYear(prvDate.getYear());
             date.setMonth(prvDate.getMonth());
         } else if (action.equals("nxt")) {
-            DateDto nxtDate = CalendarService.getNxtMonth(date);
+            YearMonthDto nxtDate = CalendarService.getNxtMonth(date);
             date.setYear(nxtDate.getYear());
             date.setMonth(nxtDate.getMonth());
         }
@@ -67,7 +68,7 @@ public class BbsController {
     public String toDo(@PathVariable("year") Integer year,
                        @PathVariable("month") Integer month,
                        @PathVariable("day") Integer day,
-                       @ModelAttribute("toDo") toDoDto toDo,
+                       @ModelAttribute("toDo") ToDoDto toDo,
                        Model model){
         return "/toDo";
     }
@@ -76,9 +77,9 @@ public class BbsController {
     public String toDoAdd(@PathVariable("year") Integer year,
                           @PathVariable("month") Integer month,
                           @PathVariable("day") Integer day,
-                          @ModelAttribute("toDo") toDoDto toDo,
-                          RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("toDo", toDo);
+                          @ModelAttribute("toDo") ToDoDto toDo) {
+
+        toDoRepository.save(toDo);
         return "redirect:/toDo/{year}/{month}/{day}/list";
     }
 
@@ -86,10 +87,13 @@ public class BbsController {
     public String toDoList(@PathVariable("year") Integer year,
                        @PathVariable("month") Integer month,
                        @PathVariable("day") Integer day,
-                       @ModelAttribute("toDo") toDoDto toDo,
-                       Model model){
+                       @ModelAttribute("toDo") ToDoDto toDo,
+                           Model model){
+
         log.info("year={}, month={}, day={}", year, month, day);
-        log.info("toDo={}, {}, {}, {}", toDo.getToDoTitle(), toDo.getToDoPlace(), toDo.getToDoTime(), toDo.getToDoDesc());
+        List<ToDoDto> toDoList = toDoRepository.findByDate(year, month, day);
+
+        model.addAttribute("toDoList", toDoList);
         return "/toDoList";
     }
 

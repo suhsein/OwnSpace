@@ -13,6 +13,26 @@
 <div class="container my-2" style="max-width: 80%">
   <div th:replace="~{fragment/toDoNav :: toDoNavTab('toDoList')}"></div>
   <div class="schedule_tab_contents">
+      <table class="table">
+          <thead>
+            <tr>
+                <th scope="col" class="col-1">번호</th>
+                <th scope="col" class="col-2">제목</th>
+                <th scope="col" class="col-2">장소</th>
+                <th scope="col" class="col-1">시간</th>
+                <th scope="col" class="col-6">상세설명</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="schedule, i : ${toDoList}">
+                <td th:text="${i.count}"></td>
+                <td th:text="${schedule.toDoTitle}"></td>
+                <td th:text="${schedule.toDoPlace}"></td>
+                <td th:text="${schedule.toDoTime}"></td>
+                <td th:text="${schedule.toDoDesc}"></td>
+            </tr>
+          </tbody>
+      </table>
     후루꾸
   </div>
 </div>

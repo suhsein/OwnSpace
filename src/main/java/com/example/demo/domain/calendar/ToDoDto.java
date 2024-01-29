@@ -4,13 +4,18 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-/**
- * 캘린더의 상단의 날짜를 받아옴
- */
+import java.time.LocalTime;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class DateDto {
+public class ToDoDto {
+    private Long id;
     private Integer year;
     private Integer month;
+    private Integer day;
+    private String toDoTitle;
+    private String toDoPlace;
+    private LocalTime toDoTime;
+    private String toDoDesc;
 }

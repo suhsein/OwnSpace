@@ -11,5 +11,5 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 public class WeekDto {
-    List<Integer> week = new ArrayList<>();
+    List<WeekDayDto> week = new ArrayList<>();
 }

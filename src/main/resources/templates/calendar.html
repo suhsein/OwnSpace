@@ -39,21 +39,21 @@
     <table class="table td-hover table-bordered mt-4 text-start" style="height: 33rem">
         <thead class="text-center">
         <tr class="table-seablue">
-            <th scope="col" style="color: #dc3545;">일</th>
-            <th scope="col">월</th>
-            <th scope="col">화</th>
-            <th scope="col">수</th>
-            <th scope="col">목</th>
-            <th scope="col">금</th>
-            <th scope="col" style="color: #355cdc">토</th>
+            <th scope="col" style="color: #dc3545;" class="col-1">일</th>
+            <th scope="col" class="col-1">월</th>
+            <th scope="col" class="col-1">화</th>
+            <th scope="col" class="col-1">수</th>
+            <th scope="col" class="col-1">목</th>
+            <th scope="col" class="col-1">금</th>
+            <th scope="col" style="color: #355cdc" class="col-1">토</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="curWeek: ${weeks}" style="height: 20%">
-            <td th:each="day: ${curWeek.week}"
-                th:onclick="|location.href='@{/toDo/{year}/{month}/{day}(year=${date.year}, month=${date.month}, day=${day})}'|">
-                <span th:text="${day}" class="mb-0"></span>
-                <button class="btn btn-primary" th:if="${day} != null" th:text="|${day}일입니다.|"
+            <td th:each="weekDay: ${curWeek.week}"
+                th:onclick="|${weekDay.day > 0}?location.href='@{/toDo/{year}/{month}/{day}(year=${date.year}, month=${date.month}, day=${weekDay.day})}':_|">
+                <span th:text="${weekDay.day != 0} ? ${weekDay.day}" class="mb-0"></span>
+                <button class="btn btn-primary" th:if="${weekDay.toDoSize != 0}" th:text="|${weekDay.toDoSize}개|"
                         style="height: 1rem; padding: 0; font-size: 0.6rem"></button>
             </td>
         </tr>

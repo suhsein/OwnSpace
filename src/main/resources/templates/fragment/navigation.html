@@ -21,7 +21,7 @@
                 <a th:href="@{/signin}">회원가입</a>
             </li>
             <form method="post" th:action="@{/logout}" th:if="${session != null and session.loginMember != null}">
-                <button type="submit" class="btn btn-outline-dark btn-sm">로그아웃</button>
+                <button type="submit" class="btn btn-outline-light btn-sm">로그아웃</button>
             </form>
             <li class="nav-item ms-5">
                 <a href="">사진</a>
