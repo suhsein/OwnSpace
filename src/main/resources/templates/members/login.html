@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="container" style="max-width: 600px">
-  <h5 class="text-center my-5" th:if="${signinSuccess == 'success'}">가입이 정상처리 되었습니다. 로그인을 해주세요.</h5>
+  <h5 class="text-center my-5" th:if="${signUpSuccess == 'success'}">가입이 정상처리 되었습니다. 로그인을 해주세요.</h5>
   <h2 class="text-center my-5">로그인</h2>
     <form action="" th:action method="post" th:object="${member}" class="form-control py-5 px-3 rounded-4 shadow-sm">
       <div class="row mb-2 px-5">

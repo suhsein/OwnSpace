@@ -23,7 +23,7 @@ public class ToDoController {
                        @PathVariable("month") Integer month,
                        @PathVariable("day") Integer day,
                        @ModelAttribute("toDo") ToDoDto toDo){
-        return "/toDo";
+        return "/calendar/to-do";
     }
 
     @PostMapping
@@ -33,7 +33,7 @@ public class ToDoController {
                           @PathVariable("month") Integer month,
                           @PathVariable("day") Integer day) {
         if(bindingResult.hasErrors()){
-            return "/toDo";
+            return "/calendar/to-do";
         }
         toDo.setStatus("active"); // 일정 상태 -> active
         toDoRepository.save(toDo);
@@ -47,7 +47,7 @@ public class ToDoController {
                            Model model){
         List<ToDoDto> toDoList = toDoRepository.findByDate(year, month, day);
         model.addAttribute("toDoList", toDoList);
-        return "/toDoList";
+        return "/calendar/to-do-list";
     }
 
     @GetMapping("/delete/{id}")

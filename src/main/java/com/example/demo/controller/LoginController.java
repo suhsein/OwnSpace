@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.domain.member.LoginService;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberDto;
-import com.example.demo.domain.member.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +30,13 @@ public class LoginController {
                         HttpServletRequest request) {
         log.info("bindingResult={}", bindingResult.getAllErrors());
         if(bindingResult.hasErrors()){
-            return "/login";
+            return "/members/login";
         }
 
         Member loginMember = loginService.login(member.getUserId(), member.getPassword());
         if (loginMember == null) {
             bindingResult.reject("loginFail");
-            return "/login";
+            return "/members/login";
         }
 
         // 로그인 성공

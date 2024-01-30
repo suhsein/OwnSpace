@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.domain.photo.*;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +31,7 @@ public class SpringUploadController {
 
     @GetMapping("/photo")
     public String newFile(@ModelAttribute ItemDto form) {
-        return "/photo";
+        return "/temporary/photo";
     }
 
     @PostMapping("/photo")
@@ -57,7 +56,7 @@ public class SpringUploadController {
     public String items(@PathVariable Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
-        return "/item-view";
+        return "/temporary/item-view";
     }
 
     @ResponseBody

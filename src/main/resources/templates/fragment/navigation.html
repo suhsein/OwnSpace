@@ -23,19 +23,16 @@
             <form method="post" th:action="@{/logout}" th:if="${session != null and session.loginMember != null}">
                 <button type="submit" class="btn btn-outline-light btn-sm">로그아웃</button>
             </form>
-            <li class="nav-item ms-5">
-                <a th:href="@{/photo}">사진</a>
+            <li class="nav-item ms-5" th:classappend="${curMenu == 'gallery'}?'cur-menu':_">
+                <a th:href="@{/gallery}">사진</a>
             </li>
             <li class="nav-item ms-2">
                 <a href="">일상</a>
             </li>
-            <li class="nav-item ms-2">
-                <a href="">가계부</a>
-            </li>
-            <li class="nav-item ms-2" th:classappend="${curMenu == 'map'} ? ' cur-menu'">
+            <li class="nav-item ms-2" th:classappend="${curMenu == 'map'}?' cur-menu':_">
                 <a th:href="@{/map}">지도</a>
             </li>
-            <li class="nav-item ms-2" th:classappend="${curMenu == 'calendar'} ? ' cur-menu'">
+            <li class="nav-item ms-2" th:classappend="${curMenu == 'calendar'}?' cur-menu':_">
                 <a th:href="@{/calendar}">캘린더</a>
             </li>
         </ul>

@@ -13,7 +13,7 @@
 <div th:replace="~{fragment/navigation :: navigation ('calendar')}"></div>
 
 <div class="container my-2" style="max-width: 80%">
-  <div th:replace="~{fragment/toDoNav :: toDoNavTab('toDo')}"></div>
+  <div th:replace="~{fragment/to-do-nav :: toDoNavTab('toDo')}"></div>
   <div class="schedule_tab_contents mt-3">
     <form th:action="|@{/toDo/{year}/{month}/{day}(year=${year}, month=${month}, day=${day})}|"
           th:object="${toDo}" method="post">

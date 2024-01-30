@@ -5,8 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -43,7 +41,7 @@ public class BbsController {
         List<WeekDto> weeks = calendarService.makeCalendar(year, month);
         model.addAttribute("weeks", weeks);
 
-        return "/calendar";
+        return "/calendar/calendar";
     }
 
     @PostMapping("/calendar")

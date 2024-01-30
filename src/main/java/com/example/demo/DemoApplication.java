@@ -24,5 +24,7 @@ public class DemoApplication {
 		member.setPassword("aaa");
 		member.setEmail("aaa@naver.com");
 		memberRepository.save(member);
+
+
 	}
 }
