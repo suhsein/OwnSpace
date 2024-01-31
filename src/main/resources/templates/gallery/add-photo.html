@@ -15,9 +15,14 @@
     <form th:action th:object="${form}" enctype="multipart/form-data" method="post">
         <label for="imageFile">이미지 파일</label>
         <input type="file" id="imageFile" th:field="*{imageFile}" class="form-control">
+        <label for="title">제목</label>
+        <input type="text" id="title" th:field="*{title}" class="form-control">
         <label for="description">설명</label>
         <textarea id="description" th:field="*{description}" cols="30" rows="10" class="form-control"></textarea>
-        <button type="submit" class="btn btn-primary">게시</button>
+
+        <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}"
+             class="field-error row mb-2 ms-2">글로벌 오류 메세지</div>
+        <button type="submit" class="btn btn-primary mt-2">게시</button>
     </form>
 </div>
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>

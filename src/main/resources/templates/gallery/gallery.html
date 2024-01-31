@@ -11,6 +11,7 @@
         #columns{
             column-width: 350px;
             column-gap:15px;
+            margin-top:15px;
         }
         #columns figure {
             display: inline-block;
@@ -50,9 +51,9 @@
     </div>
     <button class="btn btn-primary" th:onclick="|location.href='@{/gallery/addPhoto}'|">write</button>
     <div id="columns">
-        <figure th:each="photo : ${photos}">
+        <figure th:each="photo : ${photos}" th:onclick="|location.href='@{/gallery/photoView/{id}(id=${photo.id})}'|">
             <img th:src="|@{/gallery/{filename}(filename=${photo.imageFile.storeFileName})}|">
-            <figcaption th:text="${photo.description}"></figcaption>
+            <figcaption th:text="${photo.title}"></figcaption>
         </figure>
     </div>
 </div>

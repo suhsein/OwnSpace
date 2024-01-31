@@ -7,5 +7,6 @@ import lombok.Data;
 public class Photo {
     private Long id;
     private UploadFile imageFile;
+    private String title;
     private String description;
 }
