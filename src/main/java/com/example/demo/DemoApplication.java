@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.configuration.S3Config;
 import com.example.demo.domain.member.Member;
 import com.example.demo.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,10 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
 @RequiredArgsConstructor
+@Import(S3Config.class)
 public class DemoApplication {
 	private final MemberRepository memberRepository;
 	public static void main(String[] args) {
@@ -24,7 +27,5 @@ public class DemoApplication {
 		member.setPassword("aaa");
 		member.setEmail("aaa@naver.com");
 		memberRepository.save(member);
-
-
 	}
 }

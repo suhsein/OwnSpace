@@ -1,14 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.aws.s3.AwsS3;
+import com.example.demo.aws.s3.AwsS3Service;
 import com.example.demo.domain.gallery.Photo;
 import com.example.demo.domain.gallery.PhotoDto;
 import com.example.demo.domain.gallery.PhotoRepository;
-import com.example.demo.domain.photo.FileStore;
-import com.example.demo.domain.photo.UploadFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 @Controller
@@ -25,7 +22,8 @@ import java.util.List;
 @RequestMapping("/gallery")
 public class GalleryController {
     private final PhotoRepository photoRepository;
-    private final FileStore fileStore;
+    private final AwsS3Service awsS3Service;
+
     @GetMapping
     public String gallery(Model model) {
         List<Photo> photos = photoRepository.findAll();
@@ -46,20 +44,13 @@ public class GalleryController {
             bindingResult.reject("noFile");
             return "/gallery/add-photo";
         }
-        Photo photo = new Photo();
-        UploadFile imageFile = fileStore.storeFile(form.getImageFile());
-        photo.setImageFile(imageFile);
-        photo.setTitle(form.getTitle());
-        photo.setDescription(form.getDescription());
+        AwsS3 awsS3 = awsS3Service.upload(form.getImageFile(), "upload");
+        Photo photo = new Photo().builder()
+                .title(form.getTitle())
+                .awsS3(awsS3)
+                .description(form.getDescription()).build();
         photoRepository.save(photo);
         return "redirect:/gallery";
-    }
-
-
-    @ResponseBody
-    @GetMapping("/{filename}")
-    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + fileStore.getFullPath(filename));
     }
 
     @GetMapping("/photoView/{id}")

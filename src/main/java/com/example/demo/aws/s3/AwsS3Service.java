@@ -2,8 +2,8 @@ package com.example.demo.aws.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,12 +34,13 @@ public class AwsS3Service {
     private AwsS3 upload(File file, String dirName) {
         String key = createFileName(file, dirName);
         String path = putS3(file, key);
+        removeFile(file);
         return new AwsS3(key, path);
     }
 
     // s3 버킷에 이미지 저장 후, getS3로 path 를 return
     private String putS3(File file, String fileName) {
-        amazonS3.putObject(new PutObjectRequest(bucket, fileName, file));
+        amazonS3.putObject(new PutObjectRequest(bucket, fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
         return getS3(fileName);
     }
 
@@ -66,10 +67,10 @@ public class AwsS3Service {
     public Optional<File> convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
         File file = new File(System.getProperty("user.dir") + "/" + multipartFile.getOriginalFilename());
         if(file.createNewFile()){
-          try(FileOutputStream fos = new FileOutputStream(file)) {
-              fos.write(multipartFile.getBytes());
-          }
-          return Optional.of(file);
+            try(FileOutputStream fos = new FileOutputStream(file)) {
+                fos.write(multipartFile.getBytes());
+            }
+            return Optional.of(file);
         }
         return Optional.empty();
     }
