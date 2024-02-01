@@ -3,8 +3,8 @@ cloud:
     s3:
       bucket: ownspacebucket
     credentials:
-      access-key: AKIATLDZ3C2MYN5APH6W
-      secret-key: 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
+      access-key: ${aws_access_key_id}
+      secret-key: ${aws_secret_access_key}
     region:
       static: ap-northeast-2
       auto: false
@@ -16,3 +16,7 @@ spring:
     multipart:
       maxFileSize: 15MB # 파일 하나의 최대 크기
       maxRequestSize: 30MB  # 한 번에 최대 업로드 가능 용량
+
+jasypt:
+  encryptor:
+    password: test

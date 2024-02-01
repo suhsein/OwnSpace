@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AwsS3Service {
     private final AmazonS3 amazonS3;
+    private final AwsS3Repository awsS3Repository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -35,7 +37,13 @@ public class AwsS3Service {
         String key = createFileName(file, dirName);
         String path = putS3(file, key);
         removeFile(file);
-        return new AwsS3(key, path);
+
+        AwsS3 awsS3 = new AwsS3().builder()
+                            .key(key)
+                            .path(path)
+                            .build();
+        awsS3Repository.store(awsS3);
+        return awsS3;
     }
 
     // s3 버킷에 이미지 저장 후, getS3로 path 를 return
@@ -74,4 +82,7 @@ public class AwsS3Service {
         }
         return Optional.empty();
     }
+
+
+
 }

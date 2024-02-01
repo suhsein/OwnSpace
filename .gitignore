@@ -38,6 +38,3 @@ out/
 
 ### 추가 ###
 **/src/main/resources/static/개발일지.txt
-
-## AWS IAM key 저장
-**/src/main/resources/application.yml

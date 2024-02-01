@@ -4,10 +4,12 @@ import com.example.demo.aws.s3.AwsS3;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Photo {
     private Long id;
-    private AwsS3 awsS3;
+    private List<AwsS3> awsS3List;
     private String title;
     private String description;
 
@@ -15,8 +17,8 @@ public class Photo {
     }
 
     @Builder
-    public Photo(AwsS3 awsS3, String title, String description) {
-        this.awsS3 = awsS3;
+    public Photo(List<AwsS3> awsS3List, String title, String description) {
+        this.awsS3List = awsS3List;
         this.title = title;
         this.description = description;
     }

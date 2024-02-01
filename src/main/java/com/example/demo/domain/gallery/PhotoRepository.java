@@ -22,6 +22,9 @@ public class PhotoRepository {
         return store.get(id);
     }
 
+    public void deleteById(Long id){
+        store.remove(id);
+    }
     public List<Photo> findAll(){
         return new ArrayList<>(store.values());
     }

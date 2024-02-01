@@ -17,7 +17,7 @@
     <hr>
     <div class="row mt-5">
         <div class="col col-lg-7">
-            <img th:src="${photo.awsS3.path}"
+            <img th:each="awsS3 : ${photo.awsS3List}" th:src="${awsS3.path}"
                  style="max-width:100%; height:auto;">
         </div>
         <div class="col col-lg-4 ms-5" style="border-radius: 10px; border: 1px solid rgba(0,0,0,0.2);  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);  ">
@@ -25,8 +25,8 @@
             <hr>
             <div th:text="${photo.description}"></div>
             <div>
-                <button class="btn btn-primary" th:onclick="|location.href='@{/gallery/add-photo}'|">수정하기</button>
-                <button class="btn btn-secondary">삭제하기</button>
+                <button class="btn btn-primary" th:onclick="|location.href='@{/gallery/edit/{id}(id=${photo.id})}'|">수정하기</button>
+                <button class="btn btn-secondary" th:onclick="|location.href='@{/gallery/delete/{id}(id=${photo.id})}'|">삭제하기</button>
             </div>
         </div>
     </div>

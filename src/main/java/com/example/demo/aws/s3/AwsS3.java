@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AwsS3 {
+    private Long id;
     private String key;
     private String path;
     public AwsS3(){
