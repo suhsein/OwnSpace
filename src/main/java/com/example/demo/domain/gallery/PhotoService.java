@@ -4,6 +4,7 @@ import com.example.demo.aws.s3.AwsS3;
 import com.example.demo.aws.s3.AwsS3Repository;
 import com.example.demo.aws.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class PhotoService {
     private final PhotoRepository photoRepository;
@@ -21,8 +23,7 @@ public class PhotoService {
     /**
      * CREATE
      */
-    public List<AwsS3> uploadFiles(PhotoDto form) throws IOException {
-        List<MultipartFile> imageFiles = form.getImageFiles();
+    public List<AwsS3> uploadFiles(List<MultipartFile> imageFiles) throws IOException {
         List<AwsS3> awsS3List = new ArrayList<>();
         for (MultipartFile imageFile : imageFiles) {
             AwsS3 awsS3 = awsS3Service.upload(imageFile, "upload");
@@ -32,32 +33,58 @@ public class PhotoService {
     }
 
     /**
-     * DELETE
+     * UPDATE
      */
-    public void removeFiles(Photo photo){
-        List<AwsS3> awsS3List = photo.getAwsS3List();
-        for (AwsS3 awsS3 : awsS3List) {
-            awsS3Service.remove(awsS3);
-        }
-    }
     public void editPhoto(PhotoDto form,
                           Long id,
-                          List<MultipartFile> files,
+                          List<MultipartFile> imageFiles,
                           List<Long> deleteFilesId) throws IOException {
         Photo photo = photoRepository.findById(id);
         photo.setTitle(form.getTitle());
         photo.setDescription(form.getDescription());
-        List<AwsS3> awsS3List = photo.getAwsS3List();
+        List<AwsS3> awsS3List = photo.getAwsS3List(); // original awsS3List
 
-        if(files != null){
-            for (MultipartFile file : files) {
+        if(!checkNull(imageFiles)){
+            for (MultipartFile file : imageFiles) {
                 AwsS3 awsS3 = awsS3Service.upload(file, "upload");
                 awsS3List.add(awsS3);
             }
         }
 
-        List<AwsS3> deleted = awsS3Repository.findAllById(deleteFilesId);
-        awsS3List.removeAll(deleted);
+        List<AwsS3> deleted = awsS3Repository.findAllById(deleteFilesId); // deleted awsS3List
+        awsS3List.removeAll(deleted); // 차집합
         photo.setAwsS3List(awsS3List);
+    }
+
+
+    /**
+     * DELETE
+     */
+    public void removeFiles(Photo photo){
+        List<AwsS3> awsS3List = photo.getAwsS3List();
+        for (AwsS3 awsS3 : awsS3List) {
+            removeFile(awsS3);
+        }
+    }
+
+    public void removeFile(AwsS3 awsS3){
+        awsS3Repository.delete(awsS3.getId());
+        awsS3Service.remove(awsS3);
+    }
+
+    /**
+     * VALIDATION
+     */
+
+    public boolean checkNull(List<MultipartFile> imageFiles){
+        if(imageFiles.size() == 0){
+            return true;
+        }
+        for (MultipartFile imageFile : imageFiles) {
+            if (imageFile.getSize() == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -15,7 +15,7 @@
     <h5 class="mt-3 fw-bold me-5">갤러리 사진 추가하기</h5>
     <form th:action th:object="${form}" enctype="multipart/form-data" method="post">
         <label for="imageFile">이미지 파일</label>
-        <input type="file" id="imageFile" th:field="*{imageFiles}" class="form-control" onchange="test(this.files)">
+        <input type="file" id="imageFile" th:field="*{imageFiles}" class="form-control" onchange="addItem(this.files)">
         <div id="fileList"></div>
         <label for="title">제목</label>
         <input type="text" id="title" th:field="*{title}" class="form-control">
@@ -37,31 +37,60 @@
         url: `/gallery/files/[[${id}]]`,
         success: function(files){
             loadFiles(files);
-        },
-        fail: console.log(`[[${id}]]`)
+        }
     })
 
     function loadFiles(files){
         const $fileList = document.getElementById('fileList');
         for (const file of files) {
-            selectedFiles.push(file);
             const $item = document.createElement('div');
-            const $fileName = document.createTextNode(file.key);
+            const $fileName = document.createTextNode(file.originalName);
             const $deleteButton = document.createElement('button');
             $deleteButton.addEventListener('click', (e) => {
                 $item.remove(); // html 태그 삭제
                 e.preventDefault(); // form 제출 방지
                 const $deleteItem = document.createElement('input');
-                $deleteItem.setAttribute('name', 'deleteFilesId');
+                $deleteItem.setAttribute('name', 'deleteFilesId'); // RequestParam 으로 받아서 사용하기 위함
                 $deleteItem.setAttribute('value', file.id);
-                console.log(file.id);
                 $deleteItem.setAttribute('type', 'hidden');
+                $fileList.appendChild($deleteItem);
             });
             $deleteButton.setAttribute('class', 'btn btn-primary');
             $deleteButton.innerHTML = '삭제';
             $item.append($fileName, $deleteButton);
             $fileList.appendChild($item);
         }
+    }
+
+    function addItem(files){
+        const $fileList = document.getElementById('fileList');
+        for (let i = 0; i < files.length; i++) {
+            selectedFiles.push(files[i]);
+            const $item = document.createElement('div');
+            const $fileName = document.createTextNode(files[i].name);
+            const $deleteButton = document.createElement('button');
+            $deleteButton.addEventListener('click', (e) => {
+                $item.remove(); // html 태그 삭제
+                e.preventDefault(); // form 제출 방지
+                filesChange(files[i]);
+            });
+            $deleteButton.setAttribute('class', 'btn btn-primary');
+            $deleteButton.innerHTML = '삭제';
+            $item.append($fileName, $deleteButton);
+            $fileList.appendChild($item);
+        }
+        filesChange(''); // imageFiles 버튼을 여러번 클릭하여 이미지를 추가하는 경우, 초기화 되지 않도록 함 (계속 추가되도록)
+    }
+
+    // 리스트로부터 선택된 item 제거
+    function filesChange(deleteFile){
+        const $inputFiles = document.querySelector('#imageFiles');
+        const dataTransfer = new DataTransfer();
+        selectedFiles = selectedFiles.filter(file => file !== deleteFile);
+        selectedFiles.forEach(file =>{
+            dataTransfer.items.add(file);
+        });
+        $inputFiles.files = dataTransfer.files; // html 태그 제거 후, input 의 files 도 수정함
     }
 </script>
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>

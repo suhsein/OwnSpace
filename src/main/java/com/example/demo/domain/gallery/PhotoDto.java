@@ -7,7 +7,6 @@ import java.util.List;
 
 @Data
 public class PhotoDto {
-    private Long id;
     private List<MultipartFile> imageFiles;
     private String title;
     private String description;

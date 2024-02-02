@@ -34,4 +34,12 @@ public class AwsS3Repository {
         }
         return result;
     }
+
+    public void delete(Long id) {
+        store.remove(id);
+    }
+
+    public void clearAll(){
+        store.clear();
+    }
 }

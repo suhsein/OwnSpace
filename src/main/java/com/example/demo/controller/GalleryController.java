@@ -45,18 +45,14 @@ public class GalleryController {
     @PostMapping("/addPhoto")
     public String addPhoto(@Validated @ModelAttribute("form") PhotoDto form,
                            BindingResult bindingResult) throws IOException {
-        log.info("imageFiles={}, size={}", form.getImageFiles(), form.getImageFiles().size());
         List<MultipartFile> imageFiles = form.getImageFiles();
-        for (MultipartFile imageFile : imageFiles) {
-            log.info("imageFile={}", imageFile);
-        }
 
-        if(form.getImageFiles().size() == 0){
+        if(photoService.checkNull(imageFiles)){
             bindingResult.reject("noFile");
             return "/gallery/add-photo";
         }
 
-        List<AwsS3> awsS3List = photoService.uploadFiles(form);
+        List<AwsS3> awsS3List = photoService.uploadFiles(imageFiles);
 
         Photo photo = new Photo().builder()
                 .title(form.getTitle())
@@ -81,8 +77,13 @@ public class GalleryController {
      * UPDATE
      */
     @GetMapping("/edit/{id}")
-    public String editForm(@ModelAttribute("form") PhotoDto form,
-                            @PathVariable("id") Long id){
+    public String editForm(@PathVariable("id") Long id,
+                           Model model){
+        Photo photo = photoRepository.findById(id);
+        PhotoDto form = new PhotoDto();
+        form.setTitle(photo.getTitle());
+        form.setDescription(photo.getDescription());
+        model.addAttribute("form", form);
         return "/gallery/edit-photo";
     }
 
@@ -90,14 +91,16 @@ public class GalleryController {
     public String edit(@Validated @ModelAttribute("form") PhotoDto form,
                        BindingResult bindingResult,
                        @PathVariable("id") Long id,
-                       @RequestParam(required = false) List<MultipartFile> files,
-                       @RequestParam(required = false) List<Long> deleteFilesId) throws IOException {
+                       @RequestParam(required = false, value="deleteFilesId") List<Long> deleteFilesId) throws IOException {
+        List<MultipartFile> imageFiles = form.getImageFiles();
+        Photo photo = photoRepository.findById(id);
 
-        if(form.getImageFiles().isEmpty() || form.getImageFiles() == null){
+        if(photoService.checkNull(imageFiles) && deleteFilesId != null && deleteFilesId.size() == photo.getAwsS3List().size()){
             bindingResult.reject("noFile");
             return "/gallery/edit-photo";
         }
-        photoService.editPhoto(form, id, files, deleteFilesId);
+
+        photoService.editPhoto(form, id, imageFiles, deleteFilesId);
         return "redirect:/gallery";
     }
 
@@ -113,6 +116,10 @@ public class GalleryController {
         return "redirect:/gallery";
     }
 
+
+    /**
+     * API
+     */
     @ResponseBody
     @GetMapping("/files/{id}")
     public List<AwsS3> uploadedFile(@PathVariable("id") Long id) {

@@ -44,11 +44,12 @@ public class SignUpController {
         }
 
         // Success: Convert Validation Bean to Member
-        Member member = new Member();
-        member.setUserId(memberSave.getUserId());
-        member.setUsername(memberSave.getUsername());
-        member.setPassword(memberSave.getPassword());
-        member.setEmail(memberSave.getEmail());
+        Member member = new Member().builder()
+                .userId(memberSave.getUserId())
+                .password(memberSave.getPassword())
+                .email(memberSave.getEmail())
+                .username(memberSave.getUsername())
+                .build();
 
         memberRepository.save(member);
         // addFlashAttribute => 리다이렉트 시, 파라미터로 전달하는 대신 모델에 값을 담을 수 있게 해줌.

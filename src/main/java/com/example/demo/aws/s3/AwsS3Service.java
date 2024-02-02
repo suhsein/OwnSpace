@@ -4,7 +4,6 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,9 +38,10 @@ public class AwsS3Service {
         removeFile(file);
 
         AwsS3 awsS3 = new AwsS3().builder()
-                            .key(key)
-                            .path(path)
-                            .build();
+                .key(key)
+                .originalName(file.getName())
+                .path(path)
+                .build();
         awsS3Repository.store(awsS3);
         return awsS3;
     }
@@ -82,7 +82,4 @@ public class AwsS3Service {
         }
         return Optional.empty();
     }
-
-
-
 }

@@ -1,10 +1,9 @@
 package com.example.demo.domain.member;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@RequiredArgsConstructor
 @Getter
 @Setter
 public class Member {
@@ -13,4 +12,15 @@ public class Member {
     private String password;
     private String username;
     private String email;
+
+    public Member() {
+    }
+
+    @Builder
+    public Member(String userId, String password, String username, String email) {
+        this.userId = userId;
+        this.password = password;
+        this.username = username;
+        this.email = email;
+    }
 }

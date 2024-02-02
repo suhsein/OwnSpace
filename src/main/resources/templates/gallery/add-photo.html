@@ -16,7 +16,7 @@
     <form th:action th:object="${form}" enctype="multipart/form-data" method="post">
         <label for="imageFiles">이미지 파일</label>
         <input type="file" id="imageFiles" name="imageFiles" th:field="*{imageFiles}" class="form-control"
-               onchange="test(this.files)" multiple="multiple">
+               onchange="addItem(this.files)" multiple="multiple">
         <div id="fileList"></div>
         <label for="title">제목</label>
         <input type="text" id="title" th:field="*{title}" class="form-control">
@@ -31,7 +31,7 @@
 </div>
 <script>
     let selectedFiles = [];
-    function test(files){
+    function addItem(files){
         const $fileList = document.getElementById('fileList');
         for (let i = 0; i < files.length; i++) {
             selectedFiles.push(files[i]);
@@ -41,17 +41,18 @@
             $deleteButton.addEventListener('click', (e) => {
                 $item.remove(); // html 태그 삭제
                 e.preventDefault(); // form 제출 방지
-                deleteFile(files[i]);
+                filesChange(files[i]);
             });
             $deleteButton.setAttribute('class', 'btn btn-primary');
             $deleteButton.innerHTML = '삭제';
             $item.append($fileName, $deleteButton);
             $fileList.appendChild($item);
         }
+        filesChange(''); // imageFiles 버튼을 여러번 클릭하여 이미지를 추가하는 경우, 초기화 되지 않도록 함 (계속 추가되도록)
     }
 
     // 리스트로부터 선택된 item 제거
-    function deleteFile(deleteFile){
+    function filesChange(deleteFile){
         const $inputFiles = document.querySelector('#imageFiles');
         const dataTransfer = new DataTransfer();
         selectedFiles = selectedFiles.filter(file => file !== deleteFile);
