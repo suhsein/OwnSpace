@@ -1,14 +1,14 @@
 package com.example.demo.domain.member;
 
+import com.example.demo.domain.members.Member;
+import com.example.demo.repository.members.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * memory member repository 테스트

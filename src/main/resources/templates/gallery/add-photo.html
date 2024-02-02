@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="~{/fragment/head :: common_head(title=~{::title})}">
     <meta charset="UTF-8">
     <title>갤러리 사진 추가</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" href="/css/custom.css" th:href="@{/css/custom.css}">
-    <link rel="stylesheet" href="/css/calendar-map.css" th:href="@{/css/calendar-map.css}">
-    <script src="https://kit.fontawesome.com/3efb5e8bfa.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
@@ -17,7 +13,7 @@
         <label for="imageFiles">이미지 파일</label>
         <input type="file" id="imageFiles" name="imageFiles" th:field="*{imageFiles}" class="form-control"
                onchange="addItem(this.files)" multiple="multiple">
-        <div id="fileList"></div>
+        <div id="fileList" class="mt-2"></div>
         <label for="title">제목</label>
         <input type="text" id="title" th:field="*{title}" class="form-control">
         <label for="description">설명</label>
@@ -46,6 +42,7 @@
             $deleteButton.setAttribute('class', 'btn btn-primary');
             $deleteButton.innerHTML = '삭제';
             $item.append($fileName, $deleteButton);
+            $item.setAttribute('class', 'mb-2');
             $fileList.appendChild($item);
         }
         filesChange(''); // imageFiles 버튼을 여러번 클릭하여 이미지를 추가하는 경우, 초기화 되지 않도록 함 (계속 추가되도록)
@@ -62,6 +59,7 @@
         $inputFiles.files = dataTransfer.files; // html 태그 제거 후, input 의 files 도 수정함
     }
 </script>
+<footer th:replace="~{/fragment/footer :: footer}"></footer>
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

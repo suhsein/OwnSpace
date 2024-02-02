@@ -1,6 +1,6 @@
 package com.example.demo.domain.gallery;
 
-import com.example.demo.aws.s3.AwsS3;
+import com.example.demo.domain.s3.AwsS3;
 import lombok.Builder;
 import lombok.Data;
 

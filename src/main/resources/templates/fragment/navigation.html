@@ -18,13 +18,13 @@
                 <a th:href="@{/login}">로그인</a>
             </li>
             <li class="nav-item" th:if="${session == null or session.loginMember == null}">
-                <a th:href="@{/signin}">회원가입</a>
+                <a th:href="@{/signUp}">회원가입</a>
             </li>
             <form method="post" th:action="@{/logout}" th:if="${session != null and session.loginMember != null}">
                 <button type="submit" class="btn btn-outline-light btn-sm">로그아웃</button>
             </form>
             <li class="nav-item ms-5" th:classappend="${curMenu == 'gallery'}?'cur-menu':_">
-                <a th:href="@{/gallery}">사진</a>
+                <a th:href="@{/gallery}">갤러리</a>
             </li>
             <li class="nav-item ms-2">
                 <a href="">일상</a>

@@ -1,0 +1,25 @@
+#columns{
+    column-width: 350px;
+    column-gap:15px;
+    margin-top:15px;
+}
+#columns figure {
+    display: inline-block;
+    border:1px solid rgba(0,0,0,0.2);
+    margin: 0 5px 15px;
+    padding:10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    transition: opacity .4s ease-in-out;
+}
+#columns figure img{
+    width:100%;
+    height: auto;
+}
+#columns figure figcaption {
+    margin-top:10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    padding:10px;
+}
+div#columns:hover figure:not(:hover) {
+    opacity: 0.4;
+}

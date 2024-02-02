@@ -1,12 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http:www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{/fragment/head :: common_head(title=~{::title})}">
     <title>게시판 메인</title>
-    <link rel="stylesheet" href="./bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" href="./custom.css" th:href="@{/css/custom.css}">
-    <style>
-    </style>
+    <meta charset="UTF-8">
 </head>
 <body>
 <div class="container" style="max-width: 50%">
@@ -15,15 +11,14 @@
     <div class="row m-5">
         <div class="col">
             <button class="w-100 h-100 btn btn-lg btn-turquoise"
-                    th:onclick="|location.href='@{/login}'|"
-                    onclick="location.href='login.html'">로그인</button>
+                    th:onclick="|location.href='@{/login}'|">로그인</button>
         </div>
         <div class="col">
             <button class="w-100 h-100 btn bnt-lg btn-seablue"
-                    th:onclick="|location.href='@{/signin}'|"
-                    onclick="location.href='signin.html'">회원가입</button>
+                    th:onclick="|location.href='@{/signUp}'|">회원가입</button>
         </div>
     </div>
 </div> <!-- /container-->
+<footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
 </html>

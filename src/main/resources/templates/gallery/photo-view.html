@@ -1,12 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:insert="~{/fragment/head :: common_head(title=~{::title})}">
     <meta charset="UTF-8">
     <title>사진</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
-    <link rel="stylesheet" href="/css/custom.css" th:href="@{/css/custom.css}">
-    <link rel="stylesheet" href="/css/calendar-map.css" th:href="@{/css/calendar-map.css}">
-    <script src="https://kit.fontawesome.com/3efb5e8bfa.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div th:replace="~{fragment/navigation :: navigation ('gallery')}"></div>
@@ -31,6 +27,7 @@
         </div>
     </div>
 </div>
+<footer th:replace="~{/fragment/footer :: footer}"></footer>
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
