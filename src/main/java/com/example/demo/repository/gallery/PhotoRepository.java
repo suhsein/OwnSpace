@@ -1,33 +1,32 @@
 package com.example.demo.repository.gallery;
 
 import com.example.demo.domain.gallery.Photo;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
+@RequiredArgsConstructor
 public class PhotoRepository {
-    private final Map<Long, Photo> store = new HashMap<>();
-    private long sequence = 0L;
+    private final EntityManager em;
 
-    public Photo save(Photo Photo){
-        Photo.setId(++sequence);
-        store.put(Photo.getId(), Photo);
-        return Photo;
+    public void save(Photo photo) {
+        em.persist(photo);
     }
 
-    public Photo findById(Long id){
-        return store.get(id);
+    public Photo findOne(Long id) {
+        return em.find(Photo.class, id);
     }
 
-    public void deleteById(Long id){
-        store.remove(id);
+    public List<Photo> findAll() {
+        return em.createQuery("select p from Photo p", Photo.class)
+                .getResultList();
     }
-    public List<Photo> findAll(){
-        return new ArrayList<>(store.values());
+
+    public void remove(Long id) {
+        em.remove(findOne(id));
     }
 
 }

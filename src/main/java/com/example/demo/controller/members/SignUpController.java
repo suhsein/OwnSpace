@@ -3,6 +3,7 @@ package com.example.demo.controller.members;
 import com.example.demo.domain.members.Member;
 import com.example.demo.repository.members.MemberRepository;
 import com.example.demo.domain.members.MemberSaveDto;
+import com.example.demo.service.members.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequiredArgsConstructor
 public class SignUpController {
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     @GetMapping("/signUp")
     public String signUpForm(@ModelAttribute("memberSave") MemberSaveDto memberSave) {
         // Form에서 객체 전송을 위해서 빈 객체를 모델에 넣어줌
@@ -42,14 +43,14 @@ public class SignUpController {
         }
 
         // Success: Convert Validation Bean to Member
-        Member member = new Member().builder()
+        Member member = Member.builder()
                 .userId(memberSave.getUserId())
                 .password(memberSave.getPassword())
                 .email(memberSave.getEmail())
                 .username(memberSave.getUsername())
                 .build();
 
-        memberRepository.save(member);
+        memberService.save(member);
         // addFlashAttribute => 리다이렉트 시, 파라미터로 전달하는 대신 모델에 값을 담을 수 있게 해줌.
         redirectAttributes.addFlashAttribute("signUpSuccess", "success");
 

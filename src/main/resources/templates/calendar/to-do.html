@@ -14,10 +14,10 @@
         <form th:action="|@{/toDo/{year}/{month}/{day}(year=${year}, month=${month}, day=${day})}|"
               th:object="${toDo}" method="post">
             <label for="toDoTitle">제목</label>
-            <input type="text" class="form-control" id="toDoTitle" th:field="*{toDoTitle}">
-            <div th:errors="*{toDoTitle}" class="field-error mb-2">공백일 수 없습니다.</div>
+            <input type="text" class="form-control" id="toDoTitle" th:field="*{title}">
+            <div th:errors="*{title}" class="field-error mb-2">공백일 수 없습니다.</div>
             <label for="toDoPlace">장소</label>
-            <input type="text" class="form-control" id="toDoPlace" th:field="*{toDoPlace}">
+            <input type="text" class="form-control" id="toDoPlace" th:field="*{place}">
             <button type="button" class="btn btn-seablue my-2" onclick="openMapWrap()" id="openMap"
                     style="display:block">지도 열기
             </button>
@@ -44,9 +44,9 @@
                 </div>
             </div>
             <label for="toDoTime">시간</label>
-            <input type="time" class="form-control" id="toDoTime" th:field="*{toDoTime}" onfocus="this.showPicker()">
+            <input type="time" class="form-control" id="toDoTime" th:field="*{time}" onfocus="this.showPicker()">
             <label for="toDoDesc">상세 정보</label>
-            <textarea class="form-control" id="toDoDesc" name="" cols="30" rows="10" th:field="*{toDoDesc}"></textarea>
+            <textarea class="form-control" id="toDoDesc" name="" cols="30" rows="10" th:field="*{description}"></textarea>
             <button type="button" class="btn btn-secondary mt-3" th:onclick="|location.href='@{/calendar}'|">Close
             </button>
             <button type="submit" class="btn btn-primary mt-3">Save Changes</button>

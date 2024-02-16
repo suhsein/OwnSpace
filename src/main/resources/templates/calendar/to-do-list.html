@@ -23,19 +23,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:each="schedule, i : ${toDoList}" th:class="${schedule.status == 'completed'} ? 'table-secondary'">
+            <tr th:each="schedule, i : ${toDoList}" th:class="${schedule.status == 'COMPLETED'} ? 'table-secondary'">
                 <td th:text="${i.count}"></td>
-                <td th:text="${schedule.toDoTitle}"></td>
-                <td th:text="${schedule.toDoPlace}"></td>
-                <td th:text="${schedule.toDoTime}" ></td>
-                <td th:text="${schedule.toDoDesc}" ></td>
+                <td th:text="${schedule.title}"></td>
+                <td th:text="${schedule.place}"></td>
+                <td th:text="${schedule.time}" ></td>
+                <td th:text="${schedule.description}" ></td>
                 <td>
-                    <button th:if="${schedule.status == 'completed'}" class="btn btn-secondary"
-                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/active/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">활성화</button>
-                    <button th:if="${schedule.status == 'active'}" class="btn btn-success"
-                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/complete/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">완료</button></td>
+                    <button th:if="${schedule.status == 'COMPLETED'}" class="btn btn-secondary"
+                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/ACTIVE/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">활성화</button>
+                    <button th:if="${schedule.status == 'ACTIVE'}" class="btn btn-success"
+                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/COMPLETED/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">완료</button></td>
                 <td><button class="btn btn-danger"
-                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/delete/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">삭제</button></td>
+                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/DELETE/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">삭제</button></td>
             </tr>
           </tbody>
       </table>

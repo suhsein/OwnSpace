@@ -11,20 +11,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
-@RequiredArgsConstructor
 @Import(S3Config.class)
 public class DemoApplication {
-	private final MemberRepository memberRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
-	}
-
-	@EventListener(ApplicationReadyEvent.class)
-	public void initData(){
-		Member member = new Member();
-		member.setUserId("aaa");
-		member.setPassword("aaa");
-		member.setEmail("aaa@naver.com");
-		memberRepository.save(member);
 	}
 }

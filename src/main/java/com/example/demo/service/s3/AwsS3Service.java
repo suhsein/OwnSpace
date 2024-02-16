@@ -9,11 +9,13 @@ import com.example.demo.repository.s3.AwsS3Repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +29,7 @@ public class AwsS3Service {
     private String bucket;
 
     // MultipartFile 을 File 로 변환한 후, bucket 내부의 dirName 을 가진 directory 에 저장됨
+    @Transactional
     public AwsS3 upload(MultipartFile multipartFile, String dirName) throws IOException {
         File file = convertMultipartFileToFile(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("Converting MultipartFile to File Failure"));
@@ -40,11 +43,11 @@ public class AwsS3Service {
         removeFile(file);
 
         AwsS3 awsS3 = new AwsS3().builder()
-                .key(key)
                 .originalName(file.getName())
+                .s3Key(key)
                 .path(path)
                 .build();
-        awsS3Repository.store(awsS3);
+        awsS3Repository.save(awsS3);
         return awsS3;
     }
 
@@ -59,18 +62,24 @@ public class AwsS3Service {
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 
+    @Transactional
+    public void remove(AwsS3 awsS3){
+        amazonS3.deleteObject(bucket, awsS3.getS3Key());
+        awsS3Repository.remove(awsS3.getId());
+        if(!amazonS3.doesObjectExist(bucket, awsS3.getS3Key())){
+            throw new AmazonS3Exception("Object" + awsS3.getS3Key() + "does not Exist");
+        }
+    }
+    @Transactional
+    public void removeAll(List<Long> ids){
+        awsS3Repository.removeAll(ids);
+    }
+
     private void removeFile(File file){
         file.delete();
     }
 
-    public void remove(AwsS3 awsS3){
-        if(!amazonS3.doesObjectExist(bucket, awsS3.getKey())){
-            throw new AmazonS3Exception("Object" + awsS3.getKey() + "does not Exist");
-        }
-        amazonS3.deleteObject(bucket, awsS3.getKey());
-    }
-
-    private String createFileName(File file, String dirName){ // 업로드 파일명을 구분하기 위해서 random UUID 를 부여한다.
+    private String createFileName(File file, String dirName) { // 업로드 파일명을 구분하기 위해서 random UUID 를 부여한다.
         return dirName + "/" + UUID.randomUUID() + file.getName();
     }
 

@@ -2,11 +2,10 @@ package com.example.demo.controller.gallery;
 
 import com.example.demo.domain.s3.AwsS3;
 import com.example.demo.domain.gallery.Photo;
-import com.example.demo.domain.gallery.PhotoDto;
+import com.example.demo.service.gallery.PhotoDto;
 import com.example.demo.repository.gallery.PhotoRepository;
 import com.example.demo.service.gallery.PhotoService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,12 +20,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/gallery")
 public class GalleryController {
-    private final PhotoRepository photoRepository;
     private final PhotoService photoService;
 
     @GetMapping
     public String gallery(Model model) {
-        List<Photo> photos = photoRepository.findAll();
+        List<Photo> photos = photoService.findAll();
         model.addAttribute("photos", photos);
         return "/gallery/gallery";
     }
@@ -35,12 +33,12 @@ public class GalleryController {
      * CREATE
      */
     @GetMapping("/addPhoto")
-    public String photoForm(@ModelAttribute("form") PhotoDto form){
+    public String createPhotoForm(@ModelAttribute("form") PhotoDto form){
         return "/gallery/add-photo";
     }
 
     @PostMapping("/addPhoto")
-    public String addPhoto(@Validated @ModelAttribute("form") PhotoDto form,
+    public String createPhoto(@Validated @ModelAttribute("form") PhotoDto form,
                            BindingResult bindingResult) throws IOException {
         List<MultipartFile> imageFiles = form.getImageFiles();
 
@@ -51,11 +49,12 @@ public class GalleryController {
 
         List<AwsS3> awsS3List = photoService.uploadFiles(imageFiles);
 
-        Photo photo = new Photo().builder()
+        Photo photo = Photo.builder()
                 .title(form.getTitle())
-                .awsS3List(awsS3List)
-                .description(form.getDescription()).build();
-        photoRepository.save(photo);
+                .description(form.getDescription())
+                .awsS3List(awsS3List).build();
+
+        photoService.save(photo);
         return "redirect:/gallery";
     }
 
@@ -65,7 +64,7 @@ public class GalleryController {
 
     @GetMapping("/photoView/{id}")
     public String photoView(@PathVariable("id") Long id, Model model) {
-        Photo photo = photoRepository.findById(id);
+        Photo photo = photoService.findOne(id);
         model.addAttribute("photo", photo);
         return "/gallery/photo-view";
     }
@@ -76,7 +75,7 @@ public class GalleryController {
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable("id") Long id,
                            Model model){
-        Photo photo = photoRepository.findById(id);
+        Photo photo = photoService.findOne(id);
         PhotoDto form = new PhotoDto();
         form.setTitle(photo.getTitle());
         form.setDescription(photo.getDescription());
@@ -90,7 +89,7 @@ public class GalleryController {
                        @PathVariable("id") Long id,
                        @RequestParam(required = false, value="deleteFilesId") List<Long> deleteFilesId) throws IOException {
         List<MultipartFile> imageFiles = form.getImageFiles();
-        Photo photo = photoRepository.findById(id);
+        Photo photo = photoService.findOne(id);
 
         if(photoService.checkNull(imageFiles) && deleteFilesId != null && deleteFilesId.size() == photo.getAwsS3List().size()){
             bindingResult.reject("noFile");
@@ -106,21 +105,17 @@ public class GalleryController {
      */
     @GetMapping("/delete/{id}")
     public String deletePhoto(@PathVariable("id") Long id){
-        Photo photo = photoRepository.findById(id);
-        photoService.removeFiles(photo);
-        photoRepository.deleteById(id);
-        // storage 와 repository 양쪽 다 지워주기
+        photoService.remove(id);
         return "redirect:/gallery";
     }
-
 
     /**
      * API
      */
     @ResponseBody
     @GetMapping("/files/{id}")
-    public List<AwsS3> uploadedFile(@PathVariable("id") Long id) {
-        Photo photo = photoRepository.findById(id);
+    public List<AwsS3> list(@PathVariable("id") Long id) {
+        Photo photo = photoService.findOne(id);
         return photo.getAwsS3List();
     }
 }

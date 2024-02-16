@@ -1,20 +1,22 @@
 package com.example.demo.domain.members;
 
+import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Entity
+@Data
+@NoArgsConstructor
 public class Member {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
+
     private String userId;
     private String password;
     private String username;
     private String email;
-
-    public Member() {
-    }
 
     @Builder
     public Member(String userId, String password, String username, String email) {

@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.domain.calendar.WeekDayDto;
-import com.example.demo.domain.calendar.WeekDto;
+import com.example.demo.service.calendar.WeekDayDto;
+import com.example.demo.service.calendar.WeekDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 

@@ -1,18 +1,20 @@
 package com.example.demo.service.members;
 
 import com.example.demo.domain.members.Member;
-import com.example.demo.repository.members.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class LoginService {
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     public Member login(String userId, String password) {
-        return memberRepository.findByUserId(userId)
-                .filter(m -> m.getPassword().equals(password))
-                .orElse(null);
+        List<Member> findMember = memberService.findByUserId(userId);
+        return findMember.stream().findFirst().orElse(null);
     }
 }

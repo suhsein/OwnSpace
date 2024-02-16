@@ -1,9 +1,7 @@
 package com.example.demo.service.calendar;
 
+import com.example.demo.domain.calendar.MyDate;
 import com.example.demo.repository.calendar.ToDoRepository;
-import com.example.demo.domain.calendar.WeekDayDto;
-import com.example.demo.domain.calendar.WeekDto;
-import com.example.demo.domain.calendar.YearMonthDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +30,11 @@ public class CalendarService {
             weekDate.add(new WeekDayDto(0, 0));
         }
         for (int i = 1; i <= lengthOfMonth; i++, cnt++) {
-            weekDate.add(new WeekDayDto(i, toDoRepository.findByDate(year, month, i).size()));
+            MyDate myDate = MyDate.builder()
+                                .year(year)
+                                .month(month).
+                                day(i).build();
+            weekDate.add(new WeekDayDto(i, toDoRepository.findByDate(myDate).size()));
             addWeek(weeks, weekDate);
         }
         int calSize = (day ==0 && lengthOfMonth == 28) ? 28 : 35;
@@ -79,7 +81,6 @@ public class CalendarService {
             WeekDto week = new WeekDto();
             week.setWeek(copy);
             weeks.add(week);
-            weekDate.clear();
         }
     }
 }

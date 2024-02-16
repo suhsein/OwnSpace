@@ -1,15 +1,12 @@
-package com.example.demo.domain.calendar;
+package com.example.demo.service.calendar;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
  * 캘린더의 상단의 날짜를 받아옴
  */
-@Getter
-@Setter
-@RequiredArgsConstructor
+@Getter @Setter
 public class YearMonthDto {
     private Integer year;
     private Integer month;

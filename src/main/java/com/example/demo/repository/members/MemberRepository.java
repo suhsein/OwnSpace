@@ -1,35 +1,33 @@
 package com.example.demo.repository.members;
 
 import com.example.demo.domain.members.Member;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
+@RequiredArgsConstructor
 public class MemberRepository {
-    private static Map<Long, Member> store = new HashMap<>();
-    private static long sequence = 0L;
-    public Member save(Member member) {
-        member.setId(++sequence);
-        store.put(member.getId(), member);
-        return member;
+    private final EntityManager em;
+
+    public void save(Member member) {
+        em.persist(member);
     }
 
-    public Member findById(Long id){
-        return store.get(id);
+    public Member findOne(Long id) {
+        return em.find(Member.class, id);
     }
 
-    public Optional<Member> findByUserId(String userId){
-        return findAll().stream()
-                .filter(m -> m.getUserId().equals(userId))
-                .findFirst();
+    public List<Member> findByUserId(String userId) {
+        return em.createQuery("select m from Member m where m.userId like :userId", Member.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 
-    public List<Member> findAll(){
-        return new ArrayList<>(store.values());
-    }
-
-    public void clearStore(){
-        store.clear();
+    public List<Member> findAll() {
+        return em.createQuery("select m from Member m", Member.class)
+                .getResultList();
     }
 }

@@ -1,12 +1,9 @@
-package com.example.demo.domain.calendar;
+package com.example.demo.service.calendar;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
+@Getter @Setter
 public class WeekDayDto {
     Integer day;
     Integer toDoSize;

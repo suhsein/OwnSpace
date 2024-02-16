@@ -1,6 +1,9 @@
 package com.example.demo.repository.calendar;
 
-import com.example.demo.domain.calendar.ToDoDto;
+import com.example.demo.domain.calendar.MyDate;
+import com.example.demo.domain.calendar.ToDo;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,29 +13,27 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Repository
+@RequiredArgsConstructor
 public class ToDoRepository {
-    private Map<Long, ToDoDto> store = new HashMap<>();
-    private static long sequence = 0L;
-    public ToDoDto save(ToDoDto toDo){
-        toDo.setId(++sequence);
-        store.put(toDo.getId(), toDo);
-        return toDo;
+    private final EntityManager em;
+    public void save(ToDo toDo){
+        em.persist(toDo);
     }
-    public ToDoDto findById(Long id){
-        return  store.get(id);
+    public ToDo findOne(Long id){
+        return em.find(ToDo.class, id);
     }
-    public List<ToDoDto> findByDate(Integer year, Integer month, Integer day){
-        return findAll().stream()
-                .filter(t -> t.getYear().equals(year) &&
-                        t.getMonth().equals(month) &&
-                        t.getDay().equals(day) &&
-                        !t.getStatus().equals("deleted"))
-                .collect(Collectors.toList());
+
+    public List<ToDo> findAll(){
+        return em.createQuery("select t from ToDo t", ToDo.class)
+                .getResultList();
     }
-    public List<ToDoDto> findAll(){
-        return new ArrayList<>(store.values());
+
+    public List<ToDo> findByDate(MyDate myDate){
+        return em.createQuery("select t from ToDo t where t.myDate = myDate", ToDo.class)
+                .getResultList();
     }
-    public void clearStore(){
-        store.clear();
+
+    public void remove(Long id){
+        em.remove(findOne(id));
     }
 }

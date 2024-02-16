@@ -1,7 +1,7 @@
 package com.example.demo.controller.calendar;
 
-import com.example.demo.domain.calendar.WeekDto;
-import com.example.demo.domain.calendar.YearMonthDto;
+import com.example.demo.service.calendar.WeekDto;
+import com.example.demo.service.calendar.YearMonthDto;
 import com.example.demo.service.calendar.CalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

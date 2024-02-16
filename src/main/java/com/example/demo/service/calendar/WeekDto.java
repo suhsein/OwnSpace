@@ -1,15 +1,12 @@
-package com.example.demo.domain.calendar;
+package com.example.demo.service.calendar;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
+@Getter @Setter
 public class WeekDto {
     List<WeekDayDto> week = new ArrayList<>();
 }
