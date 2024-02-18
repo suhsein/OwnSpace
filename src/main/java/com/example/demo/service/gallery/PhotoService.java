@@ -82,18 +82,6 @@ public class PhotoService {
     public void remove(Long photoId){
         photoRepository.remove(photoId);
     }
-    @Transactional
-    public void removeFiles(Photo photo){
-        List<AwsS3> awsS3List = photo.getAwsS3List();
-        for (AwsS3 awsS3 : awsS3List) {
-            removeFile(awsS3);
-        }
-    }
-
-    @Transactional
-    public void removeFile(AwsS3 awsS3){
-        awsS3Service.remove(awsS3);
-    }
 
     /**
      * VALIDATION

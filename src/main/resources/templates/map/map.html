@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{/fragment/head :: common_head(title=~{::title})}">
-    <meta charset="UTF-8">
+<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
     <title>지도</title>
     <link rel="stylesheet" href="/css/map.css" th:href="@{/css/map.css}">
 </head>

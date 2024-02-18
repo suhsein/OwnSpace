@@ -5,8 +5,8 @@ const $map = document.getElementById('map');
 const $mapSearchInput = document.getElementById("mapSearchInput");
 const $mapSearch = document.getElementById('mapSearch');
 
-let $toDoPlace = document.getElementById('toDoPlace');
-// $toDoPlace 유무로 map 메뉴와 modal map 구분
+let $place = document.getElementById('place');
+// $place 유무로 map 메뉴와 modal map 구분
 
 
 /**
@@ -125,12 +125,12 @@ function displayPlaces(places) {
             };
 
             // 모달창에서 사용하는 경우에만 장소 input에 클릭된 장소명을 입력
-            if($toDoPlace !== null){
+            if($place !== null){
                 kakao.maps.event.addListener(marker, 'click', function(mouseEvent) {
-                    $toDoPlace.value = title;
+                    $place.value = title;
                 });
                 itemEl.onclick = function (){
-                    $toDoPlace.value = title;
+                    $place.value = title;
                 }
             }
         })(marker, places[i].place_name);
@@ -165,7 +165,7 @@ function getListItem(index, places) {
     $el.className = 'item';
 
     // map 메뉴에서 사용하는 경우에만, 클릭 시 copy 함수를 실행하도록 함
-    if($toDoPlace === null){
+    if($place === null){
         $el.querySelector('.place_name').addEventListener('click', () => copy(this, `장소명`));
         if (places.road_address_name) {
             $el.querySelector('.road_address_name').addEventListener('click', () => copy(this, `도로명 주소`));

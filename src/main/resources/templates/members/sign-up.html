@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:insert="~{/fragment/head :: common_head(title=~{::title})}">
-    <meta charset="UTF-8">
+<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
     <title>회원가입</title>
+    <link rel="stylesheet" href="">
 </head>
 <body>
 <div class="container" style="max-width: 600px">

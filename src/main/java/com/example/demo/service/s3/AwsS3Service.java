@@ -62,14 +62,17 @@ public class AwsS3Service {
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 
+    // 단일 삭제
     @Transactional
     public void remove(AwsS3 awsS3){
-        amazonS3.deleteObject(bucket, awsS3.getS3Key());
-        awsS3Repository.remove(awsS3.getId());
         if(!amazonS3.doesObjectExist(bucket, awsS3.getS3Key())){
             throw new AmazonS3Exception("Object" + awsS3.getS3Key() + "does not Exist");
         }
+        amazonS3.deleteObject(bucket, awsS3.getS3Key());
+        awsS3Repository.remove(awsS3.getId());
     }
+
+    // ids 리스트에 있는 엔티티 모두 삭제
     @Transactional
     public void removeAll(List<Long> ids){
         awsS3Repository.removeAll(ids);

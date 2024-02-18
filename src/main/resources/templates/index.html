@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{/fragment/head :: common_head(title=~{::title})}">
+<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
     <title>게시판 메인</title>
-    <meta charset="UTF-8">
+    <link rel="stylesheet" href="">
 </head>
 <body>
 <div class="container" style="max-width: 50%">

@@ -2,11 +2,13 @@ package com.example.demo.service.calendar;
 
 import com.example.demo.domain.calendar.MyDate;
 import com.example.demo.domain.calendar.ToDo;
+import com.example.demo.domain.calendar.ToDoStatus;
 import com.example.demo.repository.calendar.ToDoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -28,12 +30,28 @@ public class ToDoService {
         return toDoRepository.findAll();
     }
 
-    public List<ToDo> findByDate(MyDate myDate) {
+    public List<ToDo> findByDate(int year, int month, int day) {
+        MyDate myDate = MyDate.builder()
+                        .year(year)
+                        .month(month)
+                        .day(day).build();
         return toDoRepository.findByDate(myDate);
     }
 
     @Transactional
     public void remove(Long toDoId){
         toDoRepository.remove(toDoId);
+    }
+
+    @Transactional
+    public void makeCompleted(Long toDoId){
+        ToDo toDo = findOne(toDoId);
+        toDo.setStatus(ToDoStatus.COMPLETED);
+    }
+
+    @Transactional
+    public void makeActive(Long toDoId){
+        ToDo toDo = findOne(toDoId);
+        toDo.setStatus(ToDoStatus.ACTIVE);
     }
 }

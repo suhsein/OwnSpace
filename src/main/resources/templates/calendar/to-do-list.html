@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:insert="~{/fragment/head :: common_head(title=~{::title})}">
+<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
     <meta charset="UTF-8">
     <title>일정목록</title>
+    <link rel="stylesheet" href="">
 </head>
 <body>
 <div th:replace="~{fragment/navigation :: navigation ('calendar')}"></div>
@@ -23,19 +24,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:each="schedule, i : ${toDoList}" th:class="${schedule.status == 'COMPLETED'} ? 'table-secondary'">
+            <tr th:each="schedule, i : ${toDoList}" th:class="${schedule.status.toString().equals('COMPLETED')} ? 'table-secondary'">
                 <td th:text="${i.count}"></td>
                 <td th:text="${schedule.title}"></td>
                 <td th:text="${schedule.place}"></td>
                 <td th:text="${schedule.time}" ></td>
                 <td th:text="${schedule.description}" ></td>
                 <td>
-                    <button th:if="${schedule.status == 'COMPLETED'}" class="btn btn-secondary"
-                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/ACTIVE/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">활성화</button>
-                    <button th:if="${schedule.status == 'ACTIVE'}" class="btn btn-success"
-                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/COMPLETED/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">완료</button></td>
-                <td><button class="btn btn-danger"
-                            th:onclick="|location.href='@{/toDo/{year}/{month}/{day}/DELETE/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}'|">삭제</button></td>
+                    <a th:if="${schedule.status.toString().equals('COMPLETED')}" class="btn btn-secondary"
+                       href="#" th:href="@{/toDo/{year}/{month}/{day}/active/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}">활성화</a>
+                    <a th:if="${schedule.status.toString().equals('ACTIVE')}" class="btn btn-success"
+                       href="#" th:href="@{/toDo/{year}/{month}/{day}/completed/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}">완료</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" href="#"
+                       th:href="@{/toDo/{year}/{month}/{day}/delete/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}">삭제</a>
+                </td>
             </tr>
           </tbody>
       </table>

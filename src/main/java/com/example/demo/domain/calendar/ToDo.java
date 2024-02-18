@@ -5,8 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @Entity
@@ -23,7 +24,10 @@ public class ToDo {
     private String title;
 
     private String place;
-    private LocalDate time;
+
+    @DateTimeFormat(pattern = "hh:mm")
+    private LocalTime time;
+
     @Lob
     private String description;
 
@@ -31,7 +35,7 @@ public class ToDo {
     private ToDoStatus status;
 
     @Builder
-    public ToDo(MyDate myDate, String title, String place, LocalDate time, String description, ToDoStatus status) {
+    public ToDo(MyDate myDate, String title, String place, LocalTime time, String description, ToDoStatus status) {
         this.myDate = myDate;
         this.title = title;
         this.place = place;

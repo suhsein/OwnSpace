@@ -1,15 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<head th:fragment="common_head">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_head(title, links)">
+    <title th:replace="${title}"></title>
     <link rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" href="/css/custom.css" th:href="@{/css/custom.css}">
     <script src="https://kit.fontawesome.com/3efb5e8bfa.js" crossorigin="anonymous"></script>
+    <th:block th:replace="${links}"></th:block>
 </head>
-
-</body>
-</html>

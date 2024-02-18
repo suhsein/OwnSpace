@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:insert="~{/fragment/head :: common_head(title=~{::title})}">
-    <meta charset="UTF-8">
+<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::script})}">
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>

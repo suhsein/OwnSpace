@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{/fragment/head :: common_head(title=~{::title})}">
-    <meta charset="UTF-8">
+<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::script})}">
     <title>갤러리 사진 추가</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>

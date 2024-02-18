@@ -6,11 +6,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,7 +25,10 @@ public class ToDoRepository {
     }
 
     public List<ToDo> findByDate(MyDate myDate){
-        return em.createQuery("select t from ToDo t where t.myDate = myDate", ToDo.class)
+        return em.createQuery("select t from ToDo t where t.myDate.year = :year and t.myDate.month = :month and t.myDate.day = :day", ToDo.class)
+                .setParameter("year", myDate.getYear())
+                .setParameter("month", myDate.getMonth())
+                .setParameter("day", myDate.getDay())
                 .getResultList();
     }
 

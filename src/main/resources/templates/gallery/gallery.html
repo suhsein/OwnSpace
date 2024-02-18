@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{/fragment/head :: common_head(title=~{::title})}">
-    <meta charset="UTF-8">
+<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
     <title>갤러리</title>
     <link rel="stylesheet" href="/css/gallery.css" th:href="@{/css/gallery.css}">
 </head>

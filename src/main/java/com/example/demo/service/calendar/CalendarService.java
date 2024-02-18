@@ -1,8 +1,7 @@
 package com.example.demo.service.calendar;
 
-import com.example.demo.domain.calendar.MyDate;
-import com.example.demo.repository.calendar.ToDoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,9 +12,10 @@ import java.util.List;
  * 캘린더 틀에 넣을 날짜 데이터를 저장
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CalendarService {
-    private final ToDoRepository toDoRepository;
+    private final ToDoService toDoService;
 
     public List<WeekDto> makeCalendar(int year, int month){
         LocalDate curDate = LocalDate.of(year, month, 1); // 해당 달력
@@ -30,21 +30,20 @@ public class CalendarService {
             weekDate.add(new WeekDayDto(0, 0));
         }
         for (int i = 1; i <= lengthOfMonth; i++, cnt++) {
-            MyDate myDate = MyDate.builder()
-                                .year(year)
-                                .month(month).
-                                day(i).build();
-            weekDate.add(new WeekDayDto(i, toDoRepository.findByDate(myDate).size()));
-            addWeek(weeks, weekDate);
+            weekDate.add(new WeekDayDto(i, toDoService.findByDate(year, month, i).size()));
+            if(weekDate.size() == 7) {
+                addWeek(weeks, weekDate);
+            }
         }
-        int calSize = (day ==0 && lengthOfMonth == 28) ? 28 : 35;
+        int calSize = (day == 0 && lengthOfMonth == 28) ? 28 : 35;
         int lastDays =  calSize - cnt;
 
         for (int i = 0; i < lastDays; i++) {
             weekDate.add(new WeekDayDto(0, 0));
-            addWeek(weeks, weekDate);
+            if(weekDate.size() == 7) {
+                addWeek(weeks, weekDate);
+            }
         }
-
         return weeks;
     }
 
@@ -75,12 +74,11 @@ public class CalendarService {
     }
 
     private static void addWeek(List<WeekDto> weeks, List<WeekDayDto> weekDate) {
-        if(weekDate.size() == 7) {
-            List<WeekDayDto> copy = new ArrayList<>();
-            copy.addAll(weekDate);
-            WeekDto week = new WeekDto();
-            week.setWeek(copy);
-            weeks.add(week);
-        }
+        List<WeekDayDto> copy = new ArrayList<>();
+        copy.addAll(weekDate);
+        WeekDto week = new WeekDto();
+        week.setWeek(copy);
+        weeks.add(week);
+        weekDate.clear();
     }
 }
