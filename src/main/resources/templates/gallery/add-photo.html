@@ -15,8 +15,8 @@
         <div id="fileList" class="mt-2"></div>
         <label for="title">제목</label>
         <input type="text" id="title" th:field="*{title}" class="form-control">
-        <label for="description">설명</label>
-        <textarea id="description" th:field="*{description}" cols="30" rows="10" class="form-control"></textarea>
+        <label for="content">내용</label>
+        <textarea id="content" th:field="*{content}" cols="30" rows="10" class="form-control"></textarea>
 
         <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}"
              class="field-error row mb-2 ms-2">글로벌 오류 메세지</div>

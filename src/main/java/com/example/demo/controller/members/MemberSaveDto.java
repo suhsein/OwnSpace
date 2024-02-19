@@ -1,4 +1,4 @@
-package com.example.demo.domain.members;
+package com.example.demo.controller.members;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

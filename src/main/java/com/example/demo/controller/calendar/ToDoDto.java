@@ -1,4 +1,4 @@
-package com.example.demo.domain.calendar;
+package com.example.demo.controller.calendar;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

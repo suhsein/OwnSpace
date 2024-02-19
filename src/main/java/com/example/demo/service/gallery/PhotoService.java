@@ -1,5 +1,6 @@
 package com.example.demo.service.gallery;
 
+import com.example.demo.controller.gallery.PhotoDto;
 import com.example.demo.domain.s3.AwsS3;
 import com.example.demo.service.s3.AwsS3Service;
 import com.example.demo.domain.gallery.Photo;
@@ -61,7 +62,7 @@ public class PhotoService {
                           List<Long> deleteFilesId) throws IOException {
         Photo photo = photoRepository.findOne(id);
         photo.setTitle(form.getTitle());
-        photo.setDescription(form.getDescription());
+        photo.setContent(form.getContent());
         List<AwsS3> awsS3List = photo.getAwsS3List(); // original awsS3List
 
         if(!checkNull(imageFiles)){

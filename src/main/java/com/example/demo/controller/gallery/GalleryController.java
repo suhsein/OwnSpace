@@ -2,8 +2,6 @@ package com.example.demo.controller.gallery;
 
 import com.example.demo.domain.s3.AwsS3;
 import com.example.demo.domain.gallery.Photo;
-import com.example.demo.service.gallery.PhotoDto;
-import com.example.demo.repository.gallery.PhotoRepository;
 import com.example.demo.service.gallery.PhotoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +31,7 @@ public class GalleryController {
     }
 
     /**
+     *
      * CREATE
      */
     @GetMapping("/addPhoto")
@@ -54,7 +53,7 @@ public class GalleryController {
 
         Photo photo = Photo.builder()
                 .title(form.getTitle())
-                .description(form.getDescription())
+                .content(form.getContent())
                 .awsS3List(awsS3List).build();
 
         photoService.save(photo);
@@ -68,6 +67,8 @@ public class GalleryController {
     @GetMapping("/photoView/{id}")
     public String photoView(@PathVariable("id") Long id, Model model) {
         Photo photo = photoService.findOne(id);
+        photo.setContent(photo.getContent().replace("\r\n","<br>"));
+        // 출력 시에 \r\n을 <br>로 바꿔서 출력. 타임리프 unescaped text 로 출력
         model.addAttribute("photo", photo);
         return "/gallery/photo-view";
     }
@@ -81,7 +82,7 @@ public class GalleryController {
         Photo photo = photoService.findOne(id);
         PhotoDto form = new PhotoDto();
         form.setTitle(photo.getTitle());
-        form.setDescription(photo.getDescription());
+        form.setContent(photo.getContent());
         model.addAttribute("form", form);
         return "/gallery/edit-photo";
     }

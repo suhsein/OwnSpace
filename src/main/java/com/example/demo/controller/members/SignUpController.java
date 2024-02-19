@@ -1,11 +1,8 @@
 package com.example.demo.controller.members;
 
 import com.example.demo.domain.members.Member;
-import com.example.demo.repository.members.MemberRepository;
-import com.example.demo.domain.members.MemberSaveDto;
 import com.example.demo.service.members.MemberService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;

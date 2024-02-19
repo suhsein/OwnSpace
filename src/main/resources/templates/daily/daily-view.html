@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
+    <title>일상</title>
+    <link rel="stylesheet" href="">
+</head>
+<body>
+<div th:replace="~{fragment/navigation :: navigation ('daily')}"></div>
+<div class="container mb-5" style="max-width: 80%">
+    <h5 class="mt-3 fw-bold me-5 mb-3">게시물 상세 보기</h5>
+    <hr>
+    <h4 class="fw-bold me-5" th:text="${daily.title}"></h4>
+    <div th:text="'작성자 ' + ${daily.writer} + '  |  게시일 ' + ${#temporals.format(daily.createDate, 'yyyy.MM.dd HH:mm:ss')} +
+    '  |  조회수 ' + ${daily.views}"
+        style="font-size:0.8rem"></div>
+    <hr>
+    <div th:utext="${daily.content}"></div>
+    <hr>
+    <div class="ps-3">
+        <button class="btn btn-primary" th:onclick="|location.href='@{/daily/edit/{id}(id=${daily.id})}'|">수정하기</button>
+        <button class="btn btn-secondary" th:onclick="|location.href='@{/daily/delete/{id}(id=${daily.id})}'|">삭제하기</button>
+    </div>
+</div>
+<footer th:replace="~{/fragment/footer :: footer}"></footer>
+<script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
+</body>
+</html>

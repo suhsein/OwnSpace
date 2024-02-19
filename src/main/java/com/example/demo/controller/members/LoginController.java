@@ -2,7 +2,6 @@ package com.example.demo.controller.members;
 
 import com.example.demo.service.members.LoginService;
 import com.example.demo.domain.members.Member;
-import com.example.demo.domain.members.MemberDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;

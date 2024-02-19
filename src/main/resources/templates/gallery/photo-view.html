@@ -9,20 +9,23 @@
 <div class="container mb-5" style="max-width: 80%">
     <h5 class="mt-3 fw-bold me-5 mb-3">이미지 상세 보기</h5>
     <hr>
-    <h2 class="fw-bold me-5" th:text="${photo.title}"></h2>
+    <h4 class="fw-bold me-5 ms-3" th:text="${photo.title}"></h4>
     <hr>
     <div class="row mt-5">
         <div class="col col-lg-7">
             <img th:each="awsS3 : ${photo.awsS3List}" th:src="${awsS3.path}"
                  style="max-width:100%; height:auto;">
         </div>
-        <div class="col col-lg-4 ms-5" style="border-radius: 10px; border: 1px solid rgba(0,0,0,0.2);  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);  ">
-            <h5 class="mt-2">Description</h5>
-            <hr>
-            <div th:text="${photo.description}"></div>
-            <div>
-                <button class="btn btn-primary" th:onclick="|location.href='@{/gallery/edit/{id}(id=${photo.id})}'|">수정하기</button>
-                <button class="btn btn-secondary" th:onclick="|location.href='@{/gallery/delete/{id}(id=${photo.id})}'|">삭제하기</button>
+        <div class="col col-lg-4 ms-5">
+            <div class="description-box pb-2">
+                <h5 class="mt-2 ps-3 fw-bold">Description</h5>
+                <hr>
+                <div th:utext="${photo.content}" class="ps-3 pb-2"></div>
+                <hr>
+                <div class="ps-3">
+                    <button class="btn btn-primary" th:onclick="|location.href='@{/gallery/edit/{id}(id=${photo.id})}'|">수정하기</button>
+                    <button class="btn btn-secondary" th:onclick="|location.href='@{/gallery/delete/{id}(id=${photo.id})}'|">삭제하기</button>
+                </div>
             </div>
         </div>
     </div>

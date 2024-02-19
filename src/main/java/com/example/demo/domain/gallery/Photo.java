@@ -21,7 +21,7 @@ public class Photo {
     private List<AwsS3> awsS3List = new ArrayList<>();
     private String title;
     @Lob
-    private String description;
+    private String content;
 
     // == 연관관계 편의 메서드 == //
     public void addAwsS3(AwsS3 awsS3){
@@ -31,10 +31,10 @@ public class Photo {
 
     // == 생성 메서드 == //
     @Builder
-    public static Photo createPhoto(String title, String description, List<AwsS3> awsS3List){
+    public static Photo createPhoto(String title, String content, List<AwsS3> awsS3List){
         Photo photo = new Photo();
         photo.setTitle(title);
-        photo.setDescription(description);
+        photo.setContent(content);
         for (AwsS3 awsS3 : awsS3List) {
             photo.addAwsS3(awsS3);
         }
