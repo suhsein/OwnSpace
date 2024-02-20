@@ -27,7 +27,7 @@ public class DemoApplication {
 	public void initData(){
 		for (int i = 0; i < 20; i++) {
 			dailyService.save(Daily.builder()
-					.writer("익명")
+					.writer(null)
 					.title("제목")
 					.content("내용")
 					.createDate(LocalDateTime.now())

@@ -13,23 +13,30 @@ import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
-public class Daily {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "daily_id")
+public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member writer;
 
-    @OneToMany(mappedBy = "daily", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties({"daily"})
-    private List<Comment> commentList;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "daily_id")
+    private Daily daily;
 
-    private String title;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "parent_id") // 주의 - 자기 자신을 참조하게 되는 경우 join column 명은 id의 column 명과 달라야 함
+    private Comment parent;
+
+    @OneToMany(mappedBy = "parent")
+    @JsonIgnoreProperties({"parent"})
+    private List<Comment> child;
 
     @Lob
     private String content;
@@ -39,14 +46,11 @@ public class Daily {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateDate;
 
-    private Long views;
-
     @Builder
-    public Daily(Member writer, String title, String content, LocalDateTime createDate, Long views) {
+    public Comment(Member writer, LocalDateTime createDate, Daily daily, String content) {
         this.writer = writer;
-        this.title = title;
-        this.content = content;
         this.createDate = createDate;
-        this.views = views;
+        this.daily = daily;
+        this.content = content;
     }
 }

@@ -27,17 +27,19 @@
     <tr>
       <th scope="col" class="col-1">#</th>
       <th scope="col" class="text-start">제목</th>
+      <th scope="col" class="col-1">작성자</th>
       <th scope="col" class="col-2">날짜</th>
       <th scope="col" class="col-1">조회수</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="daily : ${dailyPages}">
-      <td class="col-1" th:text="${daily.id}" th:onclick="|location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|">1</td>
-      <td class="text-start" th:text="${daily.title}" th:onclick="|location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|">안뇽</td>
-      <td class="col-1" th:text="${#temporals.format(daily.createDate, 'yyyy.MM.dd HH:mm:ss')}" th:onclick="|location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|"
+    <tr th:each="daily : ${dailyPages}" th:onclick="|location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|">
+      <td class="col-1" th:text="${daily.id}">1</td>
+      <td class="text-start" th:text="${daily.title}">안뇽</td>
+      <td th:text="${daily.writer == null ? '익명' : daily.writer.username}">ㅇㅇ</td>
+      <td class="col-1" th:text="${#temporals.format(daily.createDate, 'yyyy.MM.dd HH:mm:ss')}"
         style="font-size: 0.8rem">01/21</td>
-      <td class="col-1" th:text="${daily.views}" th:onclick="|location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|">1</td>
+      <td class="col-1" th:text="${daily.views}">1</td>
     </tr>
     </tbody>
   </table>
@@ -48,7 +50,7 @@
       <li class="page-item" th:classappend="${dailyPages.first}?'disabled':_">
         <a class="page-link" th:href="@{/daily(page=${dailyPages.number})}">이전</a></li>
       <!-- page 번호 목록을 동적으로 추가. 현재 페이지의 앞뒤로 최대 5만큼만 번호 추가 -->
-      <li th:each="page : ${#numbers.sequence(1, dailyPages.totalPagegs)}"
+      <li th:each="page : ${#numbers.sequence(1, dailyPages.totalPages)}"
           th:if="${page >= dailyPages.number - 5 and page <= dailyPages.number + 5}"
           th:classappend="${page == dailyPages.number + 1} ? 'active'"
           class="page-item">

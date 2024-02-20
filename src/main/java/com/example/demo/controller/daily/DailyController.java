@@ -1,11 +1,14 @@
 package com.example.demo.controller.daily;
 
+import com.example.demo.domain.daily.Comment;
 import com.example.demo.domain.daily.Daily;
 import com.example.demo.domain.members.Member;
+import com.example.demo.service.daily.CommentService;
 import com.example.demo.service.daily.DailyService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,8 +26,10 @@ import java.time.LocalDateTime;
 @Controller
 @RequestMapping("/daily")
 @RequiredArgsConstructor
+@Slf4j
 public class DailyController {
     private final DailyService dailyService;
+    private final CommentService commentService;
 
     @GetMapping
     public String daily(@PageableDefault(size = 3, sort="id",
@@ -52,7 +57,7 @@ public class DailyController {
         Member loginMember = (Member) session.getAttribute("loginMember");
 
         Daily daily = Daily.builder()
-                .writer(loginMember == null ? "익명" : loginMember.getUsername())
+                .writer(loginMember == null ? null : loginMember)
                 .title(form.getTitle())
                 .content(form.getContent())
                 .createDate(LocalDateTime.now())
@@ -65,13 +70,39 @@ public class DailyController {
     }
 
     @GetMapping("/dailyView/{id}")
-    public String dailyView(@PathVariable("id") Long id, Model model){
+    public String dailyView(@PathVariable("id") Long id,
+                            @ModelAttribute("commentForm") CommentDto commentDto,
+                            Model model){
         dailyService.increaseView(id);
         Daily daily = dailyService.findOne(id).get();
         daily.setContent(daily.getContent().replace("\r\n", "<br>"));
         // 출력 시에 \r\n을 <br>로 바꿔서 출력. 타임리프 unescaped text 로 출력
         model.addAttribute("daily", daily);
         return "daily/daily-view";
+    }
+
+    @PostMapping("/addComment/{id}")
+    public String createComment(@PathVariable("id") Long id,
+                               @ModelAttribute("commentForm") CommentDto commentDto,
+                               HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        Member loginMember = (Member) session.getAttribute("loginMember");
+
+        Comment comment = Comment.builder()
+                .writer(loginMember == null ? null : loginMember)
+                .createDate(LocalDateTime.now())
+                .content(commentDto.getContent()).build();
+
+        commentService.save(dailyService.findOne(id).get(), comment);
+        return "redirect:/daily/dailyView/{id}";
+    }
+
+    @GetMapping("/deleteComment/{id}/{commentId}")
+    public String deleteComment(@PathVariable("id") Long id,
+                                @PathVariable("commentId") Long commentId) {
+        commentService.remove(commentId);
+        return "redirect:/daily/dailyView/{id}";
     }
 
     @GetMapping("/edit/{id}")
@@ -86,17 +117,13 @@ public class DailyController {
     @PostMapping("/edit/{id}")
     public String editForm(@Validated @ModelAttribute("form") DailyDto form,
                            BindingResult bindingResult,
-                           @PathVariable("id") Long id,
-                           RedirectAttributes redirectAttributes){
+                           @PathVariable("id") Long id){
         if (!StringUtils.hasText(form.getTitle())) {
             bindingResult.reject("noTitle");
             return "/daily/edit-post";
         }
 
-        dailyService.editDaily(id, form);
-        Daily daily = dailyService.findOne(id).get();
-
-        redirectAttributes.addFlashAttribute("daily", daily);
+        dailyService.editDaily(id, form, LocalDateTime.now());
         return "redirect:/daily/dailyView/{id}";
     }
 

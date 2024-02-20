@@ -5,12 +5,11 @@ import com.example.demo.domain.daily.Daily;
 import com.example.demo.repository.daily.DailyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +38,8 @@ public class DailyService {
     }
 
     @Transactional
-    public void editDaily(Long id, DailyDto form){
-        dailyRepository.updateDailyById(id, form);
+    public void editDaily(Long id, DailyDto form, LocalDateTime updateDate){
+        dailyRepository.updateDailyById(id, form, updateDate);
     }
 
     @Transactional

@@ -1,9 +1,12 @@
 package com.example.demo.domain.members;
 
+import com.example.demo.domain.daily.Daily;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -17,6 +20,9 @@ public class Member {
     private String password;
     private String username;
     private String email;
+
+    @OneToMany(mappedBy = "writer")
+    private List<Daily> dailyList;
 
     @Builder
     public Member(String userId, String password, String username, String email) {

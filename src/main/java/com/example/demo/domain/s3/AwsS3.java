@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import static jakarta.persistence.FetchType.*;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -21,7 +23,7 @@ public class AwsS3 {
     @Lob
     private String path;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "photo_id")
     private Photo photo;
 

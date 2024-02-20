@@ -8,10 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+
 
 @Repository
 public interface DailyRepository extends JpaRepository<Daily, Long> {
     @Modifying
-    @Query("update Daily d set d.title = :#{#form.title}, d.content = :#{#form.content} where d.id = :id")
-    int updateDailyById(@Param("id") Long id, @Param("form") DailyDto form);
+    @Query("update Daily d set d.title = :#{#form.title}, d.content = :#{#form.content}, d.updateDate = :#{#updateDate} where d.id = :id")
+    int updateDailyById(@Param("id") Long id,
+                        @Param("form") DailyDto form,
+                        @Param("updateDate") LocalDateTime updateDate);
 }
