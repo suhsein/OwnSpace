@@ -21,6 +21,27 @@
     width: 100%;
 }
 
+.page-link {
+    color: #26755d;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    font-weight:bold;
+    background-color: #55dcaa;
+    border-color: #55dcaa;
+
+}
+
+.page-link:focus, .page-link:hover {
+    color: #41cba2;
+    background-color: #fafafa;
+    border-color: #9bece3;
+}
+
 .table-seablue{--bs-table-color:#000;--bs-table-bg: #9bece3;--bs-table-border-color: #ffffff;--bs-table-striped-bg:#41cba2;
     --bs-table-striped-color:#000;--bs-table-active-bg:#9bece3;--bs-table-active-color:#000;--bs-table-hover-bg:#9bece3;
     --bs-table-hover-color:#000;color:var(--bs-table-color);border-color:var(--bs-table-border-color)}

@@ -4,10 +4,13 @@ import com.example.demo.controller.daily.DailyDto;
 import com.example.demo.domain.daily.Daily;
 import com.example.demo.repository.daily.DailyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +31,11 @@ public class DailyService {
 
     public List<Daily> findAll(){
         return dailyRepository.findAll();
+    }
+
+    public Page<Daily> paging(Pageable pageable){
+        Page<Daily> dailyPages = dailyRepository.findAll(pageable);
+        return dailyPages;
     }
 
     @Transactional

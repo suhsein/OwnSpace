@@ -6,6 +6,10 @@ import com.example.demo.service.daily.DailyService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -15,17 +19,19 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
 @RequestMapping("/daily")
 @RequiredArgsConstructor
 public class DailyController {
     private final DailyService dailyService;
+
     @GetMapping
-    public String daily(Model model) {
-        List<Daily> dailyList = dailyService.findAll();
-        model.addAttribute("dailyList", dailyList);
+    public String daily(@PageableDefault(size = 3, sort="id",
+                        direction = Sort.Direction.DESC) Pageable pageable,
+                        Model model) { // paging id 기준 내림차 정렬(default 오름차)
+        Page<Daily> dailyPages = dailyService.paging(pageable);
+        model.addAttribute("dailyPages", dailyPages);
         return "daily/daily";
     }
 

@@ -32,7 +32,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="daily : ${dailyList}">
+    <tr th:each="daily : ${dailyPages}">
       <td class="col-1" th:text="${daily.id}" th:onclick="|location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|">1</td>
       <td class="text-start" th:text="${daily.title}" th:onclick="|location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|">안뇽</td>
       <td class="col-1" th:text="${#temporals.format(daily.createDate, 'yyyy.MM.dd HH:mm:ss')}" th:onclick="|location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|"
@@ -41,6 +41,24 @@
     </tr>
     </tbody>
   </table>
+  <nav>
+    <ul class="pagination justify-content-center">
+      <li class="page-item"><a class="page-link" th:href="@{/daily(page=1)}">&laquo;</a></li>
+      <!-- 이전페이지 = number / 현재페이지 number+1 / 다음페이지 number+2 -->
+      <li class="page-item" th:classappend="${dailyPages.first}?'disabled':_">
+        <a class="page-link" th:href="@{/daily(page=${dailyPages.number})}">이전</a></li>
+      <!-- page 번호 목록을 동적으로 추가. 현재 페이지의 앞뒤로 최대 5만큼만 번호 추가 -->
+      <li th:each="page : ${#numbers.sequence(1, dailyPages.totalPagegs)}"
+          th:if="${page >= dailyPages.number - 5 and page <= dailyPages.number + 5}"
+          th:classappend="${page == dailyPages.number + 1} ? 'active'"
+          class="page-item">
+        <a th:text="${page}" class="page-link" th:href="@{/daily(page=${page})}"></a>
+      </li>
+      <li class="page-item" th:classappend="${dailyPages.last}?'disabled':_">
+        <a class="page-link" th:href="@{/daily(page=${dailyPages.number + 2})}">다음</a></li>
+      <li class="page-item"><a class="page-link" th:href="@{/daily(page=${dailyPages.totalPages == 0 ? 1 : dailyPages.totalPages})}">&raquo;</a></li>
+    </ul>
+  </nav>
 </div>
 <footer th:replace="~{/fragment/footer :: footer}"></footer>
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>

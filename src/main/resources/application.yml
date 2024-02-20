@@ -27,6 +27,10 @@ spring:
     multipart:
       maxFileSize: 15MB # 파일 하나의 최대 크기
       maxRequestSize: 30MB  # 한 번에 최대 업로드 가능 용량
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true # 페이징 인덱스 1번부터 시작하도록 함 (적용 시에 -1 해줌)
 
 jasypt:
   encryptor:
