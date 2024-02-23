@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org"/>
+<th:block th:fragment="comment-list">
+    <div th:each="comment : ${commentList}" th:style="${comment.parent != null ? 'margin-left:1rem' :_}">
+        <p th:if="${comment.parent != null}" style="float:left; margin-right:0.5rem"><i class="fa-solid fa-turn-up fa-rotate-90"></i></p>
+        <div>
+            <div style="font-size: 0.8rem" class="mb-1">
+                <span th:text="'작성자 ' + ${comment.writer == null ? '익명' : comment.writer.username}"></span>
+                <span th:text="'  |  게시일 ' + ${#temporals.format(comment.createDate, 'yyyy.MM.dd HH:mm:ss')}"></span>
+                <span th:if="${comment.updateDate != null}"
+                      th:text="'  |  최종수정일 ' + ${#temporals.format(comment.updateDate, 'yyyy.MM.dd HH:mm:ss')}"></span>
+                <div style="float:right">
+                    <button class="btn btn-primary"
+                            th:onclick="|location.href='@{/daily/editComment/{id}/{comment_id}(id=${id}, comment_id=${comment.id})}'|">
+                        modify
+                    </button>
+                    <button class="btn btn-secondary"
+                            th:onclick="|location.href='@{/daily/deleteComment/{id}/{comment_id}(id=${id}, comment_id=${comment.id})}'|">
+                        delete
+                    </button>
+                </div>
+            </div>
+            <p th:text="${comment.content}"></p>
+            <button class="btn btn-light reply_btn" th:id="|reply_btn_${comment.id}|"
+                    th:style="${comment.parent != null ? 'margin-left:1rem' :_}">↪reply</button>
+        </div>
+        <div th:id="|reply_box_${comment.id}|" style="display: none" class="mt-2">
+            <div class="card">
+                <div class="card-header">답글 입력</div>
+                <div class="card-body">
+                    <form th:action="@{/daily/addReply/{id}/{comment_id}(id=${id}, comment_id=${comment.id})}"
+                          th:object="${commentForm}" method="post">
+                        <textarea th:field="*{content}" cols="30" rows="5" class="form-control"></textarea>
+                        <button class="btn btn-primary mt-2" type="submit">submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr style="color:rgba(0,0,0,0.3)">
+        <th:block th:with="commentList = ${comment.childList}" th:insert="~{/fragment/comment-list :: comment-list/content()}"></th:block>
+    </div>
+</th:block>

@@ -29,6 +29,7 @@
       <th scope="col" class="text-start">제목</th>
       <th scope="col" class="col-1">작성자</th>
       <th scope="col" class="col-2">날짜</th>
+      <th scope="col" class="col-1">댓글수</th>
       <th scope="col" class="col-1">조회수</th>
     </tr>
     </thead>
@@ -39,6 +40,7 @@
       <td th:text="${daily.writer == null ? '익명' : daily.writer.username}">ㅇㅇ</td>
       <td class="col-1" th:text="${#temporals.format(daily.createDate, 'yyyy.MM.dd HH:mm:ss')}"
         style="font-size: 0.8rem">01/21</td>
+      <td class="col-1" th:text="${daily.commentList.size()}">0</td>
       <td class="col-1" th:text="${daily.views}">1</td>
     </tr>
     </tbody>

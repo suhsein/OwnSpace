@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,7 +23,7 @@ public class Member {
     private String email;
 
     @OneToMany(mappedBy = "writer")
-    private List<Daily> dailyList;
+    private List<Daily> dailyList = new ArrayList<>();
 
     @Builder
     public Member(String userId, String password, String username, String email) {

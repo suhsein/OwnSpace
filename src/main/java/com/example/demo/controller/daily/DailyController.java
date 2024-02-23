@@ -19,9 +19,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/daily")
@@ -78,6 +78,8 @@ public class DailyController {
         daily.setContent(daily.getContent().replace("\r\n", "<br>"));
         // 출력 시에 \r\n을 <br>로 바꿔서 출력. 타임리프 unescaped text 로 출력
         model.addAttribute("daily", daily);
+        List<Comment> commentList = commentService.findRootComments(daily.getId());
+        model.addAttribute("commentList", commentList);
         return "daily/daily-view";
     }
 
@@ -94,19 +96,61 @@ public class DailyController {
                 .createDate(LocalDateTime.now())
                 .content(commentDto.getContent()).build();
 
-        commentService.save(dailyService.findOne(id).get(), comment);
+        Daily daily = dailyService.findOne(id).get();
+        commentService.save(daily, comment);
+
         return "redirect:/daily/dailyView/{id}";
     }
 
-    @GetMapping("/deleteComment/{id}/{commentId}")
+    @PostMapping("/addReply/{id}/{comment_id}")
+    public String createReply(@PathVariable("id") Long id,
+                              @PathVariable("comment_id") Long commentId,
+                              @ModelAttribute("commentForm") CommentDto commentDto,
+                              HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member loginMember = (Member) session.getAttribute("loginMember");
+
+        Daily daily = dailyService.findOne(id).get();
+        Comment comment = commentService.findOne(commentId).get();
+
+        Comment reply = Comment.builder()
+                .writer(loginMember == null ? null : loginMember)
+                .createDate(LocalDateTime.now())
+                .content(commentDto.getContent()).build();
+
+        commentService.save(daily, comment, reply);
+        return "redirect:/daily/dailyView/{id}";
+    }
+
+    @GetMapping("/deleteComment/{id}/{comment_id}")
     public String deleteComment(@PathVariable("id") Long id,
-                                @PathVariable("commentId") Long commentId) {
+                                @PathVariable("comment_id") Long commentId) {
         commentService.remove(commentId);
         return "redirect:/daily/dailyView/{id}";
     }
 
+    @GetMapping("/editComment/{id}/{comment_id}")
+    public String editCommentForm(@PathVariable("id") Long id,
+                              @PathVariable("comment_id") Long commentId,
+                              @ModelAttribute("commentForm") CommentDto form,
+                              Model model){
+        Comment comment = commentService.findOne(commentId).get();
+        form.setContent(comment.getContent());
+        Daily daily = dailyService.findOne(id).get();
+        model.addAttribute("daily", daily);
+        return "daily/edit-comment";
+    }
+
+    @PostMapping("/editComment/{id}/{comment_id}")
+    public String editComment(@PathVariable("id") Long id,
+                              @PathVariable("comment_id") Long commentId,
+                              @ModelAttribute("commentForm") CommentDto form){
+        commentService.editComment(commentId, form, LocalDateTime.now());
+        return "redirect:/daily/dailyView/{id}";
+    }
+
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long id,
+    public String editForm(@PathVariable("id") Long id,
                        @ModelAttribute("form") DailyDto form) {
         Daily daily = dailyService.findOne(id).get();
         form.setTitle(daily.getTitle());
@@ -115,7 +159,7 @@ public class DailyController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editForm(@Validated @ModelAttribute("form") DailyDto form,
+    public String edit(@Validated @ModelAttribute("form") DailyDto form,
                            BindingResult bindingResult,
                            @PathVariable("id") Long id){
         if (!StringUtils.hasText(form.getTitle())) {

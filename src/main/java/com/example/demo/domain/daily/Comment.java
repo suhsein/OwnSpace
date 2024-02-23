@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -36,7 +37,7 @@ public class Comment {
 
     @OneToMany(mappedBy = "parent")
     @JsonIgnoreProperties({"parent"})
-    private List<Comment> child;
+    private List<Comment> childList = new ArrayList<>();
 
     @Lob
     private String content;
@@ -45,6 +46,11 @@ public class Comment {
     private LocalDateTime createDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateDate;
+
+    public void addChildComment(Comment child){
+        childList.add(child);
+        child.setParent(this);
+    }
 
     @Builder
     public Comment(Member writer, LocalDateTime createDate, Daily daily, String content) {
