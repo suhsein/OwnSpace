@@ -2,6 +2,7 @@ package com.example.demo.repository.daily;
 
 import com.example.demo.controller.daily.CommentDto;
 import com.example.demo.domain.daily.Comment;
+import com.example.demo.domain.daily.CommentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,4 +22,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("select c from Comment c join c.daily d where d.id = :dailyId and c.parent is null order by c.id")
     List<Comment> findRootComments(@Param("dailyId") Long dailyId);
+
+    Long countByDailyIdAndStatus(Long dailyId, CommentStatus status);
 }

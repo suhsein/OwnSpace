@@ -35,8 +35,7 @@ public class Comment {
     @JoinColumn(name = "parent_id") // 주의 - 자기 자신을 참조하게 되는 경우 join column 명은 id의 column 명과 달라야 함
     private Comment parent;
 
-    @OneToMany(mappedBy = "parent")
-    @JsonIgnoreProperties({"parent"})
+    @OneToMany(mappedBy = "parent", orphanRemoval = true)
     private List<Comment> childList = new ArrayList<>();
 
     @Lob
@@ -47,16 +46,20 @@ public class Comment {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateDate;
 
+    @Enumerated(EnumType.STRING)
+    private CommentStatus status;
+
     public void addChildComment(Comment child){
         childList.add(child);
         child.setParent(this);
     }
 
     @Builder
-    public Comment(Member writer, LocalDateTime createDate, Daily daily, String content) {
+    public Comment(Member writer, LocalDateTime createDate, Daily daily, String content, CommentStatus status) {
         this.writer = writer;
         this.createDate = createDate;
         this.daily = daily;
         this.content = content;
+        this.status = status;
     }
 }

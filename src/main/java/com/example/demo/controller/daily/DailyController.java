@@ -1,6 +1,7 @@
 package com.example.demo.controller.daily;
 
 import com.example.demo.domain.daily.Comment;
+import com.example.demo.domain.daily.CommentStatus;
 import com.example.demo.domain.daily.Daily;
 import com.example.demo.domain.members.Member;
 import com.example.demo.service.daily.CommentService;
@@ -80,6 +81,7 @@ public class DailyController {
         model.addAttribute("daily", daily);
         List<Comment> commentList = commentService.findRootComments(daily.getId());
         model.addAttribute("commentList", commentList);
+        model.addAttribute("activeCommentCount", commentService.activeCommentCount(id));
         return "daily/daily-view";
     }
 
@@ -94,7 +96,8 @@ public class DailyController {
         Comment comment = Comment.builder()
                 .writer(loginMember == null ? null : loginMember)
                 .createDate(LocalDateTime.now())
-                .content(commentDto.getContent()).build();
+                .content(commentDto.getContent())
+                .status(CommentStatus.CREATE).build();
 
         Daily daily = dailyService.findOne(id).get();
         commentService.save(daily, comment);
@@ -116,7 +119,8 @@ public class DailyController {
         Comment reply = Comment.builder()
                 .writer(loginMember == null ? null : loginMember)
                 .createDate(LocalDateTime.now())
-                .content(commentDto.getContent()).build();
+                .content(commentDto.getContent())
+                .status(CommentStatus.CREATE).build();
 
         commentService.save(daily, comment, reply);
         return "redirect:/daily/dailyView/{id}";

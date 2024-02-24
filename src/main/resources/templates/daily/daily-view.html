@@ -26,7 +26,7 @@
     <hr>
     <div class="card text-bg-light mb-3">
         <div class="card-body">
-            <h5 class="card-title" th:text="|댓글  ${daily.commentList.size()}개|">댓글</h5>
+            <h5 class="card-title" th:text="|댓글  ${activeCommentCount}개|">댓글</h5>
         </div>
     </div>
     <div th:replace="~{/fragment/comment-list :: comment-list}"></div>
