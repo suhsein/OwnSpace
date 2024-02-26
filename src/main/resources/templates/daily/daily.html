@@ -26,9 +26,9 @@
       <button class="btn btn-seablue" th:onclick="|location.href='@{/daily/addPost}'|">write</button>
     </div>
     <div class="col-10 d-flex justify-content-end pe-0">
-      <form th:action th:object="${dailySearch}" class="row" method="post">
+      <form th:action="@{/daily/search}" th:object="${dailySearch}" class="row" method="post">
         <div class="col-4 pe-0">
-          <select th:field="*{searchCode}"  class="form-select">
+          <select th:field="*{code}" class="form-select">
             <option th:each="searchCode : ${searchCodes}" th:value="${searchCode.code}"
                     th:text="${searchCode.displayName}">옵션</option>
           </select>
@@ -41,6 +41,10 @@
         </div>
       </form>
     </div>
+  </div>
+  <div th:if="${onSearch == true}" class="d-flex mt-2 justify-content-center">
+    <p th:if="${dailyPages.totalPages == 0}" th:utext="|<mark>${keyword}</mark>에 대한 검색 결과가 존재하지 않습니다.|"></p>
+    <p th:unless="${dailyPages.totalPages == 0}" th:utext="|<mark>${keyword}</mark>에 대한 검색 결과입니다.|"></p>
   </div>
   <table class="table mt-4 text-center tr-hover">
     <thead>
@@ -66,7 +70,7 @@
     </tr>
     </tbody>
   </table>
-  <nav>
+  <nav th:if="${dailyPages.totalPages != 0}">
     <ul class="pagination justify-content-center">
       <li class="page-item"><a class="page-link" th:href="@{/daily(page=1)}">&laquo;</a></li>
       <!-- 이전페이지 = number / 현재페이지 number+1 / 다음페이지 number+2 -->

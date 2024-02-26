@@ -38,13 +38,13 @@
     function loadFiles(files){
         const $fileList = document.getElementById('fileList');
         for (const file of files) {
-            const $item = document.createElement('div');
+            const $item = document.createElemenT(com.suhsein.ownspace.'div');
             const $fileName = document.createTextNode(file.originalName);
-            const $deleteButton = document.createElement('button');
+            const $deleteButton = document.createElemenT(com.suhsein.ownspace.'button');
             $deleteButton.addEventListener('click', (e) => {
                 $item.remove(); // html 태그 삭제
-                e.preventDefault(); // form 제출 방지
-                const $deleteItem = document.createElement('input');
+                e.preventDefaulT(com.suhsein.ownspace.); // form 제출 방지
+                const $deleteItem = document.createElemenT(com.suhsein.ownspace.'input');
                 $deleteItem.setAttribute('name', 'deleteFilesId'); // RequestParam 으로 받아서 사용하기 위함
                 $deleteItem.setAttribute('value', file.id);
                 $deleteItem.setAttribute('type', 'hidden');
@@ -61,12 +61,12 @@
         const $fileList = document.getElementById('fileList');
         for (let i = 0; i < files.length; i++) {
             selectedFiles.push(files[i]);
-            const $item = document.createElement('div');
+            const $item = document.createElemenT(com.suhsein.ownspace.'div');
             const $fileName = document.createTextNode(files[i].name);
-            const $deleteButton = document.createElement('button');
+            const $deleteButton = document.createElemenT(com.suhsein.ownspace.'button');
             $deleteButton.addEventListener('click', (e) => {
                 $item.remove(); // html 태그 삭제
-                e.preventDefault(); // form 제출 방지
+                e.preventDefaulT(com.suhsein.ownspace.); // form 제출 방지
                 filesChange(files[i]);
             });
             $deleteButton.setAttribute('class', 'btn btn-primary');

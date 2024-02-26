@@ -24,16 +24,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr th:each="schedule, i : ${toDoList}" th:class="${schedule.status.toString().equals('COMPLETED')} ? 'table-secondary'">
+            <tr th:each="schedule, i : ${toDoList}" th:class="${schedule.status == T(com.suhsein.ownspace.domain.calendar.ToDoStatus).COMPLETED} ? 'table-secondary'">
                 <td th:text="${i.count}"></td>
                 <td th:text="${schedule.title}"></td>
                 <td th:text="${schedule.place}"></td>
                 <td th:text="${schedule.time}" ></td>
                 <td th:text="${schedule.description}" ></td>
                 <td>
-                    <a th:if="${schedule.status.toString().equals('COMPLETED')}" class="btn btn-secondary"
+                    <a th:if="${schedule.status == T(com.suhsein.ownspace.domain.calendar.ToDoStatus).COMPLETED}" class="btn btn-secondary"
                        href="#" th:href="@{/toDo/{year}/{month}/{day}/active/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}">활성화</a>
-                    <a th:if="${schedule.status.toString().equals('ACTIVE')}" class="btn btn-success"
+                    <a th:if="${schedule.status == T(com.suhsein.ownspace.domain.calendar.ToDoStatus).ACTIVE}" class="btn btn-success"
                        href="#" th:href="@{/toDo/{year}/{month}/{day}/completed/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}">완료</a>
                 </td>
                 <td>
