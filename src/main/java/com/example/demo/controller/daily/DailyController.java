@@ -1,13 +1,12 @@
 package com.example.demo.controller.daily;
 
-import com.example.demo.domain.daily.Comment;
-import com.example.demo.domain.daily.CommentStatus;
-import com.example.demo.domain.daily.Daily;
+import com.example.demo.domain.daily.*;
 import com.example.demo.domain.members.Member;
 import com.example.demo.service.daily.CommentService;
 import com.example.demo.service.daily.DailyService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -31,15 +30,27 @@ import java.util.List;
 public class DailyController {
     private final DailyService dailyService;
     private final CommentService commentService;
+    private final SearchCodes searchCodes;
 
     @GetMapping
     public String daily(@PageableDefault(size = 3, sort="id",
                         direction = Sort.Direction.DESC) Pageable pageable,
+                        @ModelAttribute("dailySearch") DailySearchDto dailySearch,
                         Model model) { // paging id 기준 내림차 정렬(default 오름차)
         Page<Daily> dailyPages = dailyService.paging(pageable);
         model.addAttribute("dailyPages", dailyPages);
+        model.addAttribute("searchCodes", searchCodes.getSearchCodes());
+
         return "daily/daily";
     }
+
+    @PostMapping("/search")
+    public String search(@ModelAttribute("dailySearch") DailySearchDto dailySearch,
+                         Model model) {
+
+        return "daily/daily-search";
+    }
+
 
     @GetMapping("/addPost")
     public String createPostForm(@ModelAttribute("form") DailyDto form) {
@@ -62,7 +73,6 @@ public class DailyController {
                 .title(form.getTitle())
                 .content(form.getContent())
                 .createDate(LocalDateTime.now())
-                .views(1L)
                 .build();
 
         dailyService.save(daily);
@@ -75,13 +85,7 @@ public class DailyController {
                             @ModelAttribute("commentForm") CommentDto commentDto,
                             Model model){
         dailyService.increaseView(id);
-        Daily daily = dailyService.findOne(id).get();
-        daily.setContent(daily.getContent().replace("\r\n", "<br>"));
-        // 출력 시에 \r\n을 <br>로 바꿔서 출력. 타임리프 unescaped text 로 출력
-        model.addAttribute("daily", daily);
-        List<Comment> commentList = commentService.findRootComments(daily.getId());
-        model.addAttribute("commentList", commentList);
-        model.addAttribute("activeCommentCount", commentService.activeCommentCount(id));
+        setDailyViewModel(id, model);
         return "daily/daily-view";
     }
 
@@ -97,10 +101,11 @@ public class DailyController {
                 .writer(loginMember == null ? null : loginMember)
                 .createDate(LocalDateTime.now())
                 .content(commentDto.getContent())
-                .status(CommentStatus.CREATE).build();
+                .status(CommentStatus.ACTIVE).build();
 
         Daily daily = dailyService.findOne(id).get();
         commentService.save(daily, comment);
+        dailyService.increaseComment(id);
 
         return "redirect:/daily/dailyView/{id}";
     }
@@ -120,9 +125,10 @@ public class DailyController {
                 .writer(loginMember == null ? null : loginMember)
                 .createDate(LocalDateTime.now())
                 .content(commentDto.getContent())
-                .status(CommentStatus.CREATE).build();
+                .status(CommentStatus.ACTIVE).build();
 
         commentService.save(daily, comment, reply);
+        dailyService.increaseComment(id);
         return "redirect:/daily/dailyView/{id}";
     }
 
@@ -130,6 +136,7 @@ public class DailyController {
     public String deleteComment(@PathVariable("id") Long id,
                                 @PathVariable("comment_id") Long commentId) {
         commentService.remove(commentId);
+        dailyService.decreaseComment(id);
         return "redirect:/daily/dailyView/{id}";
     }
 
@@ -140,8 +147,8 @@ public class DailyController {
                               Model model){
         Comment comment = commentService.findOne(commentId).get();
         form.setContent(comment.getContent());
-        Daily daily = dailyService.findOne(id).get();
-        model.addAttribute("daily", daily);
+
+        setDailyViewModel(id, model);
         return "daily/edit-comment";
     }
 
@@ -179,5 +186,19 @@ public class DailyController {
     public String deleteDaily(@PathVariable("id") Long id) {
         dailyService.remove(id);
         return "redirect:/daily";
+    }
+
+    private void setDailyViewModel(Long id, Model model) {
+        Daily daily = dailyService.findOne(id).get();
+        model.addAttribute("daily", daily);
+
+        List<Comment> commentList = commentService.findRootComments(daily.getId());
+
+        Daily prevDaily = dailyService.findPrevDaily(id);
+        Daily nxtDaily = dailyService.findNxtDaily(id);
+
+        model.addAttribute("commentList", commentList);
+        model.addAttribute("prevDaily", prevDaily);
+        model.addAttribute("nxtDaily", nxtDaily);
     }
 }

@@ -23,5 +23,4 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Query("select c from Comment c join c.daily d where d.id = :dailyId and c.parent is null order by c.id")
     List<Comment> findRootComments(@Param("dailyId") Long dailyId);
 
-    Long countByDailyIdAndStatus(Long dailyId, CommentStatus status);
 }

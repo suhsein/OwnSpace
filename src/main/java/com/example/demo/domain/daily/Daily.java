@@ -41,6 +41,7 @@ public class Daily {
     private LocalDateTime updateDate;
 
     private Long views;
+    private Long activeCommentCount;
 
     public void addComment(Comment comment) {
         commentList.add(comment);
@@ -48,11 +49,12 @@ public class Daily {
     }
 
     @Builder
-    public Daily(Member writer, String title, String content, LocalDateTime createDate, Long views) {
+    public Daily(Member writer, String title, String content, LocalDateTime createDate) {
         this.writer = writer;
         this.title = title;
         this.content = content;
         this.createDate = createDate;
-        this.views = views;
+        this.views = 0L;
+        this.activeCommentCount = 0L;
     }
 }

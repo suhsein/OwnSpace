@@ -28,6 +28,12 @@ public class DailyService {
         return dailyRepository.findById(dailyId);
     }
 
+    public Daily findPrevDaily(Long dailyId){
+        return dailyRepository.findPrevDaily(dailyId);
+    }
+    public Daily findNxtDaily(Long dailyId){
+        return dailyRepository.findNxtDaily(dailyId);
+    }
     public List<Daily> findAll(){
         return dailyRepository.findAll();
     }
@@ -51,5 +57,17 @@ public class DailyService {
     public void increaseView(Long dailyId) {
         Daily daily = dailyRepository.findById(dailyId).get();
         daily.setViews(daily.getViews() + 1L);
+    }
+
+    @Transactional
+    public void increaseComment(Long dailyId){
+        Daily daily = dailyRepository.findById(dailyId).get();
+        daily.setActiveCommentCount(daily.getActiveCommentCount() + 1L);
+    }
+
+    @Transactional
+    public void decreaseComment(Long dailyId){
+        Daily daily = dailyRepository.findById(dailyId).get();
+        daily.setActiveCommentCount(daily.getActiveCommentCount() - 1L);
     }
 }

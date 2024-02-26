@@ -26,18 +26,19 @@
       <button class="btn btn-seablue" th:onclick="|location.href='@{/daily/addPost}'|">write</button>
     </div>
     <div class="col-10 d-flex justify-content-end pe-0">
-      <form th:action th:object="${dailySearch}" class="row" method="post">
-        <div class="col-4 pe-0">
-          <select th:field="*{searchCode}"  class="form-select">
-            <option th:each="searchCode : ${searchCodes}" th:value="${searchCode.code}"
-                    th:text="${searchCode.displayName}">옵션</option>
-          </select>
+      <select class="form-select form-select-sm me-2" style="max-width: 7rem">
+        <option selected value="">제목+내용</option>
+        <option value="">제목</option>
+        <option value="">내용</option>
+        <hr>
+        <option value="">글쓴이</option>
+      </select>
+      <form class="row">
+        <div class="col-8">
+          <input type="text" class="form-control" placeholder="검색" aria-label="검색">
         </div>
-        <div class="col-5 pe-0">
-          <input th:field="*{keyword}" type="text" class="form-control" placeholder="키워드 검색" aria-label="검색">
-        </div>
-        <div class="col-3 pe-0">
-          <button class="btn text-white btn-seablue" type="submit">검색</button>
+        <div class="col-4">
+          <button class="btn text-white btn-seablue">검색</button>
         </div>
       </form>
     </div>
@@ -55,12 +56,12 @@
     </thead>
     <tbody>
     <tr th:each="daily : ${dailyPages}" th:onclick="|location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|"
-      style="cursor: pointer">
+        style="cursor: pointer">
       <td class="col-1" th:text="${daily.id}">1</td>
       <td class="text-start" th:text="${daily.title}">안뇽</td>
       <td th:text="${daily.writer == null ? '익명' : daily.writer.username}">ㅇㅇ</td>
       <td class="col-1" th:text="${#temporals.format(daily.createDate, 'yyyy.MM.dd HH:mm:ss')}"
-        style="font-size: 0.8rem">01/21</td>
+          style="font-size: 0.8rem">01/21</td>
       <td class="col-1" th:text="${daily.activeCommentCount}">0</td>
       <td class="col-1" th:text="${daily.views}">1</td>
     </tr>

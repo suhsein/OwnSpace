@@ -64,8 +64,4 @@ public class CommentService {
         // 삭제할 수 있는 가장 상위의 댓글을 찾는다. orphanRemoval = true 이므로 상위 댓글 삭제 시, 자손 댓글들도 모두 삭제됨
         // 없다면 자기 자신을 반환
     }
-
-    public Long activeCommentCount(Long dailyId){
-        return commentRepository.countByDailyIdAndStatus(dailyId, CommentStatus.CREATE);
-    }
 }

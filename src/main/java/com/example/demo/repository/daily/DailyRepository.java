@@ -18,4 +18,16 @@ public interface DailyRepository extends JpaRepository<Daily, Long> {
     int updateDailyById(@Param("id") Long id,
                         @Param("form") DailyDto form,
                         @Param("updateDate") LocalDateTime updateDate);
+
+    @Query(value = "select * from daily where daily_id = " +
+            "(select prev_id from " +
+            "(select daily_id, lag(daily_id) over(order by daily_id) as prev_id from daily) " +
+            "find_prev_id where daily_id = :id)", nativeQuery = true)
+    Daily findPrevDaily(@Param("id") Long id);
+
+    @Query(value = "select * from daily where daily_id = " +
+            "(select nxt_id from " +
+            "(select daily_id, lead(daily_id) over(order by daily_id) as nxt_id from daily) " +
+            "find_nxt_id where daily_id = :id)", nativeQuery = true)
+    Daily findNxtDaily(@Param("id") Long id);
 }
