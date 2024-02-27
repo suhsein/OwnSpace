@@ -5,11 +5,11 @@
   <ul class="nav nav-tabs">
     <li class="nav-item">
       <a class="nav-link schedule_tabs" th:classappend="${curMenu == 'toDo'} ? ' active'" href="/toDo"
-         th:href="|@{/toDo/{year}/{month}/{day}(year=${year}, month=${month}, day=${day})}|">일정입력</a>
+         th:href="|@{/toDo/{year}/{month}/{day}(year=${year}, month=${month}, day=${day})}|">일정추가</a>
     </li>
     <li class="nav-item">
       <a class="nav-link schedule_tabs" th:classappend="${curMenu == 'toDoList'} ? ' active'"   href="/toDo"
-         th:href="|@{/toDo/{year}/{month}/{day}/lisT(com.suhsein.ownspace.year=${year}, month=${month}, day=${day})}|">일정목록</a>
+         th:href="|@{/toDo/{year}/{month}/{day}/list(year=${year}, month=${month}, day=${day})}|">일정목록</a>
     </li>
   </ul>
 </div>

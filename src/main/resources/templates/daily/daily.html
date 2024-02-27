@@ -23,7 +23,7 @@
   </div>
   <div class="row">
     <div class="col-2">
-      <button class="btn btn-seablue" th:onclick="|location.href='@{/daily/addPost}'|">write</button>
+      <button class="btn btn-seablue" th:onclick="|location.href='@{/daily/addPost}'|">글쓰기</button>
     </div>
     <div class="col-10 d-flex justify-content-end pe-0">
       <form th:action="@{/daily/search}" th:object="${dailySearch}" class="row" method="post">
@@ -43,8 +43,8 @@
     </div>
   </div>
   <div th:if="${onSearch == true}" class="d-flex mt-2 justify-content-center">
-    <p th:if="${dailyPages.totalPages == 0}" th:utext="|<mark>${keyword}</mark>에 대한 검색 결과가 존재하지 않습니다.|"></p>
-    <p th:unless="${dailyPages.totalPages == 0}" th:utext="|<mark>${keyword}</mark>에 대한 검색 결과입니다.|"></p>
+    <p th:if="${dailyPages.totalPages == 0}" th:utext="|<span class='highlight'>${keyword}</span>에 대한 검색 결과가 존재하지 않습니다.|"></p>
+    <p th:unless="${dailyPages.totalPages == 0}" th:utext="|<span class='highlight'>${keyword}</span>에 대한 검색 결과입니다.|"></p>
   </div>
   <table class="table mt-4 text-center tr-hover">
     <thead>
@@ -58,11 +58,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="daily : ${dailyPages}" th:onclick="|location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|"
+    <tr th:each="daily : ${dailyPages}"
+        th:onclick="|${onSearch == true} ? location.href='@{/daily/dailyView/{id}(id=${daily.id}, code=${code}, keyword=${keyword})}'
+                    : location.href='@{/daily/dailyView/{id}(id=${daily.id})}'|"
       style="cursor: pointer">
       <td class="col-1" th:text="${daily.id}">1</td>
-      <td class="text-start" th:text="${daily.title}">안뇽</td>
-      <td th:text="${daily.writer == null ? '익명' : daily.writer.username}">ㅇㅇ</td>
+      <td class="text-start title" th:text="${daily.title}">안뇽</td>
+      <td class="writer" th:text="${daily.writer == null ? '익명' : daily.writer.username}">ㅇㅇ</td>
       <td class="col-1" th:text="${#temporals.format(daily.createDate, 'yyyy.MM.dd HH:mm:ss')}"
         style="font-size: 0.8rem">01/21</td>
       <td class="col-1" th:text="${daily.activeCommentCount}">0</td>
@@ -70,6 +72,7 @@
     </tr>
     </tbody>
   </table>
+  <!-- pagination -->
   <nav th:if="${dailyPages.totalPages != 0}">
     <ul class="pagination justify-content-center">
       <li class="page-item"><a class="page-link" th:href="@{/daily(page=1)}">&laquo;</a></li>
@@ -93,3 +96,33 @@
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
+
+<script th:inline="javascript">
+  const onSearch = [[${onSearch}]];
+  const code = [[${code}]];
+  const keyword = [[${keyword}]];
+
+  function highlight(keyword){
+    if(code === 'TITLE_CONTENT' || code === 'TITLE'){
+      const $nodeListOfTitle = document.querySelectorAll('.title');
+      makeHighlight(keyword, $nodeListOfTitle);
+    } else if(code === 'WRITER'){
+      const $nodeListOfWriter = document.querySelectorAll('.writer');
+      makeHighlight(keyword, $nodeListOfWriter);
+    }
+  }
+  function makeHighlight(keyword, $nodeList){
+    for (const $node of $nodeList) {
+      let innerHTML = $node.innerHTML;
+      if(innerHTML.includes(keyword)){
+        let idx = innerHTML.indexOf(keyword);
+        innerHTML = innerHTML.substring(0, idx) + "<span class='highlight'>"
+                + innerHTML.substring(idx, idx + keyword.length) + "</span>" + innerHTML.substring(idx + keyword.length);
+        $node.innerHTML = innerHTML;
+      }
+    }
+  }
+  if(onSearch === true){
+    window.onload = highlight(keyword);
+  }
+</script>

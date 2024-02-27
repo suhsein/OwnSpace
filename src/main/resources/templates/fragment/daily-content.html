@@ -3,17 +3,17 @@
     <h5 class="mt-3 fw-bold me-5 mb-3">게시물 상세 보기</h5>
     <hr>
     <a th:href="@{/daily/dailyView/{id}(id=${id})}" style="text-decoration: none; color: black">
-        <h4 class="fw-bold me-5" th:text="${daily.title}"/>
+        <h4 class="fw-bold me-5 title" th:text="${daily.title}"/>
     </a>
     <div style="font-size:0.8rem">
-        <span th:text="'작성자 ' + ${daily.writer == null ? '익명' : daily.writer.username}"></span>
+        <span th:text="'작성자 ' + ${daily.writer == null ? '익명' : daily.writer.username}" class="writer"></span>
         <span th:text="'  |  게시일 ' + ${#temporals.format(daily.createDate, 'yyyy.MM.dd HH:mm:ss')}"></span>
         <span th:text="'  |  조회수 ' + ${daily.views}"></span>
         <p th:if="${daily.updateDate != null}"
            th:text="'수정일 ' + ${#temporals.format(daily.updateDate, 'yyyy.MM.dd HH:mm:ss')}"></p>
     </div>
     <hr>
-    <pre th:text="${daily.content}" class="mb-3"></pre>
+    <pre th:text="${daily.content}" class="mb-3 content"></pre>
     <div class="d-flex justify-content-end">
         <button class="btn btn-primary me-2" th:onclick="|location.href='@{/daily/edit/{id}(id=${id})}'|">수정하기</button>
         <button class="btn btn-secondary" th:onclick="|location.href='@{/daily/delete/{id}(id=${id})}'|">삭제하기</button>

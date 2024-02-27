@@ -21,7 +21,7 @@
             </button>
         </div>
     </div>
-    <button class="btn btn-seablue" th:onclick="|location.href='@{/gallery/addPhoto}'|">write</button>
+    <button class="btn btn-seablue" th:onclick="|location.href='@{/gallery/addPhoto}'|">글쓰기</button>
     <div id="columns">
         <figure th:each="photo : ${photos}" th:onclick="|location.href='@{/gallery/photoView/{id}(id=${photo.id})}'|">
             <img th:src="${photo.awsS3List[0].path}">

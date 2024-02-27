@@ -1,3 +1,13 @@
+*, pre{
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+pre{
+    font-size: 1rem;
+    white-space: pre-wrap;
+    padding: 0.2rem;
+}
 .btn-seablue{--bs-btn-color:#fff;--bs-btn-bg: #55dcaa;--bs-btn-border-color: #41cba2;--bs-btn-hover-color:#fff;
     --bs-btn-hover-bg: #5dccac;--bs-btn-hover-border-color: #52d0a7;--bs-btn-focus-shadow-rgb:66,70,73;--bs-btn-active-color:#fff;
     --bs-btn-active-bg:#59dcb2;--bs-btn-active-border-color:#52d0a7;--bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125);
@@ -27,6 +37,11 @@
     border: 1px solid #ccc;
 }
 
+.highlight {
+    background-color: #ccffdea8;
+    font-weight:bold;
+    padding: 0.2rem;
+}
 .page-item.active .page-link {
     z-index: 1;
     color: #fff;

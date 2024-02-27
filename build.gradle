@@ -33,19 +33,13 @@ dependencies {
 
 	// aws sdk
 	implementation 'javax.xml.bind:jaxb-api:2.3.0'
-
 	// Amazon S3 Bucket
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
 	// JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
 	// MySQL
 	implementation 'mysql:mysql-connector-java:8.0.32'
-//	runtimeOnly 'com.mysql:mysql-connector-java'
-
-	// 암호화
-	implementation group: 'org.jasypt', name: 'jasypt', version: '1.9.2'
 
 	// TestCode Logging
 	testCompileOnly 'org.projectlombok:lombok'

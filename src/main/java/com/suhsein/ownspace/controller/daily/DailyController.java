@@ -64,10 +64,10 @@ public class DailyController {
         log.info("dailyPages={}", dailyPages);
         model.addAttribute("dailyPages", dailyPages);
         model.addAttribute("searchCodes", searchCodes.getSearchCodes());
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("onSearch", true);
+        addSearchAttributes(code, keyword, model);
         return "daily/daily";
     }
+
 
     @GetMapping("/addPost")
     public String createPostForm(@ModelAttribute("form") DailyDto form) {
@@ -100,9 +100,12 @@ public class DailyController {
     @GetMapping("/dailyView/{id}")
     public String dailyView(@PathVariable("id") Long id,
                             @ModelAttribute("commentForm") CommentDto commentDto,
+                            @RequestParam(value = "code", required = false) SearchCodeName code,
+                            @RequestParam(value = "keyword", required = false) String keyword,
                             Model model){
         dailyService.increaseView(id);
         setDailyViewModel(id, model);
+        addSearchAttributes(code, keyword, model);
         return "daily/daily-view";
     }
 
@@ -217,5 +220,15 @@ public class DailyController {
         model.addAttribute("commentList", commentList);
         model.addAttribute("prevDaily", prevDaily);
         model.addAttribute("nxtDaily", nxtDaily);
+    }
+
+    private static void addSearchAttributes(SearchCodeName code, String keyword, Model model) {
+        if(code == null && keyword == null){
+            model.addAttribute("onSearch", false);
+        } else{
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("code", code);
+            model.addAttribute("onSearch", true);
+        }
     }
 }
