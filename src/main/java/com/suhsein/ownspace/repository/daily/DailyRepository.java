@@ -1,6 +1,6 @@
 package com.suhsein.ownspace.repository.daily;
 
-import com.suhsein.ownspace.controller.daily.DailyDto;
+import com.suhsein.ownspace.controller.daily.dto.DailyDto;
 import com.suhsein.ownspace.domain.daily.Daily;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

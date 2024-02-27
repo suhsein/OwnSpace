@@ -1,12 +1,11 @@
 package com.suhsein.ownspace.service.gallery;
 
-import com.suhsein.ownspace.controller.gallery.PhotoDto;
+import com.suhsein.ownspace.controller.gallery.dto.PhotoDto;
 import com.suhsein.ownspace.domain.s3.AwsS3;
 import com.suhsein.ownspace.service.s3.AwsS3Service;
 import com.suhsein.ownspace.domain.gallery.Photo;
 import com.suhsein.ownspace.repository.gallery.PhotoRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PhotoService {
@@ -75,7 +73,6 @@ public class PhotoService {
         awsS3Service.removeAll(deleteFilesId);
     }
 
-
     /**
      * DELETE
      */
@@ -87,7 +84,6 @@ public class PhotoService {
     /**
      * VALIDATION
      */
-
     public boolean checkNull(List<MultipartFile> imageFiles){
         if(imageFiles.size() == 0){
             return true;

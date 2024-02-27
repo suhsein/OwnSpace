@@ -1,4 +1,4 @@
-package com.suhsein.ownspace.controller.members;
+package com.suhsein.ownspace.controller.members.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

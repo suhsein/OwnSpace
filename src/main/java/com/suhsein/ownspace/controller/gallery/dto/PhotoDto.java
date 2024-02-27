@@ -1,4 +1,4 @@
-package com.suhsein.ownspace.controller.gallery;
+package com.suhsein.ownspace.controller.gallery.dto;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

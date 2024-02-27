@@ -1,10 +1,11 @@
 package com.suhsein.ownspace.controller.gallery;
 
+import com.suhsein.ownspace.controller.gallery.dto.AwsS3Dto;
+import com.suhsein.ownspace.controller.gallery.dto.PhotoDto;
 import com.suhsein.ownspace.domain.s3.AwsS3;
 import com.suhsein.ownspace.domain.gallery.Photo;
 import com.suhsein.ownspace.service.gallery.PhotoService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,6 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/gallery")
-@Slf4j
 public class GalleryController {
     private final PhotoService photoService;
 

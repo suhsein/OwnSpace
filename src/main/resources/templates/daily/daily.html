@@ -94,14 +94,10 @@
 </div>
 <footer th:replace="~{/fragment/footer :: footer}"></footer>
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
-</body>
-</html>
-
 <script th:inline="javascript">
   const onSearch = [[${onSearch}]];
   const code = [[${code}]];
   const keyword = [[${keyword}]];
-
   function highlight(keyword){
     if(code === 'TITLE_CONTENT' || code === 'TITLE'){
       const $nodeListOfTitle = document.querySelectorAll('.title');
@@ -111,18 +107,8 @@
       makeHighlight(keyword, $nodeListOfWriter);
     }
   }
-  function makeHighlight(keyword, $nodeList){
-    for (const $node of $nodeList) {
-      let innerHTML = $node.innerHTML;
-      if(innerHTML.includes(keyword)){
-        let idx = innerHTML.indexOf(keyword);
-        innerHTML = innerHTML.substring(0, idx) + "<span class='highlight'>"
-                + innerHTML.substring(idx, idx + keyword.length) + "</span>" + innerHTML.substring(idx + keyword.length);
-        $node.innerHTML = innerHTML;
-      }
-    }
-  }
-  if(onSearch === true){
-    window.onload = highlight(keyword);
-  }
 </script>
+<script th:src="@{/js/dailyHighlightService.js}"></script>
+</body>
+</html>
+

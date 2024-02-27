@@ -1,6 +1,6 @@
 package com.suhsein.ownspace.repository.daily;
 
-import com.suhsein.ownspace.controller.daily.CommentDto;
+import com.suhsein.ownspace.controller.daily.dto.CommentDto;
 import com.suhsein.ownspace.domain.daily.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

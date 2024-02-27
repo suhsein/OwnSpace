@@ -3,7 +3,7 @@
     <h5 class="mt-3 fw-bold me-5 mb-3">게시물 상세 보기</h5>
     <hr>
     <a th:href="@{/daily/dailyView/{id}(id=${id})}" style="text-decoration: none; color: black">
-        <h4 class="fw-bold me-5 title" th:text="${daily.title}"/>
+        <div class="fw-bold fs-3 me-5 title" th:text="${daily.title}"/>
     </a>
     <div style="font-size:0.8rem">
         <span th:text="'작성자 ' + ${daily.writer == null ? '익명' : daily.writer.username}" class="writer"></span>

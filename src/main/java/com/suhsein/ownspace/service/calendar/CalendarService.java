@@ -1,7 +1,6 @@
 package com.suhsein.ownspace.service.calendar;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,7 +11,6 @@ import java.util.List;
  * 캘린더 틀에 넣을 날짜 데이터를 저장
  */
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class CalendarService {
     private final ToDoService toDoService;

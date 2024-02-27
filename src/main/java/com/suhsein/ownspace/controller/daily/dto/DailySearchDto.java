@@ -1,5 +1,6 @@
-package com.suhsein.ownspace.domain.daily;
+package com.suhsein.ownspace.controller.daily.dto;
 
+import com.suhsein.ownspace.domain.daily.SearchCodeName;
 import lombok.Data;
 
 @Data

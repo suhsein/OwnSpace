@@ -3,7 +3,6 @@ package com.suhsein.ownspace.repository.s3;
 import com.suhsein.ownspace.domain.s3.AwsS3;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +11,6 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class AwsS3Repository {
     private final EntityManager em;
 

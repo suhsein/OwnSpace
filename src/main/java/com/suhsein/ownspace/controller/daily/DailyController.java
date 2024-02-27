@@ -1,5 +1,8 @@
 package com.suhsein.ownspace.controller.daily;
 
+import com.suhsein.ownspace.controller.daily.dto.CommentDto;
+import com.suhsein.ownspace.controller.daily.dto.DailyDto;
+import com.suhsein.ownspace.controller.daily.dto.DailySearchDto;
 import com.suhsein.ownspace.domain.daily.*;
 import com.suhsein.ownspace.domain.members.Member;
 import com.suhsein.ownspace.service.daily.CommentService;
@@ -7,7 +10,6 @@ import com.suhsein.ownspace.service.daily.DailyService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,7 +20,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,12 +27,14 @@ import java.util.List;
 @Controller
 @RequestMapping("/daily")
 @RequiredArgsConstructor
-@Slf4j
 public class DailyController {
     private final DailyService dailyService;
     private final CommentService commentService;
     private final SearchCodes searchCodes;
 
+    /**
+     * READ
+     */
     @GetMapping
     public String daily(@PageableDefault(size = 3, sort="id",
                         direction = Sort.Direction.DESC) Pageable pageable,
@@ -45,30 +48,45 @@ public class DailyController {
         return "daily/daily";
     }
 
-    @PostMapping("/search")
-    public String search(@ModelAttribute("dailySearch") DailySearchDto dailySearch,
-                         RedirectAttributes redirectAttributes) {
-        redirectAttributes.addAttribute("code", dailySearch.getCode());
-        redirectAttributes.addAttribute("keyword", dailySearch.getKeyword());
-        return "redirect:/daily/search";
-    }
-
-    @GetMapping("/search")
-    public String searchResult(@PageableDefault(size = 3, sort = "id",
-                                direction = Sort.Direction.DESC) Pageable pageable,
-                               @ModelAttribute("dailySearch") DailySearchDto dailySearch,
-                               @RequestParam("code") SearchCodeName code,
-                               @RequestParam("keyword") String keyword,
-                               Model model) {
-        Page<Daily> dailyPages = dailyService.searchPaging(pageable, code, keyword);
-        log.info("dailyPages={}", dailyPages);
-        model.addAttribute("dailyPages", dailyPages);
-        model.addAttribute("searchCodes", searchCodes.getSearchCodes());
+    @GetMapping("/dailyView/{id}")
+    public String dailyView(@PathVariable("id") Long id,
+                            @ModelAttribute("commentForm") CommentDto commentDto,
+                            @RequestParam(value = "code", required = false) SearchCodeName code,
+                            @RequestParam(value = "keyword", required = false) String keyword,
+                            Model model){
+        dailyService.increaseView(id);
+        setDailyViewModel(id, model);
         addSearchAttributes(code, keyword, model);
-        return "daily/daily";
+        return "daily/daily-view";
     }
 
+    private void addSearchAttributes(SearchCodeName code, String keyword, Model model) {
+        if(code == null && keyword == null){
+            model.addAttribute("onSearch", false);
+        } else{
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("code", code);
+            model.addAttribute("onSearch", true);
+        }
+    }
 
+    private void setDailyViewModel(Long id, Model model) {
+        Daily daily = dailyService.findOne(id).get();
+        model.addAttribute("daily", daily);
+
+        List<Comment> commentList = commentService.findRootComments(daily.getId());
+
+        Daily prevDaily = dailyService.findPrevDaily(id);
+        Daily nxtDaily = dailyService.findNxtDaily(id);
+
+        model.addAttribute("commentList", commentList);
+        model.addAttribute("prevDaily", prevDaily);
+        model.addAttribute("nxtDaily", nxtDaily);
+    }
+
+    /**
+     * CREATE
+     */
     @GetMapping("/addPost")
     public String createPostForm(@ModelAttribute("form") DailyDto form) {
         return "daily/add-post";
@@ -97,89 +115,9 @@ public class DailyController {
         return "redirect:/daily";
     }
 
-    @GetMapping("/dailyView/{id}")
-    public String dailyView(@PathVariable("id") Long id,
-                            @ModelAttribute("commentForm") CommentDto commentDto,
-                            @RequestParam(value = "code", required = false) SearchCodeName code,
-                            @RequestParam(value = "keyword", required = false) String keyword,
-                            Model model){
-        dailyService.increaseView(id);
-        setDailyViewModel(id, model);
-        addSearchAttributes(code, keyword, model);
-        return "daily/daily-view";
-    }
-
-    @PostMapping("/addComment/{id}")
-    public String createComment(@PathVariable("id") Long id,
-                               @ModelAttribute("commentForm") CommentDto commentDto,
-                               HttpServletRequest request) {
-
-        HttpSession session = request.getSession();
-        Member loginMember = (Member) session.getAttribute("loginMember");
-
-        Comment comment = Comment.builder()
-                .writer(loginMember == null ? null : loginMember)
-                .createDate(LocalDateTime.now())
-                .content(commentDto.getContent())
-                .status(CommentStatus.ACTIVE).build();
-
-        Daily daily = dailyService.findOne(id).get();
-        commentService.save(daily, comment);
-        dailyService.increaseComment(id);
-
-        return "redirect:/daily/dailyView/{id}";
-    }
-
-    @PostMapping("/addReply/{id}/{comment_id}")
-    public String createReply(@PathVariable("id") Long id,
-                              @PathVariable("comment_id") Long commentId,
-                              @ModelAttribute("commentForm") CommentDto commentDto,
-                              HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Member loginMember = (Member) session.getAttribute("loginMember");
-
-        Daily daily = dailyService.findOne(id).get();
-        Comment comment = commentService.findOne(commentId).get();
-
-        Comment reply = Comment.builder()
-                .writer(loginMember == null ? null : loginMember)
-                .createDate(LocalDateTime.now())
-                .content(commentDto.getContent())
-                .status(CommentStatus.ACTIVE).build();
-
-        commentService.save(daily, comment, reply);
-        dailyService.increaseComment(id);
-        return "redirect:/daily/dailyView/{id}";
-    }
-
-    @GetMapping("/deleteComment/{id}/{comment_id}")
-    public String deleteComment(@PathVariable("id") Long id,
-                                @PathVariable("comment_id") Long commentId) {
-        commentService.remove(commentId);
-        dailyService.decreaseComment(id);
-        return "redirect:/daily/dailyView/{id}";
-    }
-
-    @GetMapping("/editComment/{id}/{comment_id}")
-    public String editCommentForm(@PathVariable("id") Long id,
-                              @PathVariable("comment_id") Long commentId,
-                              @ModelAttribute("commentForm") CommentDto form,
-                              Model model){
-        Comment comment = commentService.findOne(commentId).get();
-        form.setContent(comment.getContent());
-
-        setDailyViewModel(id, model);
-        return "daily/edit-comment";
-    }
-
-    @PostMapping("/editComment/{id}/{comment_id}")
-    public String editComment(@PathVariable("id") Long id,
-                              @PathVariable("comment_id") Long commentId,
-                              @ModelAttribute("commentForm") CommentDto form){
-        commentService.editComment(commentId, form, LocalDateTime.now());
-        return "redirect:/daily/dailyView/{id}";
-    }
-
+    /**
+     * UPDATE
+     */
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable("id") Long id,
                        @ModelAttribute("form") DailyDto form) {
@@ -202,33 +140,13 @@ public class DailyController {
         return "redirect:/daily/dailyView/{id}";
     }
 
+    /**
+     * DELETE
+     */
     @GetMapping("/delete/{id}")
     public String deleteDaily(@PathVariable("id") Long id) {
         dailyService.remove(id);
         return "redirect:/daily";
     }
 
-    private void setDailyViewModel(Long id, Model model) {
-        Daily daily = dailyService.findOne(id).get();
-        model.addAttribute("daily", daily);
-
-        List<Comment> commentList = commentService.findRootComments(daily.getId());
-
-        Daily prevDaily = dailyService.findPrevDaily(id);
-        Daily nxtDaily = dailyService.findNxtDaily(id);
-
-        model.addAttribute("commentList", commentList);
-        model.addAttribute("prevDaily", prevDaily);
-        model.addAttribute("nxtDaily", nxtDaily);
-    }
-
-    private static void addSearchAttributes(SearchCodeName code, String keyword, Model model) {
-        if(code == null && keyword == null){
-            model.addAttribute("onSearch", false);
-        } else{
-            model.addAttribute("keyword", keyword);
-            model.addAttribute("code", code);
-            model.addAttribute("onSearch", true);
-        }
-    }
 }

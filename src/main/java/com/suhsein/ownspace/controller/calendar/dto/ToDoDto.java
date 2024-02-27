@@ -1,4 +1,4 @@
-package com.suhsein.ownspace.controller.calendar;
+package com.suhsein.ownspace.controller.calendar.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

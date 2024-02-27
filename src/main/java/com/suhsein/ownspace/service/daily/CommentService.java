@@ -1,12 +1,11 @@
 package com.suhsein.ownspace.service.daily;
 
-import com.suhsein.ownspace.controller.daily.CommentDto;
+import com.suhsein.ownspace.controller.daily.dto.CommentDto;
 import com.suhsein.ownspace.domain.daily.Comment;
 import com.suhsein.ownspace.domain.daily.CommentStatus;
 import com.suhsein.ownspace.domain.daily.Daily;
 import com.suhsein.ownspace.repository.daily.CommentRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +16,6 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-@Slf4j
 public class CommentService {
     private final CommentRepository commentRepository;
     @Transactional

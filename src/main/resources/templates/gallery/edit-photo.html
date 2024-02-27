@@ -8,7 +8,7 @@
 <div th:replace="~{fragment/navigation :: navigation ('gallery')}"></div>
 <div class="container" style="max-width:80%">
     <h5 class="mt-3 fw-bold me-5">갤러리 사진 수정하기</h5>
-    <form th:action th:object="${form}" enctype="multipart/form-data" method="post">
+    <form th:action th:object="${form}" enctype="multipart/form-data" method="post" class="mt-3">
         <label for="imageFile">이미지 파일</label>
         <input type="file" id="imageFile" th:field="*{imageFiles}" class="form-control" onchange="addItem(this.files)">
         <div id="fileList" class="mt-2"></div>

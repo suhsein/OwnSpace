@@ -1,6 +1,6 @@
 package com.suhsein.ownspace.service.daily;
 
-import com.suhsein.ownspace.controller.daily.DailyDto;
+import com.suhsein.ownspace.controller.daily.dto.DailyDto;
 import com.suhsein.ownspace.domain.daily.Daily;
 import com.suhsein.ownspace.domain.daily.SearchCodeName;
 import com.suhsein.ownspace.repository.daily.DailyRepository;

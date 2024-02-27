@@ -1,12 +1,12 @@
 package com.suhsein.ownspace.controller.calendar;
 
+import com.suhsein.ownspace.controller.calendar.dto.ToDoDto;
 import com.suhsein.ownspace.domain.calendar.MyDate;
 import com.suhsein.ownspace.domain.calendar.ToDo;
 import com.suhsein.ownspace.domain.calendar.ToDoStatus;
 import com.suhsein.ownspace.service.calendar.ConvertTimeService;
 import com.suhsein.ownspace.service.calendar.ToDoService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -19,7 +19,6 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/toDo/{year}/{month}/{day}")
-@Slf4j
 public class ToDoController {
     private final ToDoService toDoService;
     private final ConvertTimeService convertTimeService;
@@ -44,7 +43,6 @@ public class ToDoController {
                 .year(year)
                 .month(month)
                 .day(day).build();
-        log.info("time ={}", toDo.getTime());
 
         ToDo toDoResult = ToDo.builder()
                 .myDate(myDate)

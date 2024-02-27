@@ -1,5 +1,6 @@
 package com.suhsein.ownspace.controller.members;
 
+import com.suhsein.ownspace.controller.members.dto.MemberSaveDto;
 import com.suhsein.ownspace.domain.members.Member;
 import com.suhsein.ownspace.service.members.MemberService;
 import lombok.RequiredArgsConstructor;

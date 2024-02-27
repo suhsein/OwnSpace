@@ -1,4 +1,4 @@
-package com.suhsein.ownspace.controller.daily;
+package com.suhsein.ownspace.controller.daily.dto;
 
 import lombok.Data;
 

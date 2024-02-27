@@ -1,5 +1,6 @@
 package com.suhsein.ownspace.controller.members;
 
+import com.suhsein.ownspace.controller.members.dto.MemberDto;
 import com.suhsein.ownspace.service.members.LoginService;
 import com.suhsein.ownspace.domain.members.Member;
 import jakarta.servlet.http.HttpServletRequest;
