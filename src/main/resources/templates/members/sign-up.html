@@ -22,18 +22,20 @@
             <div class="col col-sm-4">
                 <label for="password" class="mt-2 ms-2">비밀번호</label>
             </div>
-            <div class="col col-lg-8">
-                <input type="text" th:field="*{password}"
+            <div class="col col-lg-8" style="position: relative">
+                <input type="password" th:field="*{password}"
                        th:errorclass="field-error" id="password" class="form-control rounded-0">
+                <button class="password" id="password_btn" type="button"><i class="fa-solid fa-eye"></i></button>
             </div>
         </div>
         <div class="row mb-2 px-5">
             <div class="col col-sm-4">
                 <label for="check_password" class="mt-2 ms-2">비밀번호 확인</label>
             </div>
-            <div class="col col-lg-8">
-                <input type="text" th:field="*{checkPassword}"
+            <div class="col col-lg-8" style="position: relative">
+                <input type="password" th:field="*{checkPassword}"
                        th:errorclass="field-error" id="check_password" class="form-control rounded-0">
+                <button class="password" id="check_password_btn" type="button"><i class="fa-solid fa-eye"></i></button>
             </div>
         </div>
         <div class="row mb-2 px-5">
@@ -81,5 +83,6 @@
     </form>
 </div> <!-- /container-->
 <footer th:replace="~{/fragment/footer :: footer}"></footer>
+<script th:src="@{/js/passwordService.js}"></script>
 </body>
 </html>

@@ -21,9 +21,10 @@
             <div class="col col-lg-3">
                 <label for="password" class="mt-2">비밀번호</label>
             </div>
-            <div class="col col-lg-9">
+            <div class="col col-lg-9" style="position: relative">
                 <input type="password" th:field="*{password}" id="password"
                        class="form-control rounded-0 rounded-bottom-3">
+                <button class="password" id="password_btn" type="button"><i class="fa-solid fa-eye"></i></button>
             </div>
         </div>
         <!--  에러 메세지  -->
@@ -43,5 +44,6 @@
     </form>
 </div> <!-- /container-->
 <footer th:replace="~{/fragment/footer :: footer}"></footer>
+<script th:src="@{/js/passwordService.js}"></script>
 </body>
 </html>

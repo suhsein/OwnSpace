@@ -13,21 +13,8 @@ public class HomeController {
     public String home(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
 
-        if(session == null){
-            return "/index";
-        }
-
         Member loginMember = (Member)session.getAttribute("loginMember");
-        if(loginMember == null){
-            return "/index";
-        }
-
         model.addAttribute("member", loginMember);
-        return "/bbs";
-    }
-
-    @GetMapping("/bbsMain")
-    public String bbsMain() {
-        return "/bbs";
+        return "/index";
     }
 }

@@ -1,3 +1,11 @@
+.password{
+    position: absolute;
+    bottom: 0.4rem;
+    right:0.8rem;
+    background-color: transparent;
+    border: none;
+}
+
 *, pre{
     font-family: "Noto Sans KR", sans-serif;
     font-optical-sizing: auto;
@@ -50,7 +58,34 @@ pre{
     border-color: #55dcaa;
 
 }
-
+.main-container{
+    position: relative;
+    max-width: 60%;
+}
+.the-card {
+    position: relative;
+    width: 36rem;
+    height: 23rem;
+    perspective: 1100px;
+    transform-style: preserve-3d;
+    transition: 1s;
+}
+.the-card:hover{
+    transform: rotateY(180deg);
+}
+.card-front,.card-back{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+.card-img {
+    width: 100%;
+    height: 100%;
+}
+.card-back{
+    backface-visibility: hidden;
+    transform:rotateY(180deg);
+}
 .page-link:focus, .page-link:hover {
     color: #41cba2;
     background-color: #fafafa;
@@ -86,7 +121,6 @@ a:hover, a:focus {
 .field-error{
     color:#dc3545;
 }
-
 footer i{
     cursor: pointer;
 }
