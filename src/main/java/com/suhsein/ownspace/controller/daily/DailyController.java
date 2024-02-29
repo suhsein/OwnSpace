@@ -1,5 +1,6 @@
 package com.suhsein.ownspace.controller.daily;
 
+import com.suhsein.ownspace.controller.CheckLogin;
 import com.suhsein.ownspace.controller.daily.dto.CommentDto;
 import com.suhsein.ownspace.controller.daily.dto.DailyDto;
 import com.suhsein.ownspace.controller.daily.dto.DailySearchDto;
@@ -88,7 +89,12 @@ public class DailyController {
      * CREATE
      */
     @GetMapping("/addPost")
-    public String createPostForm(@ModelAttribute("form") DailyDto form) {
+    public String createPostForm(@ModelAttribute("form") DailyDto form,
+                                 HttpServletRequest request,
+                                 Model model) {
+        if(!CheckLogin.checkLoginMember(request, model)){
+            return "/alert/redirect";
+        }
         return "daily/add-post";
     }
 

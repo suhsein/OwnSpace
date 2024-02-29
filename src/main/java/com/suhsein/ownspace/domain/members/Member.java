@@ -1,6 +1,7 @@
 package com.suhsein.ownspace.domain.members;
 
 import com.suhsein.ownspace.domain.daily.Daily;
+import com.suhsein.ownspace.domain.gallery.Photo;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,9 @@ public class Member {
 
     @OneToMany(mappedBy = "writer")
     private List<Daily> dailyList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer")
+    private List<Photo> photoList = new ArrayList<>();
 
     @Builder
     public Member(String userId, String password, String username, String email) {

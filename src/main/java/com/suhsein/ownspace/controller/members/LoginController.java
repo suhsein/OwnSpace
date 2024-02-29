@@ -19,7 +19,14 @@ public class LoginController {
     private final LoginService loginService;
 
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("member") MemberDto member) {
+    public String loginForm(@ModelAttribute("member") MemberDto member,
+                            HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member loginMember = (Member) session.getAttribute("loginMember");
+        if(loginMember != null){
+            return "redirect:/";
+        }
+        // 이미 로그인 되어있으면, 메인으로 리다이렉트
         return "/members/login";
     }
 

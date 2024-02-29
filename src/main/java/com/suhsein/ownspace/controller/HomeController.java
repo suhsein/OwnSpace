@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
+
     @GetMapping("")
     public String home(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();

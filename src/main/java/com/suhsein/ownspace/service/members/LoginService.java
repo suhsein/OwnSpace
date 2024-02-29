@@ -15,6 +15,8 @@ public class LoginService {
 
     public Member login(String userId, String password) {
         List<Member> findMember = memberService.findByUserId(userId);
-        return findMember.stream().findFirst().orElse(null);
+        return findMember.stream()
+                .filter(m->m.getPassword().equals(password))
+                .findFirst().orElse(null);
     }
 }

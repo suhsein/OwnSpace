@@ -20,9 +20,12 @@
             <div class="description-box pb-2">
                 <h5 class="mt-2 ps-3 fw-bold">Description</h5>
                 <hr>
-                <div th:utext="${photo.content}" class="ps-3 pb-2"></div>
+                <div style="font-size:0.8rem" class="ps-3 pb-2">
+                    <span th:text="'작성자 ' + ${photo.writer == null ? '익명' : photo.writer.username}" class="writer"></span>
+                </div>
+                <pre th:text="${photo.content}" class="ps-3 pb-2"></pre>
                 <hr>
-                <div class="ps-3">
+                <div th:if="${session.loginMember != null and session.loginMember.id == photo.id}" class="ps-3">
                     <button class="btn btn-primary" th:onclick="|location.href='@{/gallery/edit/{id}(id=${photo.id})}'|">수정하기</button>
                     <button class="btn btn-secondary" th:onclick="|location.href='@{/gallery/delete/{id}(id=${photo.id})}'|">삭제하기</button>
                 </div>

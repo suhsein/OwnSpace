@@ -1,11 +1,16 @@
 package com.suhsein.ownspace.controller.gallery;
 
+import com.suhsein.ownspace.controller.CheckLogin;
 import com.suhsein.ownspace.controller.gallery.dto.AwsS3Dto;
 import com.suhsein.ownspace.controller.gallery.dto.PhotoDto;
+import com.suhsein.ownspace.domain.members.Member;
 import com.suhsein.ownspace.domain.s3.AwsS3;
 import com.suhsein.ownspace.domain.gallery.Photo;
 import com.suhsein.ownspace.service.gallery.PhotoService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +25,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/gallery")
+@Slf4j
 public class GalleryController {
     private final PhotoService photoService;
 
@@ -35,13 +41,19 @@ public class GalleryController {
      * CREATE
      */
     @GetMapping("/addPhoto")
-    public String createPhotoForm(@ModelAttribute("form") PhotoDto form){
+    public String createPhotoForm(@ModelAttribute("form") PhotoDto form,
+                                  HttpServletRequest request,
+                                  Model model){
+        if(!CheckLogin.checkLoginMember(request, model)){
+            return "/alert/redirect";
+        }
         return "/gallery/add-photo";
     }
 
     @PostMapping("/addPhoto")
     public String createPhoto(@Validated @ModelAttribute("form") PhotoDto form,
-                           BindingResult bindingResult) throws IOException {
+                              BindingResult bindingResult,
+                              HttpServletRequest request) throws IOException {
         List<MultipartFile> imageFiles = form.getImageFiles();
 
         if(photoService.checkNull(imageFiles)){
@@ -54,7 +66,9 @@ public class GalleryController {
         Photo photo = Photo.builder()
                 .title(form.getTitle())
                 .content(form.getContent())
-                .awsS3List(awsS3List).build();
+                .awsS3List(awsS3List)
+                .writer((Member)request.getSession().getAttribute("loginMember"))
+                .build();
 
         photoService.save(photo);
         return "redirect:/gallery";
@@ -67,8 +81,6 @@ public class GalleryController {
     @GetMapping("/photoView/{id}")
     public String photoView(@PathVariable("id") Long id, Model model) {
         Photo photo = photoService.findOne(id);
-        photo.setContent(photo.getContent().replace("\r\n","<br>"));
-        // 출력 시에 \r\n을 <br>로 바꿔서 출력. 타임리프 unescaped text 로 출력
         model.addAttribute("photo", photo);
         return "/gallery/photo-view";
     }
@@ -78,14 +90,20 @@ public class GalleryController {
      */
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable("id") Long id,
-                           Model model){
+                           HttpServletRequest request,
+                           Model model) {
         Photo photo = photoService.findOne(id);
+        if (!authenticate(request, model, photo)) {
+            return "/alert/back";
+        }
+
         PhotoDto form = new PhotoDto();
         form.setTitle(photo.getTitle());
         form.setContent(photo.getContent());
         model.addAttribute("form", form);
         return "/gallery/edit-photo";
     }
+
 
     @PostMapping("/edit/{id}")
     public String edit(@Validated @ModelAttribute("form") PhotoDto form,
@@ -108,9 +126,28 @@ public class GalleryController {
      * DELETE
      */
     @GetMapping("/delete/{id}")
-    public String deletePhoto(@PathVariable("id") Long id){
+    public String deletePhoto(@PathVariable("id") Long id,
+                              HttpServletRequest request,
+                              Model model){
+        if(!authenticate(request, model, photoService.findOne(id))){
+            return "/alert/back";
+        }
         photoService.remove(id);
         return "redirect:/gallery";
+    }
+
+    /**
+     * Authentication method
+     */
+    private boolean authenticate(HttpServletRequest request, Model model, Photo photo) {
+        HttpSession session = request.getSession();
+        Member loginMember = (Member)session.getAttribute("loginMember");
+
+        if (loginMember == null || loginMember.getId() != photo.getWriter().getId()) {
+            model.addAttribute("msg", "접근할 수 없는 페이지입니다.");
+            return false;
+        }
+        return true;
     }
 
     /**

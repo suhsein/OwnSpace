@@ -3,6 +3,8 @@ package com.suhsein.ownspace.controller.members;
 import com.suhsein.ownspace.controller.members.dto.MemberSaveDto;
 import com.suhsein.ownspace.domain.members.Member;
 import com.suhsein.ownspace.service.members.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,8 +19,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class SignUpController {
     private final MemberService memberService;
     @GetMapping("/signUp")
-    public String signUpForm(@ModelAttribute("memberSave") MemberSaveDto memberSave) {
+    public String signUpForm(@ModelAttribute("memberSave") MemberSaveDto memberSave,
+                             HttpServletRequest request) {
         // Form에서 객체 전송을 위해서 빈 객체를 모델에 넣어줌
+        HttpSession session = request.getSession();
+        Member loginMember = (Member) session.getAttribute("loginMember");
+        if(loginMember != null){
+            return "redirect:/";
+        }
         return "/members/sign-up";
     }
 
