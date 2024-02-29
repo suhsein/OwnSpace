@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8">
+<head>
+    <title>알림창</title>
+</head>
+<body>
+<script th:inline="javascript">
+  alert([[${msg}]]);
+  history.go(-1);
+</script>
+</body>
+</html>
