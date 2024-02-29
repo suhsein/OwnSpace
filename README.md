@@ -6,6 +6,7 @@
 1. [👩‍🏫프로젝트 소개](#프로젝트-소개)
 1. [⚙️기술 스택](#기술-스택)
 1. [⌛개발 기간](#개발-기간)
+1. [🛢데이터 구조](#데이터구조)
 1. [🛠️Trouble Shooting](#Touble-shooting)
 1. [💼Takeaway](#Takeaway)  
 
@@ -78,6 +79,9 @@
 <img alt="GitHub" src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 
 ## ⌛개발 기간
+
+## 🛢데이터 구조
+<img src="https://github.com/suhsein/OwnSpace/assets/76998096/16d9597d-29f9-40ba-8368-0d82db9b5bb4" width="70%"/>
 
 ## 🛠️Trouble Shooting
 
