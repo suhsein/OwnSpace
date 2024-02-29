@@ -1,6 +1,6 @@
 package com.suhsein.ownspace.controller.gallery;
 
-import com.suhsein.ownspace.controller.CheckLogin;
+import com.suhsein.ownspace.service.CheckLogin;
 import com.suhsein.ownspace.controller.gallery.dto.AwsS3Dto;
 import com.suhsein.ownspace.controller.gallery.dto.PhotoDto;
 import com.suhsein.ownspace.domain.members.Member;
@@ -8,7 +8,6 @@ import com.suhsein.ownspace.domain.s3.AwsS3;
 import com.suhsein.ownspace.domain.gallery.Photo;
 import com.suhsein.ownspace.service.gallery.PhotoService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -44,7 +43,7 @@ public class GalleryController {
     public String createPhotoForm(@ModelAttribute("form") PhotoDto form,
                                   HttpServletRequest request,
                                   Model model){
-        if(!CheckLogin.checkLoginMember(request, model)){
+        if(!CheckLogin.checkLoginRedirect(request, model)){
             return "/alert/redirect";
         }
         return "/gallery/add-photo";
@@ -93,7 +92,7 @@ public class GalleryController {
                            HttpServletRequest request,
                            Model model) {
         Photo photo = photoService.findOne(id);
-        if (!authenticate(request, model, photo)) {
+        if (!photoService.authenticate(request, model, photo)) {
             return "/alert/back";
         }
 
@@ -129,25 +128,11 @@ public class GalleryController {
     public String deletePhoto(@PathVariable("id") Long id,
                               HttpServletRequest request,
                               Model model){
-        if(!authenticate(request, model, photoService.findOne(id))){
+        if(!photoService.authenticate(request, model, photoService.findOne(id))){
             return "/alert/back";
         }
         photoService.remove(id);
         return "redirect:/gallery";
-    }
-
-    /**
-     * Authentication method
-     */
-    private boolean authenticate(HttpServletRequest request, Model model, Photo photo) {
-        HttpSession session = request.getSession();
-        Member loginMember = (Member)session.getAttribute("loginMember");
-
-        if (loginMember == null || loginMember.getId() != photo.getWriter().getId()) {
-            model.addAttribute("msg", "접근할 수 없는 페이지입니다.");
-            return false;
-        }
-        return true;
     }
 
     /**

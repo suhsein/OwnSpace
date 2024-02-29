@@ -1,4 +1,4 @@
-package com.suhsein.ownspace.controller;
+package com.suhsein.ownspace.service;
 
 import com.suhsein.ownspace.domain.members.Member;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 
 public class CheckLogin {
-    public static boolean checkLoginMember(HttpServletRequest request, Model model){
+    public static boolean checkLoginRedirect(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         Member loginMember = (Member)session.getAttribute("loginMember");
         if(loginMember == null){

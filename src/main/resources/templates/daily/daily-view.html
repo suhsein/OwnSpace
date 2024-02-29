@@ -9,12 +9,15 @@
 <div class="container mb-5" style="max-width: 80%">
     <div th:replace="~{/fragment/daily-content :: daily-content}"></div>
     <div th:replace="~{/fragment/comment-list :: comment-list}"></div>
-    <div class="card" id="comment_box">
+    <div
+         class="card" id="comment_box" >
         <div class="card-header">댓글 입력</div>
         <div class="card-body">
             <form th:action="@{/daily/addComment/{id}(id=${id})}" th:object="${commentForm}" method="post">
-                <textarea th:field="*{content}" cols="30" rows="5" class="form-control"></textarea>
-                <button class="btn btn-primary mt-2" type="submit">확인</button>
+                <textarea th:field="*{content}" cols="30" rows="5" class="form-control"
+                    th:placeholder="${session.loginMember == null} ? '로그인 된 사용자만 댓글을 달 수 있습니다.'"></textarea>
+                <button class="btn btn-primary mt-2" type="submit"
+                        th:disabled="${session.loginMember == null}">확인</button>
             </form>
         </div>
     </div>

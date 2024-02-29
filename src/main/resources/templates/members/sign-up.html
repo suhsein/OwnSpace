@@ -58,24 +58,26 @@
         </div>
 
         <!--  에러 메세지  -->
-        <div th:errors="*{userId}" class="field-error row mb-2 px-5">
-            공백일 수 없습니다
-        </div>
-        <div th:errors="*{password}" class="field-error row mb-2 px-5">
-            공백일 수 없습니다
-        </div>
-        <div th:errors="*{checkPassword}" class="field-error row mb-2 px-5">
-            공백일 수 없습니다
-        </div>
-        <div th:errors="*{username}" class="field-error row mb-2 px-5">
-            공백일 수 없습니다
-        </div>
-        <div th:errors="*{email}" class="field-error row mb-2 px-5">
-            공백일 수 없습니다
-        </div>
-        <div th:if="${#fields.hasGlobalErrors()}" th:each="err: ${#fields.globalErrors()}" th:text="${err}"
-             class="field-error row mb-2 px-5">
-            글로벌 오류 메세지
+        <div style="font-size: 0.8rem">
+            <div th:errors="*{userId}" class="field-error row mb-2 px-5">
+                공백일 수 없습니다
+            </div>
+            <div th:errors="*{password}" class="field-error row mb-2 px-5">
+                공백일 수 없습니다
+            </div>
+            <div th:errors="*{checkPassword}" class="field-error row mb-2 px-5">
+                공백일 수 없습니다
+            </div>
+            <div th:errors="*{username}" class="field-error row mb-2 px-5">
+                공백일 수 없습니다
+            </div>
+            <div th:errors="*{email}" class="field-error row mb-2 px-5">
+                공백일 수 없습니다
+            </div>
+            <div th:if="${#fields.hasGlobalErrors()}" th:each="err: ${#fields.globalErrors()}" th:text="${err}"
+                 class="field-error row mb-2 px-5">
+                글로벌 오류 메세지
+            </div>
         </div>
         <div class="row px-5">
             <button class="mt-4 w-100 h-20 btn btn-lg btn-seablue">회원가입</button>

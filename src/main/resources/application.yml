@@ -19,7 +19,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-#      ddl-auto: create  # 스키마 자동생성. 개발 환경에서만 사용
+      ddl-auto: create  # 스키마 자동생성. 개발 환경에서만 사용
     properties:
       hibernate:
         format_sql: true
@@ -31,7 +31,9 @@ spring:
     web:
       pageable:
         one-indexed-parameters: true # 페이징 인덱스 1번부터 시작하도록 함 (적용 시에 -1 해줌)
-
+  messages:
+    basename: errors
+    encoding: UTF-8
 jasypt:
   encryptor:
     password: test
@@ -40,3 +42,5 @@ jasypt:
 logging.level:
   org.hibernate.orm.jdbc.bind: trace
   org.hibernate.type: trace
+
+kakaoJsKey: ${kakaoJsKey}

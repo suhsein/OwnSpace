@@ -6,7 +6,7 @@
         <div class="fw-bold fs-3 me-5 title" th:text="${daily.title}"/>
     </a>
     <div style="font-size:0.8rem">
-        <span th:text="'작성자 ' + ${daily.writer == null ? '익명' : daily.writer.username}" class="writer"></span>
+        <span th:text="'작성자 ' + ${daily.writer.username}" class="writer"></span>
         <span th:text="'  |  게시일 ' + ${#temporals.format(daily.createDate, 'yyyy.MM.dd HH:mm:ss')}"></span>
         <span th:text="'  |  조회수 ' + ${daily.views}"></span>
         <p th:if="${daily.updateDate != null}"
@@ -14,7 +14,8 @@
     </div>
     <hr>
     <pre th:text="${daily.content}" class="mb-3 content"></pre>
-    <div class="d-flex justify-content-end">
+    <div th:if="${session.loginMember != null and session.loginMember.id == daily.id}"
+         class="d-flex justify-content-end">
         <button class="btn btn-primary me-2" th:onclick="|location.href='@{/daily/edit/{id}(id=${id})}'|">수정하기</button>
         <button class="btn btn-secondary" th:onclick="|location.href='@{/daily/delete/{id}(id=${id})}'|">삭제하기</button>
     </div>

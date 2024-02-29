@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/daily")
 @RequiredArgsConstructor
-public class DailyCommentController {
+public class CommentController {
     private final DailyService dailyService;
     private final CommentService commentService;
 
@@ -36,7 +36,7 @@ public class DailyCommentController {
         Member loginMember = (Member) session.getAttribute("loginMember");
 
         Comment comment = Comment.builder()
-                .writer(loginMember == null ? null : loginMember)
+                .writer(loginMember)
                 .createDate(LocalDateTime.now())
                 .content(commentDto.getContent())
                 .status(CommentStatus.ACTIVE).build();
@@ -60,7 +60,7 @@ public class DailyCommentController {
         Comment comment = commentService.findOne(commentId).get();
 
         Comment reply = Comment.builder()
-                .writer(loginMember == null ? null : loginMember)
+                .writer(loginMember)
                 .createDate(LocalDateTime.now())
                 .content(commentDto.getContent())
                 .status(CommentStatus.ACTIVE).build();
@@ -77,8 +77,13 @@ public class DailyCommentController {
     public String editCommentForm(@PathVariable("id") Long id,
                                   @PathVariable("comment_id") Long commentId,
                                   @ModelAttribute("commentForm") CommentDto form,
-                                  Model model){
+                                  HttpServletRequest request,
+                                  Model model) {
         Comment comment = commentService.findOne(commentId).get();
+        if (!commentService.authenticate(request, model, comment)) {
+            return "/alert/back";
+        }
+
         form.setContent(comment.getContent());
 
         setDailyViewModel(id, model);
@@ -111,7 +116,12 @@ public class DailyCommentController {
      */
     @GetMapping("/deleteComment/{id}/{comment_id}")
     public String deleteComment(@PathVariable("id") Long id,
-                                @PathVariable("comment_id") Long commentId) {
+                                @PathVariable("comment_id") Long commentId,
+                                HttpServletRequest request,
+                                Model model) {
+        if (!commentService.authenticate(request, model, commentService.findOne(commentId).get())) {
+            return "/alert/back";
+        }
         commentService.remove(commentId);
         dailyService.decreaseComment(id);
         return "redirect:/daily/dailyView/{id}";

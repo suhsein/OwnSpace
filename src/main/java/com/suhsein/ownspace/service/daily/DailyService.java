@@ -3,13 +3,18 @@ package com.suhsein.ownspace.service.daily;
 import com.suhsein.ownspace.controller.daily.dto.DailyDto;
 import com.suhsein.ownspace.domain.daily.Daily;
 import com.suhsein.ownspace.domain.daily.SearchCodeName;
+import com.suhsein.ownspace.domain.gallery.Photo;
+import com.suhsein.ownspace.domain.members.Member;
 import com.suhsein.ownspace.repository.daily.DailyRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -88,4 +93,17 @@ public class DailyService {
         daily.setActiveCommentCount(daily.getActiveCommentCount() - 1L);
     }
 
+    /**
+     * Authentication method
+     */
+    public boolean authenticate(HttpServletRequest request, Model model, Daily daily) {
+        HttpSession session = request.getSession();
+        Member loginMember = (Member)session.getAttribute("loginMember");
+
+        if (loginMember == null || loginMember.getId() != daily.getWriter().getId()) {
+            model.addAttribute("msg", "접근할 수 없는 페이지입니다.");
+            return false;
+        }
+        return true;
+    }
 }

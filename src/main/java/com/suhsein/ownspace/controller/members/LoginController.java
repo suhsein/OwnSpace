@@ -1,11 +1,12 @@
 package com.suhsein.ownspace.controller.members;
 
-import com.suhsein.ownspace.controller.members.dto.MemberDto;
-import com.suhsein.ownspace.service.members.LoginService;
+import com.suhsein.ownspace.service.members.MemberService;
+import com.suhsein.ownspace.service.members.dto.MemberDto;
 import com.suhsein.ownspace.domain.members.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class LoginController {
-    private final LoginService loginService;
+    private final MemberService memberService;
 
     @GetMapping("/login")
     public String loginForm(@ModelAttribute("member") MemberDto member,
@@ -38,10 +40,8 @@ public class LoginController {
             return "/members/login";
         }
 
-        Member loginMember = loginService.login(member.getUserId(), member.getPassword());
-
-        if (loginMember == null) {
-            bindingResult.reject("loginFail");
+        Member loginMember = memberService.login(member, bindingResult);
+        if(loginMember == null){
             return "/members/login";
         }
 

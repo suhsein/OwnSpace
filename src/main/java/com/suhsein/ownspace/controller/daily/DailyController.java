@@ -1,6 +1,6 @@
 package com.suhsein.ownspace.controller.daily;
 
-import com.suhsein.ownspace.controller.CheckLogin;
+import com.suhsein.ownspace.service.CheckLogin;
 import com.suhsein.ownspace.controller.daily.dto.CommentDto;
 import com.suhsein.ownspace.controller.daily.dto.DailyDto;
 import com.suhsein.ownspace.controller.daily.dto.DailySearchDto;
@@ -92,7 +92,7 @@ public class DailyController {
     public String createPostForm(@ModelAttribute("form") DailyDto form,
                                  HttpServletRequest request,
                                  Model model) {
-        if(!CheckLogin.checkLoginMember(request, model)){
+        if(!CheckLogin.checkLoginRedirect(request, model)){
             return "/alert/redirect";
         }
         return "daily/add-post";
@@ -126,8 +126,14 @@ public class DailyController {
      */
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable("id") Long id,
-                       @ModelAttribute("form") DailyDto form) {
+                       @ModelAttribute("form") DailyDto form,
+                       HttpServletRequest request,
+                       Model model) {
         Daily daily = dailyService.findOne(id).get();
+        if (!dailyService.authenticate(request, model, daily)) {
+            return "/alert/back";
+        }
+
         form.setTitle(daily.getTitle());
         form.setContent(daily.getContent());
         return "daily/edit-post";
@@ -150,7 +156,12 @@ public class DailyController {
      * DELETE
      */
     @GetMapping("/delete/{id}")
-    public String deleteDaily(@PathVariable("id") Long id) {
+    public String deleteDaily(@PathVariable("id") Long id,
+                              HttpServletRequest request,
+                              Model model) {
+        if (!dailyService.authenticate(request, model, dailyService.findOne(id).get())) {
+            return "/alert/back";
+        }
         dailyService.remove(id);
         return "redirect:/daily";
     }

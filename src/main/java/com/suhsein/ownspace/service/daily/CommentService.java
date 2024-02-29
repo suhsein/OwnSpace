@@ -4,10 +4,14 @@ import com.suhsein.ownspace.controller.daily.dto.CommentDto;
 import com.suhsein.ownspace.domain.daily.Comment;
 import com.suhsein.ownspace.domain.daily.CommentStatus;
 import com.suhsein.ownspace.domain.daily.Daily;
+import com.suhsein.ownspace.domain.members.Member;
 import com.suhsein.ownspace.repository.daily.CommentRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -61,5 +65,19 @@ public class CommentService {
         return comment;
         // 삭제할 수 있는 가장 상위의 댓글을 찾는다. orphanRemoval = true 이므로 상위 댓글 삭제 시, 자손 댓글들도 모두 삭제됨
         // 없다면 자기 자신을 반환
+    }
+
+    /**
+     * Authentication method
+     */
+    public boolean authenticate(HttpServletRequest request, Model model, Comment comment) {
+        HttpSession session = request.getSession();
+        Member loginMember = (Member)session.getAttribute("loginMember");
+
+        if (loginMember == null || loginMember.getId() != comment.getWriter().getId()) {
+            model.addAttribute("msg", "접근할 수 없는 페이지입니다.");
+            return false;
+        }
+        return true;
     }
 }

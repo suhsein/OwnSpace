@@ -1,13 +1,17 @@
 package com.suhsein.ownspace.service.gallery;
 
 import com.suhsein.ownspace.controller.gallery.dto.PhotoDto;
+import com.suhsein.ownspace.domain.members.Member;
 import com.suhsein.ownspace.domain.s3.AwsS3;
 import com.suhsein.ownspace.service.s3.AwsS3Service;
 import com.suhsein.ownspace.domain.gallery.Photo;
 import com.suhsein.ownspace.repository.gallery.PhotoRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -94,5 +98,19 @@ public class PhotoService {
             }
         }
         return false;
+    }
+
+    /**
+     * Authentication method
+     */
+    public boolean authenticate(HttpServletRequest request, Model model, Photo photo) {
+        HttpSession session = request.getSession();
+        Member loginMember = (Member)session.getAttribute("loginMember");
+
+        if (loginMember == null || loginMember.getId() != photo.getWriter().getId()) {
+            model.addAttribute("msg", "접근할 수 없는 페이지입니다.");
+            return false;
+        }
+        return true;
     }
 }

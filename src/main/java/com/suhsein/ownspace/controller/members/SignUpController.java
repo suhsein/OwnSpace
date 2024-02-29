@@ -1,6 +1,6 @@
 package com.suhsein.ownspace.controller.members;
 
-import com.suhsein.ownspace.controller.members.dto.MemberSaveDto;
+import com.suhsein.ownspace.service.members.dto.MemberSaveDto;
 import com.suhsein.ownspace.domain.members.Member;
 import com.suhsein.ownspace.service.members.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,17 +31,19 @@ public class SignUpController {
     }
 
     @PostMapping("/signUp")
-    public String signUp(@Validated @ModelAttribute("memberSave") MemberSaveDto memberSave, BindingResult bindingResult,
+    public String signUp(@Validated @ModelAttribute("memberSave") MemberSaveDto memberSave,
+                         BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
         // 필드 예외가 아닌 경우 -> 비밀번호와 비밀번호 확인이 서로 다름
         String pw = memberSave.getPassword();
         String checkPw = memberSave.getCheckPassword();
 
         if(pw != null && checkPw != null){
-            if(!(pw.equals(checkPw))){
+            if(!pw.equals(checkPw)){
                 bindingResult.reject("passwordCheckFail");
             }
         }
+        memberService.checkDuplicatedMember(memberSave, bindingResult);
 
         // Validation Error
         if (bindingResult.hasErrors()) {
