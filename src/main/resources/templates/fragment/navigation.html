@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div class="navbar navbar-brand navbar-expand-lg"
-     style="background: turquoise; border-bottom: 1px solid lightgray"
-        th:fragment="navigation (curMenu)">
+<div class="navbar navbar-brand navbar-expand-lg" id="menu-navigation" th:fragment="navigation (curMenu)">
     <div class="container-fluid">
         <a th:href="@{/}" class="navbar-brand ms-3 me-5 pt-0" style="color: #f8fff8">
             <img src="../favicon.ico" th:src="@{/favicon.ico}" alt="메인" style="width:1.5rem; height: 1.5rem">
