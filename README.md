@@ -9,7 +9,8 @@
 1. [👩‍🏫프로젝트 소개](#프로젝트-소개)
 1. [⚙️기술 스택](#기술-스택)
 1. [⌛개발 기간](#개발-기간)
-1. [🛢데이터 구조](#데이터구조)
+1. [🛢ERD](#ERD)
+1. [📁프로젝트 구조](#프로젝트-구조)
 1. [🛠️Trouble Shooting](#Touble-shooting)
 1. [💼Takeaway](#Takeaway)
 
@@ -76,27 +77,190 @@
 
 ## ⚙️기술 스택
 
-<img alt="HTML5" src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-<img alt="CSS3" src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
-<img alt="Thymeleaf" src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white"> 
-<img alt="JS" src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-<img alt="jQuery" src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
-<img alt="Java" src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white">
-<img alt="Spring" src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
-<img alt="SpringBoot" src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white">  
-<img alt="MySQL" src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=black"> 
-<img alt="kakao" src="https://img.shields.io/badge/kakao-FFCD00?style=for-the-badge&logo=kakao&logoColor=black"> 
-<img alt="AWS" src="https://img.shields.io/badge/Amazon AWS-f7f7f7?style=for-the-badge&logo=Amazon AWS&logoColor=f89400">
-<img alt="AWSS3Bucket" src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=f89400">
-<img alt="GitHub" src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+<div align="center">
+<img alt="HTML5" src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">  <img alt="CSS3" src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">  <img alt="Thymeleaf" src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white">  <img alt="JS" src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">  <img alt="jQuery" src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
+
+<img alt="Java" src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white">  <img alt="Spring" src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">  <img alt="SpringBoot" src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white">  <img alt="MySQL" src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=black">  
+  <img alt="kakao" src="https://img.shields.io/badge/kakao-FFCD00?style=for-the-badge&logo=kakao&logoColor=black">  <img alt="AWS" src="https://img.shields.io/badge/Amazon AWS-f7f7f7?style=for-the-badge&logo=Amazon AWS&logoColor=f89400">  <img alt="AWSS3Bucket" src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=f89400">  <img alt="GitHub" src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+</div>
 
 ## ⌛개발 기간
 
 ### 2024.01.23 ~ 2024.02.29 (5주)
 
-## 🛢데이터 구조
+## 🛢ERD
 
 <img src="https://github.com/suhsein/OwnSpace/assets/76998096/16d9597d-29f9-40ba-8368-0d82db9b5bb4" width="70%"/>
+
+## 📁프로젝트트 구조
+```
+📦 
+├─ .gitignore
+├─ README.md
+├─ build.gradle
+├─ gradle
+│  └─ wrapper
+│     ├─ gradle-wrapper.jar
+│     └─ gradle-wrapper.properties
+├─ gradlew
+├─ gradlew.bat
+├─ settings.gradle
+└─ src
+   ├─ main
+   │  ├─ java
+   │  │  └─ com
+   │  │     └─ suhsein
+   │  │        └─ ownspace
+   │  │           ├─ OwnSpaceApplication.java
+   │  │           ├─ configuration
+   │  │           │  └─ S3Config.java
+   │  │           ├─ controller
+   │  │           │  ├─ HomeController.java
+   │  │           │  ├─ calendar
+   │  │           │  │  ├─ CalendarController.java
+   │  │           │  │  ├─ ToDoController.java
+   │  │           │  │  └─ dto
+   │  │           │  │     └─ ToDoDto.java
+   │  │           │  ├─ daily
+   │  │           │  │  ├─ CommentController.java
+   │  │           │  │  ├─ DailyController.java
+   │  │           │  │  ├─ DailySearchController.java
+   │  │           │  │  └─ dto
+   │  │           │  │     ├─ CommentDto.java
+   │  │           │  │     ├─ DailyDto.java
+   │  │           │  │     └─ DailySearchDto.java
+   │  │           │  ├─ gallery
+   │  │           │  │  ├─ GalleryController.java
+   │  │           │  │  └─ dto
+   │  │           │  │     ├─ AwsS3Dto.java
+   │  │           │  │     └─ PhotoDto.java
+   │  │           │  ├─ map
+   │  │           │  │  └─ MapController.java
+   │  │           │  └─ members
+   │  │           │     ├─ LoginController.java
+   │  │           │     └─ SignUpController.java
+   │  │           ├─ domain
+   │  │           │  ├─ calendar
+   │  │           │  │  ├─ MyDate.java
+   │  │           │  │  ├─ ToDo.java
+   │  │           │  │  └─ ToDoStatus.java
+   │  │           │  ├─ daily
+   │  │           │  │  ├─ Comment.java
+   │  │           │  │  ├─ CommentStatus.java
+   │  │           │  │  ├─ Daily.java
+   │  │           │  │  ├─ SearchCode.java
+   │  │           │  │  ├─ SearchCodeName.java
+   │  │           │  │  └─ SearchCodes.java
+   │  │           │  ├─ gallery
+   │  │           │  │  └─ Photo.java
+   │  │           │  ├─ members
+   │  │           │  │  └─ Member.java
+   │  │           │  └─ s3
+   │  │           │     └─ AwsS3.java
+   │  │           ├─ repository
+   │  │           │  ├─ calendar
+   │  │           │  │  └─ ToDoRepository.java
+   │  │           │  ├─ daily
+   │  │           │  │  ├─ CommentRepository.java
+   │  │           │  │  └─ DailyRepository.java
+   │  │           │  ├─ gallery
+   │  │           │  │  └─ PhotoRepository.java
+   │  │           │  ├─ members
+   │  │           │  │  └─ MemberRepository.java
+   │  │           │  └─ s3
+   │  │           │     └─ AwsS3Repository.java
+   │  │           └─ service
+   │  │              ├─ CheckLogin.java
+   │  │              ├─ calendar
+   │  │              │  ├─ CalendarService.java
+   │  │              │  ├─ ConvertTimeService.java
+   │  │              │  ├─ ToDoService.java
+   │  │              │  ├─ WeekDayDto.java
+   │  │              │  ├─ WeekDto.java
+   │  │              │  └─ YearMonthDto.java
+   │  │              ├─ daily
+   │  │              │  ├─ CommentService.java
+   │  │              │  └─ DailyService.java
+   │  │              ├─ gallery
+   │  │              │  └─ PhotoService.java
+   │  │              ├─ members
+   │  │              │  ├─ MemberService.java
+   │  │              │  └─ dto
+   │  │              │     ├─ MemberDto.java
+   │  │              │     └─ MemberSaveDto.java
+   │  │              └─ s3
+   │  │                 └─ AwsS3Service.java
+   │  └─ resources
+   │     ├─ application.yml
+   │     ├─ errors.properties
+   │     ├─ static
+   │     │  ├─ cloud.jpg
+   │     │  ├─ css
+   │     │  │  ├─ bootstrap.min.css
+   │     │  │  ├─ calendar-map.css
+   │     │  │  ├─ custom.css
+   │     │  │  ├─ gallery.css
+   │     │  │  └─ map.css
+   │     │  ├─ favicon.ico
+   │     │  ├─ js
+   │     │  │  ├─ bootstrap.bundle.js
+   │     │  │  ├─ bootstrap.bundle.js.map
+   │     │  │  ├─ calendarMapService.js
+   │     │  │  ├─ commentBoxService.js
+   │     │  │  ├─ dailyHighlightService.js
+   │     │  │  ├─ mapService.js
+   │     │  │  ├─ passwordService.js
+   │     │  │  └─ utils.js
+   │     │  └─ masonry-layout.html
+   │     └─ templates
+   │        ├─ alert
+   │        │  ├─ back.html
+   │        │  ├─ current.html
+   │        │  └─ redirect.html
+   │        ├─ calendar
+   │        │  ├─ calendar.html
+   │        │  ├─ to-do-list.html
+   │        │  └─ to-do.html
+   │        ├─ daily
+   │        │  ├─ add-post.html
+   │        │  ├─ daily-view.html
+   │        │  ├─ daily.html
+   │        │  ├─ edit-comment.html
+   │        │  └─ edit-post.html
+   │        ├─ error
+   │        │  ├─ 404.html
+   │        │  └─ 500.html
+   │        ├─ fragment
+   │        │  ├─ comment-list.html
+   │        │  ├─ daily-content.html
+   │        │  ├─ edit-comment-list.html
+   │        │  ├─ footer.html
+   │        │  ├─ head.html
+   │        │  ├─ info-description.html
+   │        │  ├─ js-modules.html
+   │        │  ├─ modals.html
+   │        │  ├─ navigation.html
+   │        │  └─ to-do-nav.html
+   │        ├─ gallery
+   │        │  ├─ add-photo.html
+   │        │  ├─ edit-photo.html
+   │        │  ├─ gallery.html
+   │        │  └─ photo-view.html
+   │        ├─ index.html
+   │        ├─ map
+   │        │  └─ map.html
+   │        └─ members
+   │           ├─ login.html
+   │           └─ sign-up.html
+   └─ test
+      └─ java
+         └─ com
+            └─ suhsein
+               └─ ownspace
+                  ├─ DateTest.java
+                  └─ OwnSpaceApplicationTests.java
+```
+©generated by [Project Tree Generator](https://woochanleee.github.io/project-tree-generator)
 
 ## 🛠️Trouble Shooting
 
