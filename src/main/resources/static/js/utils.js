@@ -1,6 +1,6 @@
 // element 내용 복사
-function copy(id, msg) {
-    window.navigator.clipboard.writeText(id.textContent).then(() => {
+function copy(str, msg) {
+    window.navigator.clipboard.writeText(str).then(() => {
         alert(msg + checkKorean(msg) + " 복사되었습니다.");
     });
 }

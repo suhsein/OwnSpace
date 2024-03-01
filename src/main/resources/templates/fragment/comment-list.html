@@ -3,12 +3,14 @@
     <div th:each="comment : ${commentList}" th:style="${comment.parent != null ? 'margin-left:1rem' :_}">
         <p th:if="${comment.parent != null}" style="float:left; margin-right:0.5rem"><i
                 class="fa-solid fa-turn-up fa-rotate-90"></i></p>
-        <div th:if="${comment.status == T(com.suhsein.ownspace.domain.daily.CommentStatus).ACTIVE}" style="font-size: 0.8rem" class="mb-1">
+        <div th:if="${comment.status == T(com.suhsein.ownspace.domain.daily.CommentStatus).ACTIVE}"
+             style="font-size: 0.8rem" class="mb-1">
             <span th:text="'작성자 ' + ${comment.writer == null ? '익명' : comment.writer.username}"></span>
             <span th:text="'  |  게시일 ' + ${#temporals.format(comment.createDate, 'yyyy.MM.dd HH:mm:ss')}"></span>
             <span th:if="${comment.updateDate != null}"
                   th:text="'  |  최종수정일 ' + ${#temporals.format(comment.updateDate, 'yyyy.MM.dd HH:mm:ss')}"></span>
-            <div th:if="${session.loginMember != null and session.loginMember.id == comment.id}" style="float:right">
+            <div th:if="${session.loginMember != null and session.loginMember.userId == comment.writer.userId}"
+                 style="float:right">
                 <button class="btn btn-primary"
                         th:onclick="|location.href='@{/daily/editComment/{id}/{comment_id}(id=${id}, comment_id=${comment.id})}'|">
                     수정하기
@@ -19,8 +21,10 @@
                 </button>
             </div>
         </div>
-        <p th:if="${comment.status == T(com.suhsein.ownspace.domain.daily.CommentStatus).DELETE}" th:text="|삭제된 댓글입니다.|"></p>
-        <pre th:if="${comment.status == T(com.suhsein.ownspace.domain.daily.CommentStatus).ACTIVE}" th:text="${comment.content}"></pre>
+        <p th:if="${comment.status == T(com.suhsein.ownspace.domain.daily.CommentStatus).DELETE}"
+           th:text="|삭제된 댓글입니다.|"></p>
+        <pre th:if="${comment.status == T(com.suhsein.ownspace.domain.daily.CommentStatus).ACTIVE}"
+             th:text="${comment.content}"></pre>
         <button th:if="${comment.status == T(com.suhsein.ownspace.domain.daily.CommentStatus).ACTIVE
                          and session.loginMember != null}"
                 class="btn btn-light reply_btn" th:id="|reply_btn_${comment.id}|"

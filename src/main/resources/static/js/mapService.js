@@ -7,8 +7,6 @@ const $mapSearch = document.getElementById('mapSearch');
 
 let $place = document.getElementById('place');
 // $place 유무로 map 메뉴와 modal map 구분
-
-
 /**
  * kakao 지도 사용
  */
@@ -29,8 +27,8 @@ generateMap();
  */
 
 // html이 다 만들어지기 전에 map이 생성되면 제대로 나타나지 않는 오류. setTimeout 주고 생성
-function generateMap(){
-    setTimeout(()=> {
+function generateMap() {
+    setTimeout(() => {
         map = new kakao.maps.Map($map, options);
         $mapSearchInput.addEventListener("keyup", (e) => {
             if (e.key == 'Enter') {
@@ -125,11 +123,11 @@ function displayPlaces(places) {
             };
 
             // 모달창에서 사용하는 경우에만 장소 input에 클릭된 장소명을 입력
-            if($place !== null){
-                kakao.maps.event.addListener(marker, 'click', function(mouseEvent) {
+            if ($place !== null) {
+                kakao.maps.event.addListener(marker, 'click', function (mouseEvent) {
                     $place.value = title;
                 });
-                itemEl.onclick = function (){
+                itemEl.onclick = function () {
                     $place.value = title;
                 }
             }
@@ -165,13 +163,13 @@ function getListItem(index, places) {
     $el.className = 'item';
 
     // map 메뉴에서 사용하는 경우에만, 클릭 시 copy 함수를 실행하도록 함
-    if($place === null){
-        $el.querySelector('.place_name').addEventListener('click', () => copy(this, `장소명`));
+    if ($place === null) {
+        $el.querySelector('.place_name').addEventListener('click', () => copy(places.place_name, `장소명`));
         if (places.road_address_name) {
-            $el.querySelector('.road_address_name').addEventListener('click', () => copy(this, `도로명 주소`));
+            $el.querySelector('.road_address_name').addEventListener('click', () => copy(places.road_address_name, `도로명 주소`));
         }
-        $el.querySelector('.address_name').addEventListener('click', () => copy(this, `주소`));
-        $el.querySelector('.phone').addEventListener('click', () => copy(this, `전화번호`));
+        $el.querySelector('.address_name').addEventListener('click', () => copy(places.address_name, `주소`));
+        $el.querySelector('.phone').addEventListener('click', () => copy(places.phone, `전화번호`));
     }
 
     return $el;
