@@ -70,14 +70,14 @@
 1. 댓글 삭제
     1. 원댓글에 답글이 달려있는 경우, 원댓글의 ***상태만 DELETE***로 변경하도록 했습니다.
     1. 원댓글에 답글이 없는 경우, ***상태가 DELETE인 가장 상위의 댓글을 찾아서(없다면 원댓글을) DB에서 삭제***합니다. ***OrphanRemoval을 true***로 해놓았기 때문에, 자손
-       댓글은 연쇄적으로 삭제됩니다g.
+       댓글은 연쇄적으로 삭제됩니다.
 
 ---
 
 ## ⚙️기술 스택
 
 <img alt="HTML5" src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-<img alt="CSS3" src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
+<img alt="CSS3" src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
 <img alt="Thymeleaf" src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white"> 
 <img alt="JS" src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 <img alt="jQuery" src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white">
@@ -92,17 +92,11 @@
 
 ## ⌛개발 기간
 
-<<<<<<< HEAD
-2024.01.23 ~ 2024.02.29 (5주)
-=======
+### 2024.01.23 ~ 2024.02.29 (5주)
 
 ## 🛢데이터 구조
 
 <img src="https://github.com/suhsein/OwnSpace/assets/76998096/16d9597d-29f9-40ba-8368-0d82db9b5bb4" width="70%"/>
-
-## 🛠️Trouble Shooting
-
-> > > > > > > fb69498ab1d95ad0096050e6e0f35f01d31c9942
 
 ## 🛠️Trouble Shooting
 
