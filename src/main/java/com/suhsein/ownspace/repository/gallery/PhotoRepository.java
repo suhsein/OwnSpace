@@ -21,7 +21,7 @@ public class PhotoRepository {
     }
 
     public List<Photo> findAll() {
-        return em.createQuery("select p from Photo p", Photo.class)
+        return em.createQuery("select p from Photo p order by p.id desc", Photo.class)
                 .getResultList();
     }
 

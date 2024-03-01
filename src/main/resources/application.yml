@@ -19,7 +19,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create  # 스키마 자동생성. 개발 환경에서만 사용
+      ddl-auto: none   # create # 스키마 자동생성. 개발 환경에서만 사용
     properties:
       hibernate:
         format_sql: true

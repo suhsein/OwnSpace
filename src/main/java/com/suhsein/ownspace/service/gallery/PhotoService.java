@@ -9,6 +9,7 @@ import com.suhsein.ownspace.repository.gallery.PhotoRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -29,7 +30,7 @@ public class PhotoService {
      * CREATE
      */
     @Transactional
-    public void save(Photo photo){
+    public void save(Photo photo) {
         photoRepository.save(photo);
     }
 
@@ -46,11 +47,11 @@ public class PhotoService {
     /**
      * READ
      */
-    public Photo findOne(Long photoId){
+    public Photo findOne(Long photoId) {
         return photoRepository.findOne(photoId);
     }
 
-    public List<Photo> findAll(){
+    public List<Photo> findAll() {
         return photoRepository.findAll();
     }
 
@@ -65,12 +66,11 @@ public class PhotoService {
         Photo photo = photoRepository.findOne(id);
         photo.setTitle(form.getTitle());
         photo.setContent(form.getContent());
-        List<AwsS3> awsS3List = photo.getAwsS3List(); // original awsS3List
 
-        if(!checkNull(imageFiles)){
+        if (!checkNull(imageFiles)) {
             for (MultipartFile file : imageFiles) {
                 AwsS3 awsS3 = awsS3Service.upload(file, "upload");
-                awsS3List.add(awsS3);
+                photo.addAwsS3(awsS3);
             }
         }
 
@@ -81,15 +81,15 @@ public class PhotoService {
      * DELETE
      */
     @Transactional
-    public void remove(Long photoId){
+    public void remove(Long photoId) {
         photoRepository.remove(photoId);
     }
 
     /**
      * VALIDATION
      */
-    public boolean checkNull(List<MultipartFile> imageFiles){
-        if(imageFiles.size() == 0){
+    public boolean checkNull(List<MultipartFile> imageFiles) {
+        if (imageFiles.size() == 0) {
             return true;
         }
         for (MultipartFile imageFile : imageFiles) {
@@ -105,7 +105,7 @@ public class PhotoService {
      */
     public boolean authenticate(HttpServletRequest request, Model model, Photo photo) {
         HttpSession session = request.getSession();
-        Member loginMember = (Member)session.getAttribute("loginMember");
+        Member loginMember = (Member) session.getAttribute("loginMember");
 
         if (loginMember == null || loginMember.getId() != photo.getWriter().getId()) {
             model.addAttribute("msg", "접근할 수 없는 페이지입니다.");
