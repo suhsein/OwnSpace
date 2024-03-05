@@ -7,9 +7,9 @@
 ## Table of Contents
 
 1. [👩‍🏫프로젝트 소개](#프로젝트-소개)
+1. [🎈EC2와 RDS로 임시배포 해보기](#EC2와-RDS로-임시배포-해보기)
 1. [⚙️기술 스택](#%EF%B8%8F기술-스택)
 1. [⌛개발 기간](#개발-기간)
-1. [🎈EC2와 RDS로 임시배포 해보기](#EC2와-RDS로-임시배포-해보기)
 1. [🛢ERD](#ERD)
 1. [📁프로젝트 구조](#프로젝트-구조)
 1. [🛠️Trouble Shooting](#%EF%B8%8Ftrouble-shooting)
@@ -150,6 +150,16 @@
 1. delete 버튼을 누르면 일정이 ***DB에서 삭제***됩니다.
 ---
 
+## 🎈EC2와 RDS로 임시배포 해보기
+과금 문제로 지속적인 배포는 불가능 하지만, 학습을 위해 aws의 EC2와 RDS를 사용해서 임시배포를 해보았습니다.<br>
+다음과 같이 성공적으로 동작하는 모습을 확인할 수 있습니다.
+| 임시 배포 일상 게시판 동작 화면 | 임시 배포 지도 게시판 동작 화면  |
+|--------------------------------------------------------------------|--------------------------------------------------------------------------|
+| <img src="https://github.com/suhsein/OwnSpace/assets/76998096/f2016308-9bce-43d2-8ac4-81ec03270beb" style="width=240px; height:auto;"></img> | <img src="https://github.com/suhsein/OwnSpace/assets/76998096/33305b65-2ae1-41eb-bff3-470b4b38c74f" style="width=240px; height:auto;"></img> |
+
+임시배포와 관련한 내용은 아래 링크된 이슈에 자세히 기술해놓았습니다.<br>
+<a href="https://github.com/suhsein/OwnSpace/issues/50">임시배포 과정 및 Trouble Shooting</a>
+
 ## ⚙️기술 스택
 
 <div align="center">
@@ -162,16 +172,6 @@
 ## ⌛개발 기간
 
 ### 2024.01.23 ~ 2024.02.29 (5주)
-
-## 🎈EC2와 RDS로 임시배포 해보기
-과금 문제로 지속적인 배포는 불가능 하지만, 학습을 위해 aws의 EC2와 RDS를 사용해서 임시배포를 해보았습니다.<br>
-다음과 같이 성공적으로 동작하는 모습을 확인할 수 있습니다.
-| 임시 배포 일상 게시판 동작 화면 | 임시 배포 지도 게시판 동작 화면  |
-|--------------------------------------------------------------------|--------------------------------------------------------------------------|
-| <img src="https://github.com/suhsein/OwnSpace/assets/76998096/f2016308-9bce-43d2-8ac4-81ec03270beb" style="width=240px; height:auto;"></img> | <img src="https://github.com/suhsein/OwnSpace/assets/76998096/33305b65-2ae1-41eb-bff3-470b4b38c74f" style="width=240px; height:auto;"></img> |
-
-임시배포와 관련한 내용은 아래 링크된 이슈에 자세히 기술해놓았습니다.<br>
-<a href="https://github.com/suhsein/OwnSpace/issues/50">임시배포 과정 및 Trouble Shooting</a>
 
 ## 🛢ERD
 
