@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::script})}">
+<head th:replace="~{fragment/head :: common_head(~{::title}, ~{::script})}">
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
@@ -18,7 +18,8 @@
         <textarea id="content" th:field="*{content}" cols="30" rows="10" class="form-control"></textarea>
 
         <div th:if="${#fields.hasGlobalErrors()}" th:each="err : ${#fields.globalErrors()}" th:text="${err}"
-             class="field-error row mb-2 ms-2">글로벌 오류 메세지</div>
+             class="field-error row mb-2 ms-2">글로벌 오류 메세지
+        </div>
         <button type="submit" class="btn btn-primary mt-2">게시</button>
         <button type="button" class="btn btn-secondary mt-2" th:onclick="|location.href='@{/gallery}'|">취소</button>
     </form>
@@ -30,12 +31,12 @@
     $.ajax({
         type: "GET",
         url: `/gallery/files/[[${id}]]`,
-        success: function(files){
+        success: function (files) {
             loadFiles(files);
         }
     })
 
-    function loadFiles(files){
+    function loadFiles(files) {
         const $fileList = document.getElementById('fileList');
         for (const file of files) {
             const $item = document.createElement('div');
@@ -57,7 +58,7 @@
         }
     }
 
-    function addItem(files){
+    function addItem(files) {
         const $fileList = document.getElementById('fileList');
         for (let i = 0; i < files.length; i++) {
             selectedFiles.push(files[i]);
@@ -79,16 +80,16 @@
     }
 
     // 리스트로부터 선택된 item 제거
-    function filesChange(deleteFile){
+    function filesChange(deleteFile) {
         const $inputFiles = document.querySelector('#imageFiles');
         const dataTransfer = new DataTransfer();
         selectedFiles = selectedFiles.filter(file => file !== deleteFile);
-        selectedFiles.forEach(file =>{
+        selectedFiles.forEach(file => {
             dataTransfer.items.add(file);
         });
         $inputFiles.files = dataTransfer.files; // html 태그 제거 후, input 의 files 도 수정함
     }
 </script>
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+<footer th:replace="~{fragment/footer :: footer}"></footer>
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
 </html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
+<head th:replace="~{fragment/head :: common_head(~{::title}, ~{::link})}">
     <title>게시판</title>
     <link rel="stylesheet" href="">
 </head>
@@ -30,14 +30,14 @@
                     OwnSpace는 스프링 MVC와 JPA 학습을 위해 제작한 프로젝트입니다.<br>
                     프로젝트 제작과 관련하여 더 자세한 정보를 알고싶다면,<br>
                     <a th:href="@{https://github.com/suhsein/OwnSpace}" target="_blank"
-                        style="text-decoration: none; color: #00ceb6">OwnSpace Github 페이지</a>
+                       style="text-decoration: none; color: #00ceb6">OwnSpace Github 페이지</a>
                     를 방문해주세요.
                 </p>
             </div>
         </div>
     </div>
 </div> <!-- /container -->
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+<footer th:replace="~{fragment/footer :: footer}"></footer>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
+<head th:replace="~{fragment/head :: common_head(~{::title}, ~{::link})}">
     <title>로그인</title>
     <link rel="stylesheet" href="">
 </head>
@@ -43,7 +43,7 @@
         </div>
     </form>
 </div> <!-- /container-->
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+<footer th:replace="~{fragment/footer :: footer}"></footer>
 <script th:src="@{/js/passwordService.js}"></script>
 </body>
 </html>

@@ -18,16 +18,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class SignUpController {
     private final MemberService memberService;
+
     @GetMapping("/signUp")
     public String signUpForm(@ModelAttribute("memberSave") MemberSaveDto memberSave,
                              HttpServletRequest request) {
         // Form에서 객체 전송을 위해서 빈 객체를 모델에 넣어줌
         HttpSession session = request.getSession();
         Member loginMember = (Member) session.getAttribute("loginMember");
-        if(loginMember != null){
+        if (loginMember != null) {
             return "redirect:/";
         }
-        return "/members/sign-up";
+        return "members/sign-up";
     }
 
     @PostMapping("/signUp")
@@ -38,8 +39,8 @@ public class SignUpController {
         String pw = memberSave.getPassword();
         String checkPw = memberSave.getCheckPassword();
 
-        if(pw != null && checkPw != null){
-            if(!pw.equals(checkPw)){
+        if (pw != null && checkPw != null) {
+            if (!pw.equals(checkPw)) {
                 bindingResult.reject("passwordCheckFail");
             }
         }
@@ -47,7 +48,7 @@ public class SignUpController {
 
         // Validation Error
         if (bindingResult.hasErrors()) {
-            return "/members/sign-up";
+            return "members/sign-up";
         }
 
         // Success: Convert Validation Bean to Member

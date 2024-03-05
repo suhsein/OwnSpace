@@ -32,21 +32,20 @@ public class GalleryController {
     public String gallery(Model model) {
         List<Photo> photos = photoService.findAll();
         model.addAttribute("photos", photos);
-        return "/gallery/gallery";
+        return "gallery/gallery";
     }
 
     /**
-     *
      * CREATE
      */
     @GetMapping("/addPhoto")
     public String createPhotoForm(@ModelAttribute("form") PhotoDto form,
                                   HttpServletRequest request,
-                                  Model model){
-        if(!CheckLogin.checkLoginRedirect(request, model)){
-            return "/alert/redirect";
+                                  Model model) {
+        if (!CheckLogin.checkLoginRedirect(request, model)) {
+            return "alert/redirect";
         }
-        return "/gallery/add-photo";
+        return "gallery/add-photo";
     }
 
     @PostMapping("/addPhoto")
@@ -55,9 +54,9 @@ public class GalleryController {
                               HttpServletRequest request) throws IOException {
         List<MultipartFile> imageFiles = form.getImageFiles();
 
-        if(photoService.checkNull(imageFiles)){
+        if (photoService.checkNull(imageFiles)) {
             bindingResult.reject("noFile");
-            return "/gallery/add-photo";
+            return "gallery/add-photo";
         }
 
         List<AwsS3> awsS3List = photoService.uploadFiles(imageFiles);
@@ -66,7 +65,7 @@ public class GalleryController {
                 .title(form.getTitle())
                 .content(form.getContent())
                 .awsS3List(awsS3List)
-                .writer((Member)request.getSession().getAttribute("loginMember"))
+                .writer((Member) request.getSession().getAttribute("loginMember"))
                 .build();
 
         photoService.save(photo);
@@ -81,7 +80,7 @@ public class GalleryController {
     public String photoView(@PathVariable("id") Long id, Model model) {
         Photo photo = photoService.findOne(id);
         model.addAttribute("photo", photo);
-        return "/gallery/photo-view";
+        return "gallery/photo-view";
     }
 
     /**
@@ -93,14 +92,14 @@ public class GalleryController {
                            Model model) {
         Photo photo = photoService.findOne(id);
         if (!photoService.authenticate(request, model, photo)) {
-            return "/alert/back";
+            return "alert/back";
         }
 
         PhotoDto form = new PhotoDto();
         form.setTitle(photo.getTitle());
         form.setContent(photo.getContent());
         model.addAttribute("form", form);
-        return "/gallery/edit-photo";
+        return "gallery/edit-photo";
     }
 
 
@@ -108,13 +107,13 @@ public class GalleryController {
     public String edit(@Validated @ModelAttribute("form") PhotoDto form,
                        BindingResult bindingResult,
                        @PathVariable("id") Long id,
-                       @RequestParam(required = false, value="deleteFilesId") List<Long> deleteFilesId) throws IOException {
+                       @RequestParam(required = false, value = "deleteFilesId") List<Long> deleteFilesId) throws IOException {
         List<MultipartFile> imageFiles = form.getImageFiles();
         Photo photo = photoService.findOne(id);
 
-        if(photoService.checkNull(imageFiles) && deleteFilesId != null && deleteFilesId.size() == photo.getAwsS3List().size()){
+        if (photoService.checkNull(imageFiles) && deleteFilesId != null && deleteFilesId.size() == photo.getAwsS3List().size()) {
             bindingResult.reject("noFile");
-            return "/gallery/edit-photo";
+            return "gallery/edit-photo";
         }
 
         photoService.editPhoto(form, id, imageFiles, deleteFilesId);
@@ -127,9 +126,9 @@ public class GalleryController {
     @GetMapping("/delete/{id}")
     public String deletePhoto(@PathVariable("id") Long id,
                               HttpServletRequest request,
-                              Model model){
-        if(!photoService.authenticate(request, model, photoService.findOne(id))){
-            return "/alert/back";
+                              Model model) {
+        if (!photoService.authenticate(request, model, photoService.findOne(id))) {
+            return "alert/back";
         }
         photoService.remove(id);
         return "redirect:/gallery";

@@ -37,8 +37,8 @@ public class DailyController {
      * READ
      */
     @GetMapping
-    public String daily(@PageableDefault(size = 3, sort="id",
-                        direction = Sort.Direction.DESC) Pageable pageable,
+    public String daily(@PageableDefault(size = 3, sort = "id",
+            direction = Sort.Direction.DESC) Pageable pageable,
                         @ModelAttribute("dailySearch") DailySearchDto dailySearch,
                         Model model) { // paging id 기준 내림차 정렬(default 오름차)
         Page<Daily> dailyPages = dailyService.paging(pageable);
@@ -54,7 +54,7 @@ public class DailyController {
                             @ModelAttribute("commentForm") CommentDto commentDto,
                             @RequestParam(value = "code", required = false) SearchCodeName code,
                             @RequestParam(value = "keyword", required = false) String keyword,
-                            Model model){
+                            Model model) {
         dailyService.increaseView(id);
         setDailyViewModel(id, model);
         addSearchAttributes(code, keyword, model);
@@ -62,9 +62,9 @@ public class DailyController {
     }
 
     private void addSearchAttributes(SearchCodeName code, String keyword, Model model) {
-        if(code == null && keyword == null){
+        if (code == null && keyword == null) {
             model.addAttribute("onSearch", false);
-        } else{
+        } else {
             model.addAttribute("keyword", keyword);
             model.addAttribute("code", code);
             model.addAttribute("onSearch", true);
@@ -92,7 +92,7 @@ public class DailyController {
     public String createPostForm(@ModelAttribute("form") DailyDto form,
                                  HttpServletRequest request,
                                  Model model) {
-        if(!CheckLogin.checkLoginRedirect(request, model)){
+        if (!CheckLogin.checkLoginRedirect(request, model)) {
             return "/alert/redirect";
         }
         return "daily/add-post";
@@ -104,7 +104,7 @@ public class DailyController {
                              HttpServletRequest request) {
         if (!StringUtils.hasText(form.getTitle())) {
             bindingResult.reject("noTitle");
-            return "/daily/add-post";
+            return "daily/add-post";
         }
         HttpSession session = request.getSession();
         Member loginMember = (Member) session.getAttribute("loginMember");
@@ -126,12 +126,12 @@ public class DailyController {
      */
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable("id") Long id,
-                       @ModelAttribute("form") DailyDto form,
-                       HttpServletRequest request,
-                       Model model) {
+                           @ModelAttribute("form") DailyDto form,
+                           HttpServletRequest request,
+                           Model model) {
         Daily daily = dailyService.findOne(id).get();
         if (!dailyService.authenticate(request, model, daily)) {
-            return "/alert/back";
+            return "alert/back";
         }
 
         form.setTitle(daily.getTitle());
@@ -141,11 +141,11 @@ public class DailyController {
 
     @PostMapping("/edit/{id}")
     public String edit(@Validated @ModelAttribute("form") DailyDto form,
-                           BindingResult bindingResult,
-                           @PathVariable("id") Long id){
+                       BindingResult bindingResult,
+                       @PathVariable("id") Long id) {
         if (!StringUtils.hasText(form.getTitle())) {
             bindingResult.reject("noTitle");
-            return "/daily/edit-post";
+            return "daily/edit-post";
         }
 
         dailyService.editDaily(id, form, LocalDateTime.now());
@@ -160,7 +160,7 @@ public class DailyController {
                               HttpServletRequest request,
                               Model model) {
         if (!dailyService.authenticate(request, model, dailyService.findOne(id).get())) {
-            return "/alert/back";
+            return "alert/back";
         }
         dailyService.remove(id);
         return "redirect:/daily";

@@ -22,12 +22,13 @@ import java.util.List;
 public class ToDoController {
     private final ToDoService toDoService;
     private final ConvertTimeService convertTimeService;
+
     @GetMapping
     public String toDo(@PathVariable("year") Integer year,
                        @PathVariable("month") Integer month,
                        @PathVariable("day") Integer day,
-                       @ModelAttribute("toDo") ToDoDto toDo){
-        return "/calendar/to-do";
+                       @ModelAttribute("toDo") ToDoDto toDo) {
+        return "calendar/to-do";
     }
 
     @PostMapping
@@ -36,8 +37,8 @@ public class ToDoController {
                           @PathVariable("year") Integer year,
                           @PathVariable("month") Integer month,
                           @PathVariable("day") Integer day) {
-        if(bindingResult.hasErrors()){
-            return "/calendar/to-do";
+        if (bindingResult.hasErrors()) {
+            return "calendar/to-do";
         }
         MyDate myDate = MyDate.builder()
                 .year(year)
@@ -61,10 +62,10 @@ public class ToDoController {
     public String toDoList(@PathVariable("year") Integer year,
                            @PathVariable("month") Integer month,
                            @PathVariable("day") Integer day,
-                           Model model){
+                           Model model) {
         List<ToDo> toDoList = toDoService.findByDate(year, month, day);
         model.addAttribute("toDoList", toDoList);
-        return "/calendar/to-do-list";
+        return "calendar/to-do-list";
     }
 
     @GetMapping("/delete/{id}")
@@ -74,13 +75,13 @@ public class ToDoController {
     }
 
     @GetMapping("/completed/{id}")
-    public String toDoComplete(@PathVariable("id") Long id){
+    public String toDoComplete(@PathVariable("id") Long id) {
         toDoService.makeCompleted(id);
         return "redirect:/toDo/{year}/{month}/{day}/list";
     }
 
     @GetMapping("/active/{id}")
-    public String toDoActive(@PathVariable("id") Long id){
+    public String toDoActive(@PathVariable("id") Long id) {
         toDoService.makeActive(id);
         return "redirect:/toDo/{year}/{month}/{day}/list";
     }

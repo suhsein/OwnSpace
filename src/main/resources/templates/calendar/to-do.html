@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
+<head th:replace="~{fragment/head :: common_head(~{::title}, ~{::link})}">
     <title>일정등록</title>
     <link rel="stylesheet" href="/css/calendar-map.css" th:href="@{/css/calendar-map.css}">
 </head>
@@ -45,14 +45,15 @@
             <label for="time">시간</label>
             <input type="time" class="form-control" id="time" th:field="*{time}" onfocus="this.showPicker()">
             <label for="description">상세 정보</label>
-            <textarea class="form-control" id="description" name="" cols="30" rows="10" th:field="*{description}"></textarea>
+            <textarea class="form-control" id="description" name="" cols="30" rows="10"
+                      th:field="*{description}"></textarea>
             <button id="btn" type="submit" class="btn btn-primary mt-3">저장하기</button>
             <button type="button" class="btn btn-secondary mt-3" th:onclick="|location.href='@{/calendar}'|">닫기</button>
         </form>
     </div>
 </div>
 
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+<footer th:replace="~{fragment/footer :: footer}"></footer>
 <script>
     let $time = document.getElementById('time');
     $time.addEventListener('change', () => {
@@ -62,7 +63,8 @@
 <!-- 카카오 지도 api . 자바스크립트 코드 -->
 <script type="text/javascript"
         th:src="@{|//dapi.kakao.com/v2/maps/sdk.js?appkey=${@environment.getProperty('kakaoJsKey')}&libraries=services|}"></script>
-<script type="text/javascript" th:src="@{|//dapi.kakao.com/v2/maps/sdk.js?appkey=${@environment.getProperty('kakaoJsKey')}|}"></script>
+<script type="text/javascript"
+        th:src="@{|//dapi.kakao.com/v2/maps/sdk.js?appkey=${@environment.getProperty('kakaoJsKey')}|}"></script>
 <script type="text/javascript" th:src="@{/js/mapService.js}"></script>
 <script type="text/javascript" th:src="@{/js/calendarMapService.js}"></script>
 

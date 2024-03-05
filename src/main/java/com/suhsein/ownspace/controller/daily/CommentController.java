@@ -81,7 +81,7 @@ public class CommentController {
                                   Model model) {
         Comment comment = commentService.findOne(commentId).get();
         if (!commentService.authenticate(request, model, comment)) {
-            return "/alert/back";
+            return "alert/back";
         }
 
         form.setContent(comment.getContent());
@@ -89,6 +89,7 @@ public class CommentController {
         setDailyViewModel(id, model);
         return "daily/edit-comment";
     }
+
     private void setDailyViewModel(Long id, Model model) {
         Daily daily = dailyService.findOne(id).get();
         model.addAttribute("daily", daily);
@@ -106,7 +107,7 @@ public class CommentController {
     @PostMapping("/editComment/{id}/{comment_id}")
     public String editComment(@PathVariable("id") Long id,
                               @PathVariable("comment_id") Long commentId,
-                              @ModelAttribute("commentForm") CommentDto form){
+                              @ModelAttribute("commentForm") CommentDto form) {
         commentService.editComment(commentId, form, LocalDateTime.now());
         return "redirect:/daily/dailyView/{id}";
     }
@@ -120,7 +121,7 @@ public class CommentController {
                                 HttpServletRequest request,
                                 Model model) {
         if (!commentService.authenticate(request, model, commentService.findOne(commentId).get())) {
-            return "/alert/back";
+            return "alert/back";
         }
         commentService.remove(commentId);
         dailyService.decreaseComment(id);

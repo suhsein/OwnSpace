@@ -25,24 +25,24 @@ public class LoginController {
                             HttpServletRequest request) {
         HttpSession session = request.getSession();
         Member loginMember = (Member) session.getAttribute("loginMember");
-        if(loginMember != null){
+        if (loginMember != null) {
             return "redirect:/";
         }
         // 이미 로그인 되어있으면, 메인으로 리다이렉트
-        return "/members/login";
+        return "members/login";
     }
 
     @PostMapping("/login")
     public String login(@Validated @ModelAttribute("member") MemberDto member,
                         BindingResult bindingResult,
                         HttpServletRequest request) {
-        if(bindingResult.hasErrors()){
-            return "/members/login";
+        if (bindingResult.hasErrors()) {
+            return "members/login";
         }
 
         Member loginMember = memberService.login(member, bindingResult);
-        if(loginMember == null){
-            return "/members/login";
+        if (loginMember == null) {
+            return "members/login";
         }
 
         // 로그인 성공
@@ -53,9 +53,9 @@ public class LoginController {
     }
 
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if(session != null){
+        if (session != null) {
             session.invalidate();
         }
         return "redirect:/";

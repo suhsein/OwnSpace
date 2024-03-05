@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CalendarController {
     private final CalendarService calendarService;
+
     @GetMapping("/calendar")
     public String calendar(@ModelAttribute("date") YearMonthDto date,
                            Model model) {
@@ -38,7 +39,7 @@ public class CalendarController {
         List<WeekDto> weeks = calendarService.makeCalendar(year, month);
         model.addAttribute("weeks", weeks);
 
-        return "/calendar/calendar";
+        return "calendar/calendar";
     }
 
     @PostMapping("/calendar")

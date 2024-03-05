@@ -6,10 +6,36 @@
     <i class="fa-brands fa-instagram me-2" th:onclick="|window.open('https://instagram.com/suhsein')|"></i>
     <div style="font-size: 0.7rem;">Copyright &copy; 2024 Suhsein. All rights reserved.</div>
     <script>
+        // function copy() {
+        //     window.navigator.clipboard.writeText("mini9075@naver.com").then(() => {
+        //         alert("이메일 주소가 복사되었습니다.");
+        //     });
+        // }
+        // 텍스트 복사 기능 구현
         function copy() {
-            window.navigator.clipboard.writeText("mini9075@naver.com").then(() => {
-                alert("이메일 주소가 복사되었습니다.");
-            });
-        }
+            // clipboard API 사용
+            if (navigator.clipboard !== undefined) {
+                navigator.clipboard
+                    .writeText(`mini9075@naver.com`)
+                    .then(() => {
+                        alert('이메일 주소가 복사되었습니다.');
+                    });
+            } else {
+                // execCommand 사용
+                const textArea = document.createElement('textarea');
+                textArea.value = `mini9075@naver.com`;
+                document.body.appendChild(textArea);
+                textArea.select();
+                textArea.setSelectionRange(0, 99999);
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('복사 실패', err);
+                }
+                textArea.setSelectionRange(0, 0);
+                document.body.removeChild(textArea);
+                alert('이메일 주소가 복사되었습니다.');
+            }
+        };
     </script>
 </footer>

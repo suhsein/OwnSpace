@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
+<head th:replace="~{fragment/head :: common_head(~{::title}, ~{::link})}">
     <title>지도</title>
     <link rel="stylesheet" href="/css/map.css" th:href="@{/css/map.css}">
 </head>
@@ -44,7 +44,7 @@
 
 </div> <!-- /container -->
 
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+<footer th:replace="~{fragment/footer :: footer}"></footer>
 <!-- 카카오 지도 api . 자바스크립트 코드 -->
 <script type="text/javascript"
         th:src="@{|//dapi.kakao.com/v2/maps/sdk.js?appkey=${@environment.getProperty('kakaoJsKey')}&libraries=services|}"></script>

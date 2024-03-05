@@ -13,16 +13,19 @@ cloud:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/OwnSpace?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://ownspace.cruomwcewu4s.us-east-1.rds.amazonaws.com:3306/ownspace?serverTimezone=Asia/Seoul
     username: root
     password: ${my_sql_password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: none   # create # 스키마 자동생성. 개발 환경에서만 사용
+      dialect: org.hibernate.dialect.MySQLDialect
     properties:
       hibernate:
         format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
   servlet:
     multipart:
       maxFileSize: 15MB # 파일 하나의 최대 크기
@@ -44,3 +47,6 @@ logging.level:
   org.hibernate.type: trace
 
 kakaoJsKey: ${kakaoJsKey}
+
+server:
+  port: 5000

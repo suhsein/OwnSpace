@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
+<head th:replace="~{fragment/head :: common_head(~{::title}, ~{::link})}">
     <title>일상</title>
     <link rel="stylesheet" href="">
 </head>
 <body>
 <div th:replace="~{fragment/navigation :: navigation ('daily')}"></div>
 <div class="container mb-5" style="max-width: 80%">
-    <div th:replace="~{/fragment/daily-content :: daily-content}"></div>
-    <div th:replace="~{/fragment/edit-comment-list :: edit-comment-list}"></div>
+    <div th:replace="~{fragment/daily-content :: daily-content}"></div>
+    <div th:replace="~{fragment/edit-comment-list :: edit-comment-list}"></div>
 </div>
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+<footer th:replace="~{fragment/footer :: footer}"></footer>
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
 <script th:src="@{/js/commentBoxService.js}"></script>
 </body>

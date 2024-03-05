@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
+<head th:replace="~{fragment/head :: common_head(~{::title}, ~{::link})}">
     <title>사진</title>
     <link rel="stylesheet" href="">
 </head>
@@ -38,7 +38,7 @@
         </div>
     </div>
 </div>
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+<footer th:replace="~{fragment/footer :: footer}"></footer>
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

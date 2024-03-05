@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{/fragment/head :: common_head(~{::title}, ~{::link})}">
+<head th:replace="~{fragment/head :: common_head(~{::title}, ~{::link})}">
     <meta charset="UTF-8">
     <title>일정목록</title>
     <link rel="stylesheet" href="">
@@ -9,10 +9,10 @@
 <div th:replace="~{fragment/navigation :: navigation ('calendar')}"></div>
 
 <div class="container my-2" style="max-width: 80%">
-  <div th:replace="~{fragment/to-do-nav :: toDoNavTab('toDoList')}"></div>
-  <div class="schedule_tab_contents">
-      <table class="table">
-          <thead>
+    <div th:replace="~{fragment/to-do-nav :: toDoNavTab('toDoList')}"></div>
+    <div class="schedule_tab_contents">
+        <table class="table">
+            <thead>
             <tr>
                 <th scope="col" class="col-1">번호</th>
                 <th scope="col" class="col-2">제목</th>
@@ -22,31 +22,36 @@
                 <th scope="col" class="col-1">일정완료</th>
                 <th scope="col" class="col-1">일정삭제</th>
             </tr>
-          </thead>
-          <tbody>
-            <tr th:each="schedule, i : ${toDoList}" th:class="${schedule.status == T(com.suhsein.ownspace.domain.calendar.ToDoStatus).COMPLETED} ? 'table-secondary'">
+            </thead>
+            <tbody>
+            <tr th:each="schedule, i : ${toDoList}"
+                th:class="${schedule.status == T(com.suhsein.ownspace.domain.calendar.ToDoStatus).COMPLETED} ? 'table-secondary'">
                 <td th:text="${i.count}"></td>
                 <td th:text="${schedule.title}"></td>
                 <td th:text="${schedule.place}"></td>
-                <td th:text="${schedule.time}" ></td>
-                <td th:text="${schedule.description}" ></td>
+                <td th:text="${schedule.time}"></td>
+                <td th:text="${schedule.description}"></td>
                 <td>
-                    <a th:if="${schedule.status == T(com.suhsein.ownspace.domain.calendar.ToDoStatus).COMPLETED}" class="btn btn-secondary"
-                       href="#" th:href="@{/toDo/{year}/{month}/{day}/active/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}">활성화</a>
-                    <a th:if="${schedule.status == T(com.suhsein.ownspace.domain.calendar.ToDoStatus).ACTIVE}" class="btn btn-success"
-                       href="#" th:href="@{/toDo/{year}/{month}/{day}/completed/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}">완료</a>
+                    <a th:if="${schedule.status == T(com.suhsein.ownspace.domain.calendar.ToDoStatus).COMPLETED}"
+                       class="btn btn-secondary"
+                       href="#"
+                       th:href="@{/toDo/{year}/{month}/{day}/active/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}">활성화</a>
+                    <a th:if="${schedule.status == T(com.suhsein.ownspace.domain.calendar.ToDoStatus).ACTIVE}"
+                       class="btn btn-success"
+                       href="#"
+                       th:href="@{/toDo/{year}/{month}/{day}/completed/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}">완료</a>
                 </td>
                 <td>
                     <a class="btn btn-danger" href="#"
                        th:href="@{/toDo/{year}/{month}/{day}/delete/{id}(year=${year},month=${month}, day=${day}, id=${schedule.id})}">삭제</a>
                 </td>
             </tr>
-          </tbody>
-      </table>
-  </div>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+<footer th:replace="~{fragment/footer :: footer}"></footer>
 <script src="./js/bootstrap.bundle.js" th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
