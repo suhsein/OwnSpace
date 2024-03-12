@@ -1,6 +1,6 @@
 # OwnSpace
 
-![Alt text](https://ownspacebucket.s3.ap-northeast-2.amazonaws.com/apple-icon-120x120.png)
+![Alt text](https://github.com/suhsein/OwnSpace/assets/76998096/8fb0d16d-3377-455e-9eb1-13d37bb1ce5f)
 
 #### In my OwnSpace, All in OwnSpace
 
