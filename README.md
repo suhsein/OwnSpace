@@ -7,21 +7,36 @@
 ## Table of Contents
 
 1. [👩‍🏫프로젝트 소개](#프로젝트-소개)
-1. [🎈EC2와 RDS로 임시배포 해보기](#EC2와-RDS로-임시배포-해보기)
 1. [⚙️기술 스택](#%EF%B8%8F기술-스택)
 1. [⌛개발 기간](#개발-기간)
+1. [🫲기능 설명](#기능-설명)
+1. [🎈EC2와 RDS로 임시배포 해보기](#EC2와-RDS로-임시배포-해보기)
 1. [🛢ERD](#ERD)
 1. [📁프로젝트 구조](#프로젝트-구조)
 1. [🛠️Trouble Shooting](#%EF%B8%8Ftrouble-shooting)
 1. [💼Takeaway](#Takeaway)
 
-## 💻프로젝트 소개
+## 👩‍🏫프로젝트 소개
 
 #### OwnSpace는 사용자가 나만의 공간에서 나만의 기록을 남길 수 있도록, 여러 기능을 제공하는 웹사이트입니다.
 
 #### 사진 게시판, 일상 게시판, 지도, 달력으로 구성되어 있습니다.
 
-<br>
+## ⚙️기술 스택
+
+<div align="center">
+<img alt="HTML5" src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">  <img alt="CSS3" src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">  <img alt="BootStrap" src="https://img.shields.io/badge/BootStrap-7952B3?style=for-the-badge&logo=BootStrap&logoColor=white"><br>
+<img alt="Thymeleaf" src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white">  <img alt="JS" src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">  <img alt="kakao" src="https://img.shields.io/badge/kakao-FFCD00?style=for-the-badge&logo=kakao&logoColor=black">  <img alt="jQuery" src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"><br>
+<img alt="Java" src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white">  <img alt="Spring" src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">  <img alt="SpringBoot" src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white">  <img alt="MySQL" src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=black"><br>
+<img alt="AWS" src="https://img.shields.io/badge/Amazon AWS-f7f7f7?style=for-the-badge&logo=Amazon AWS&logoColor=f89400">  <img alt="AWSS3Bucket" src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=f89400">  <img alt="GitHub" src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+</div>
+
+## ⌛개발 기간
+
+### 2024.01.23 ~ 2024.02.29 (5주)
+
+## 🫲기능 설명
+
 
 > ### 게시판 메인
 | 게시판 메인 |
@@ -160,18 +175,6 @@
 임시배포와 관련한 내용은 아래 링크된 이슈에 자세히 기술해놓았습니다.<br>
 <a href="https://github.com/suhsein/OwnSpace/issues/50">임시배포 과정 및 Trouble Shooting</a>
 
-## ⚙️기술 스택
-
-<div align="center">
-<img alt="HTML5" src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white">  <img alt="CSS3" src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">  <img alt="BootStrap" src="https://img.shields.io/badge/BootStrap-7952B3?style=for-the-badge&logo=BootStrap&logoColor=white"><br>
-<img alt="Thymeleaf" src="https://img.shields.io/badge/thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white">  <img alt="JS" src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">  <img alt="kakao" src="https://img.shields.io/badge/kakao-FFCD00?style=for-the-badge&logo=kakao&logoColor=black">  <img alt="jQuery" src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"><br>
-<img alt="Java" src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white">  <img alt="Spring" src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">  <img alt="SpringBoot" src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white">  <img alt="MySQL" src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=black"><br>
-<img alt="AWS" src="https://img.shields.io/badge/Amazon AWS-f7f7f7?style=for-the-badge&logo=Amazon AWS&logoColor=f89400">  <img alt="AWSS3Bucket" src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=f89400">  <img alt="GitHub" src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-</div>
-
-## ⌛개발 기간
-
-### 2024.01.23 ~ 2024.02.29 (5주)
 
 ## 🛢ERD
 
